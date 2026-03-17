@@ -1,33 +1,37 @@
-const CACHE_NAME = 'policier-voleur-v1';
-const ASSETS = [
-  './',
-  './index.html',
-  './manifest.json'
-];
-
-// Installation : mise en cache des ressources
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
-  );
-  self.skipWaiting();
-});
-
-// Activation : suppression des anciens caches
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    )
-  );
-  self.clients.claim();
-});
-
-// Fetch : stratégie Cache First (fonctionne hors ligne)
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(cached => {
-      return cached || fetch(event.request).catch(() => caches.match('./index.html'));
-    })
-  );
-});
+{
+  "name": "Policier ou Voleur ?",
+  "short_name": "Policier/Voleur",
+  "description": "Jeu de société : trouve le voleur caché parmi tes amis !",
+  "start_url": "./index.html",
+  "scope": "./",
+  "id": "policier-ou-voleur",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "orientation": "portrait-primary",
+  "lang": "fr",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192/0a0a0f/d4a017?text=PV",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://via.placeholder.com/512/0a0a0f/d4a017?text=PV",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["games", "entertainment"],
+  "shortcuts": [
+    {
+      "name": "Nouvelle Partie",
+      "url": "./index.html",
+      "description": "Démarrer une nouvelle partie"
+    }
+  ]
+}
