@@ -35,158 +35,6 @@
   --icon-accent: #d4a017;
 }
 
-/* ===== MODE CLAIR ===== */
-body.light-mode {
-  --noir: #f0f2f5;
-  --blanc: #111827;
-  --gris: #e5e7eb;
-  --gris-clair: #d1d5db;
-  --surface: rgba(0,0,0,0.04);
-  --border: rgba(0,0,0,0.1);
-  --text-muted: rgba(17,24,39,0.5);
-  --icon-color: #111827;
-  --icon-accent: #b45309;
-  background:#f0f2f5 !important;
-  color:#111827 !important;
-}
-
-/* Force TOUT le texte en sombre */
-body.light-mode * {
-  color:#111827;
-}
-
-/* Exceptions — garder les couleurs spécifiques */
-body.light-mode .title-police { color:#1565c0 !important; -webkit-text-fill-color:#1565c0 !important; }
-body.light-mode .title-voleur { color:#c62828 !important; -webkit-text-fill-color:#c62828 !important; }
-body.light-mode .ou-sep { color:#b45309 !important; }
-body.light-mode .premium-badge { color:#00bcd4 !important; }
-body.light-mode .badge-top { background:rgba(0,0,0,0.08) !important; border-color:rgba(0,0,0,0.15) !important; color:#111827 !important; }
-
-/* Boutons primaires — garder leur couleur */
-body.light-mode .btn-primary { color:#ffffff !important; }
-body.light-mode .btn-primary * { color:#ffffff !important; }
-body.light-mode .btn-secondary { background:transparent !important; color:#111827 !important; border-color:rgba(0,0,0,0.25) !important; }
-body.light-mode .btn-ghost { background:rgba(0,0,0,0.06) !important; color:#111827 !important; border-color:rgba(0,0,0,0.12) !important; }
-body.light-mode .btn-ghost * { color:#111827 !important; }
-body.light-mode .btn-remove { background:transparent !important; color:#111827 !important; }
-
-/* Fond des écrans */
-body.light-mode .screen { background:#f0f2f5 !important; }
-body.light-mode #screen-home { background:linear-gradient(135deg,#0d1a5e 0%,#1a1a40 40%,#3a0808 60%,#5e0a0a 100%) !important; }
-body.light-mode #screen-home * { color:#f0ece4; }
-body.light-mode #screen-home .btn-primary { color:#ffffff !important; }
-body.light-mode #screen-home .btn-primary * { color:#ffffff !important; }
-body.light-mode #screen-home .btn-ghost { background:rgba(0,0,0,0.25) !important; color:#f0ece4 !important; }
-body.light-mode #screen-home .btn-ghost * { color:#f0ece4 !important; }
-body.light-mode #screen-home .btn-secondary { color:#f0ece4 !important; }
-
-/* Panels */
-body.light-mode .panel { background:#ffffff !important; border-color:rgba(0,0,0,0.1) !important; box-shadow:0 1px 4px rgba(0,0,0,0.08) !important; }
-body.light-mode .panel * { color:#111827; }
-body.light-mode .panel-title { color:#111827 !important; font-weight:700; }
-
-/* Mode cards */
-body.light-mode .mode-card { background:#ffffff !important; border-color:rgba(0,0,0,0.12) !important; box-shadow:0 2px 8px rgba(0,0,0,0.08) !important; }
-body.light-mode .mode-card * { color:#111827; }
-body.light-mode .mode-card.mode-classic { background:linear-gradient(135deg,rgba(192,57,43,0.07),#ffffff) !important; border-color:rgba(192,57,43,0.25) !important; }
-body.light-mode .mode-card.mode-premium-card { background:linear-gradient(135deg,rgba(0,188,212,0.07),#ffffff) !important; border-color:rgba(0,188,212,0.25) !important; }
-body.light-mode .mode-title { color:#111827 !important; font-weight:700; }
-body.light-mode .mode-desc { color:rgba(17,24,39,0.7) !important; }
-body.light-mode .mode-feat { color:rgba(17,24,39,0.75) !important; }
-
-/* Inputs */
-body.light-mode input, body.light-mode select, body.light-mode textarea {
-  background:#ffffff !important; border-color:rgba(0,0,0,0.18) !important; color:#111827 !important;
-}
-body.light-mode input::placeholder, body.light-mode textarea::placeholder { color:rgba(17,24,39,0.35) !important; }
-body.light-mode .select-wrap select { background:#ffffff !important; color:#111827 !important; }
-body.light-mode option { background:#ffffff; color:#111827; }
-
-/* Tables */
-body.light-mode .scores-table th { background:rgba(0,0,0,0.06) !important; color:#111827 !important; }
-body.light-mode .scores-table td { color:#111827 !important; border-color:rgba(0,0,0,0.06) !important; }
-body.light-mode .scores-table tr:nth-child(even) { background:rgba(0,0,0,0.02) !important; }
-body.light-mode .result-row { background:rgba(0,0,0,0.03) !important; border-color:rgba(0,0,0,0.06) !important; }
-body.light-mode .result-row * { color:#111827; }
-
-/* Roles */
-body.light-mode .role-card { filter:brightness(1.05) saturate(0.9); }
-body.light-mode .role-name { color:#f0ece4 !important; }
-body.light-mode .role-desc { color:rgba(240,236,228,0.85) !important; }
-body.light-mode .role-points { color:rgba(240,236,228,0.7) !important; }
-
-/* PlayBots */
-body.light-mode #pb-bots-list > div { background:#ffffff !important; border-color:rgba(0,0,0,0.1) !important; }
-body.light-mode #pb-bots-list .btn-remove { color:#111827 !important; }
-body.light-mode [id^="bot-chat-"] > div { background:rgba(0,0,0,0.04) !important; }
-body.light-mode #pb-scenario { color:#111827 !important; }
-body.light-mode #pb-indice-text { color:#111827 !important; }
-body.light-mode #solo-scenario { color:#111827 !important; }
-
-/* Panels PlayBot */
-body.light-mode #screen-playbot-game .panel { background:#ffffff !important; }
-body.light-mode #screen-playbot-game .panel * { color:#111827; }
-body.light-mode #screen-solo-game .panel { background:#ffffff !important; }
-body.light-mode #screen-solo-game .panel * { color:#111827; }
-
-/* Quiz */
-body.light-mode #quiz-options button { background:#ffffff !important; border-color:rgba(0,0,0,0.12) !important; color:#111827 !important; }
-body.light-mode #quiz-question { color:#111827 !important; }
-body.light-mode #quiz-feedback { color:#111827 !important; }
-body.light-mode #quiz-progress { color:rgba(17,24,39,0.5) !important; }
-
-/* Histoire */
-body.light-mode #histoire-text { color:rgba(17,24,39,0.85) !important; }
-body.light-mode #histoire-title { color:#111827 !important; }
-
-/* Connected players */
-body.light-mode .player-connected { background:rgba(0,0,0,0.04) !important; border-color:rgba(0,0,0,0.08) !important; }
-body.light-mode .player-connected * { color:#111827; }
-
-/* Modals */
-body.light-mode .modal-box { background:#ffffff !important; }
-body.light-mode .modal-box * { color:#111827; }
-body.light-mode .modal-overlay { background:rgba(0,0,0,0.4) !important; }
-
-/* Cover overlay */
-body.light-mode .cover-overlay { background:#f0f2f5 !important; color:#111827 !important; }
-body.light-mode .cover-overlay * { color:#111827; }
-
-/* Rules screen */
-body.light-mode #screen-rules { background:#f0f2f5 !important; }
-body.light-mode #screen-rules * { color:#111827; }
-body.light-mode #screen-rules .role-name { color:#f0ece4 !important; }
-body.light-mode #screen-rules .role-desc { color:rgba(240,236,228,0.8) !important; }
-
-/* Entraînement */
-body.light-mode #entrainement-content .role-name { color:#f0ece4 !important; }
-body.light-mode #entrainement-content .role-desc { color:rgba(240,236,228,0.8) !important; }
-body.light-mode #lesson-progress { color:rgba(17,24,39,0.5) !important; }
-
-/* Résultats */
-body.light-mode #screen-solo-result { background:#f0f2f5 !important; }
-body.light-mode #pb-result-desc { color:rgba(17,24,39,0.75) !important; }
-body.light-mode #screen-playbot-result { background:#f0f2f5 !important; }
-
-/* Settings */
-body.light-mode #screen-settings { background:#f0f2f5 !important; }
-body.light-mode #screen-settings .panel { background:#ffffff !important; }
-body.light-mode #screen-settings .panel * { color:#111827; }
-body.light-mode #theme-current-label { color:rgba(17,24,39,0.6) !important; }
-body.light-mode #btn-dark, body.light-mode #btn-light { color:#111827 !important; border-color:rgba(0,0,0,0.2) !important; }
-
-/* Stat rows */
-body.light-mode .stat-row { border-color:rgba(0,0,0,0.06) !important; }
-body.light-mode .stat-val { color:#111827 !important; }
-
-/* Scrollbar */
-body.light-mode ::-webkit-scrollbar-track { background:rgba(0,0,0,0.04); }
-body.light-mode ::-webkit-scrollbar-thumb { background:rgba(0,0,0,0.18); }
-
-/* Waiting screen */
-body.light-mode #screen-waiting { background:#f0f2f5 !important; }
-body.light-mode #waitingMsg { color:#111827 !important; }
-
 /* ===== SVG ICONS ===== */
 .svg-icon { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
 .svg-icon svg { fill:currentColor; }
@@ -532,9 +380,236 @@ body.premium .avatar-big { border-color:var(--accent); box-shadow:0 0 20px rgba(
 @keyframes confettiFall { 0%{opacity:1;transform:translateY(-20px) rotate(0deg)} 100%{opacity:0;transform:translateY(100vh) rotate(720deg)} }
 
 @media (max-width:400px) { .reveal-circle{width:150px;height:150px} .reveal-icon{font-size:36px} }
+
+/* ===== BOUTIQUE ===== */
+.shop-tabs { display:flex; gap:8px; width:100%; margin-bottom:4px; }
+.shop-tab { flex:1; padding:10px 6px; border-radius:10px; border:2px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.04); cursor:pointer; font-family:'Bebas Neue',sans-serif;
+  font-size:13px; letter-spacing:2px; color:var(--text-muted); transition:all 0.2s; text-align:center; }
+.shop-tab.active { border-color:var(--or); background:rgba(212,160,23,0.12); color:var(--or-clair); }
+.shop-item { display:flex; align-items:center; gap:14px; padding:14px 16px; border-radius:14px;
+  border:1.5px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.03);
+  transition:all 0.22s; position:relative; overflow:hidden; }
+.shop-item:hover { border-color:rgba(212,160,23,0.4); background:rgba(212,160,23,0.06); }
+.shop-item.owned { border-color:rgba(46,204,113,0.4); background:rgba(46,204,113,0.05); }
+.shop-item.equipped { border-color:var(--or); background:rgba(212,160,23,0.1); }
+.shop-item-icon { font-size:36px; width:54px; height:54px; display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,0.06); border-radius:12px; flex-shrink:0; }
+.shop-item-info { flex:1; min-width:0; }
+.shop-item-name { font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:2px; }
+.shop-item-desc { font-size:12px; color:var(--text-muted); margin-top:2px; line-height:1.4; }
+.shop-item-price { font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:1px;
+  color:var(--or-clair); display:flex; align-items:center; gap:4px; }
+.shop-item-badge { position:absolute; top:10px; right:10px; font-size:10px; letter-spacing:2px;
+  font-family:'Bebas Neue',sans-serif; padding:3px 8px; border-radius:4px; }
+.badge-owned { background:rgba(46,204,113,0.2); color:#2ecc71; border:1px solid #2ecc71; }
+.badge-equipped { background:rgba(212,160,23,0.2); color:var(--or-clair); border:1px solid var(--or); }
+.badge-new { background:rgba(231,76,60,0.2); color:#e74c3c; border:1px solid #e74c3c; }
+.coin-display { display:flex; align-items:center; gap:8px; padding:10px 18px;
+  background:linear-gradient(135deg,rgba(212,160,23,0.15),rgba(10,10,15,0.9));
+  border:2px solid rgba(212,160,23,0.4); border-radius:14px; }
+.coin-amount { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:2px; color:var(--or-clair); }
+.coin-label { font-size:11px; letter-spacing:3px; color:var(--text-muted); font-family:'Bebas Neue',sans-serif; }
+
+/* ===== STATS GLOBALES ===== */
+.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; width:100%; }
+.stat-card { padding:16px; border-radius:14px; background:rgba(255,255,255,0.04);
+  border:1.5px solid rgba(255,255,255,0.08); display:flex; flex-direction:column; gap:6px; align-items:center; text-align:center; }
+.stat-card-val { font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:2px; }
+.stat-card-lbl { font-size:11px; letter-spacing:2px; color:var(--text-muted); font-family:'Bebas Neue',sans-serif; }
+.stat-card-icon { font-size:24px; margin-bottom:2px; }
+.rank-progress-bar { height:8px; border-radius:4px; background:rgba(255,255,255,0.08); overflow:hidden; width:100%; }
+.rank-progress-fill { height:100%; border-radius:4px; background:linear-gradient(90deg,var(--accent),var(--or)); transition:width 0.8s ease; }
+.achievement-card { display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:12px;
+  border:1.5px solid rgba(255,255,255,0.07); background:rgba(255,255,255,0.03); }
+.achievement-card.unlocked { border-color:rgba(212,160,23,0.4); background:rgba(212,160,23,0.07); }
+.achievement-icon { font-size:28px; width:46px; height:46px; display:flex; align-items:center; justify-content:center;
+  border-radius:10px; background:rgba(255,255,255,0.06); flex-shrink:0; }
+.achievement-icon.unlocked { background:rgba(212,160,23,0.15); }
+
+/* ===== LOADER ===== */
+#app-loader {
+  position:fixed; inset:0; z-index:9999;
+  background:#0a0a0f;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px;
+  transition:opacity 0.6s ease, visibility 0.6s ease;
+}
+#app-loader.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+.loader-logo { font-size:72px; animation:loaderPulse 1.4s ease-in-out infinite; }
+@keyframes loaderPulse { 0%,100%{transform:scale(1);filter:drop-shadow(0 0 10px rgba(192,57,43,0.5))} 50%{transform:scale(1.12);filter:drop-shadow(0 0 28px rgba(192,57,43,0.9))} }
+.loader-title { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:6px; background:linear-gradient(135deg,#e74c3c,#d4a017); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.loader-bar-wrap { width:220px; height:4px; background:rgba(255,255,255,0.08); border-radius:4px; overflow:hidden; }
+.loader-bar { height:100%; width:0%; background:linear-gradient(90deg,#c0392b,#d4a017); border-radius:4px; transition:width 0.3s ease; }
+.loader-msg { font-size:12px; letter-spacing:3px; color:rgba(240,236,228,0.35); font-family:'Bebas Neue',sans-serif; }
+
+/* ===== OFFLINE BANNER ===== */
+#offline-banner {
+  position:fixed; top:0; left:0; right:0; z-index:8000;
+  background:linear-gradient(90deg,#e67e22,#e74c3c);
+  padding:10px 16px; text-align:center;
+  font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:2px; color:white;
+  transform:translateY(-100%); transition:transform 0.4s ease;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+}
+#offline-banner.show { transform:translateY(0); }
+#offline-banner.online-mode { background:linear-gradient(90deg,#27ae60,#2ecc71); }
+
+/* ===== MODE CLAIR — REFAIT PROPREMENT ===== */
+html.light-mode, body.light-mode {
+  --noir: #f4f5f7;
+  --blanc: #1a1a2e;
+  --gris: #e8eaed;
+  --gris-clair: #c8cdd6;
+  --surface: rgba(0,0,0,0.03);
+  --border: rgba(0,0,0,0.09);
+  --text-muted: rgba(26,26,46,0.45);
+  --icon-color: #1a1a2e;
+  --icon-accent: #b45309;
+}
+html.light-mode body,
+body.light-mode { background:#f4f5f7 !important; color:#1a1a2e !important; }
+body.light-mode .screen { background:#f4f5f7 !important; color:#1a1a2e !important; }
+
+/* Texte général en clair */
+body.light-mode p,
+body.light-mode div,
+body.light-mode span,
+body.light-mode label,
+body.light-mode li { color:#1a1a2e; }
+
+/* Exceptions couleurs sémantiques */
+body.light-mode .title-police { color:#1565c0 !important; -webkit-text-fill-color:#1565c0 !important; }
+body.light-mode .title-voleur { color:#c62828 !important; -webkit-text-fill-color:#c62828 !important; }
+body.light-mode .ou-sep { color:#b45309 !important; }
+body.light-mode .premium-badge { color:white !important; }
+body.light-mode .badge-top { background:rgba(0,0,0,0.07) !important; border-color:rgba(0,0,0,0.12) !important; color:#1a1a2e !important; }
+body.light-mode .text-muted { color:rgba(26,26,46,0.5) !important; }
+body.light-mode .bebas { color:#1a1a2e !important; }
+
+/* Écran accueil — garde fond sombre */
+body.light-mode #screen-home { background:linear-gradient(135deg,#0d1a5e 0%,#1a1a40 40%,#3a0808 60%,#5e0a0a 100%) !important; }
+body.light-mode #screen-home * { color:#f0ece4 !important; }
+body.light-mode #screen-home .btn-ghost { background:rgba(0,0,0,0.25) !important; }
+
+/* Panels */
+body.light-mode .panel {
+  background:#ffffff !important;
+  border-color:rgba(0,0,0,0.08) !important;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06) !important;
+}
+body.light-mode .panel * { color:#1a1a2e !important; }
+body.light-mode .panel-title { color:#1a1a2e !important; }
+
+/* Mode cards */
+body.light-mode .mode-card {
+  background:#ffffff !important;
+  border-color:rgba(0,0,0,0.1) !important;
+  box-shadow:0 2px 10px rgba(0,0,0,0.07) !important;
+}
+body.light-mode .mode-card * { color:#1a1a2e !important; }
+body.light-mode .mode-classic { background:linear-gradient(135deg,rgba(192,57,43,0.06),#ffffff) !important; border-color:rgba(192,57,43,0.3) !important; }
+body.light-mode .mode-premium-card { background:linear-gradient(135deg,rgba(0,188,212,0.06),#ffffff) !important; border-color:rgba(0,188,212,0.3) !important; }
+body.light-mode .mode-title { color:#1a1a2e !important; font-weight:700; }
+body.light-mode .mode-desc { color:rgba(26,26,46,0.65) !important; }
+body.light-mode .mode-feat { color:rgba(26,26,46,0.7) !important; }
+
+/* Boutons */
+body.light-mode .btn-primary { color:#ffffff !important; }
+body.light-mode .btn-primary * { color:#ffffff !important; }
+body.light-mode .btn-secondary { background:transparent !important; color:#1a1a2e !important; border-color:rgba(0,0,0,0.22) !important; }
+body.light-mode .btn-ghost { background:rgba(0,0,0,0.05) !important; color:#1a1a2e !important; border-color:rgba(0,0,0,0.12) !important; }
+body.light-mode .btn-ghost * { color:#1a1a2e !important; }
+body.light-mode .btn-remove { background:transparent !important; color:#1a1a2e !important; }
+body.light-mode .btn-danger { color:#ffffff !important; }
+
+/* Inputs */
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea {
+  background:#ffffff !important;
+  border-color:rgba(0,0,0,0.16) !important;
+  color:#1a1a2e !important;
+}
+body.light-mode input::placeholder,
+body.light-mode textarea::placeholder { color:rgba(26,26,46,0.35) !important; }
+body.light-mode .select-wrap select { background:#ffffff !important; color:#1a1a2e !important; }
+body.light-mode option { background:#ffffff; color:#1a1a2e; }
+body.light-mode .code-input { background:#ffffff !important; color:#00bcd4 !important; }
+
+/* Tables et résultats */
+body.light-mode .scores-table th { background:rgba(0,0,0,0.05) !important; color:#b45309 !important; }
+body.light-mode .scores-table td { color:#1a1a2e !important; border-color:rgba(0,0,0,0.05) !important; }
+body.light-mode .scores-table tr:nth-child(even) { background:rgba(0,0,0,0.02) !important; }
+body.light-mode .result-row { background:rgba(0,0,0,0.025) !important; border-color:rgba(0,0,0,0.07) !important; }
+body.light-mode .result-row * { color:#1a1a2e !important; }
+body.light-mode .result-role { color:rgba(26,26,46,0.5) !important; }
+
+/* Rôles — cartes gardent leurs couleurs */
+body.light-mode .role-card { filter:brightness(1.06) saturate(0.85); }
+body.light-mode .role-name { color:#f0ece4 !important; }
+body.light-mode .role-desc { color:rgba(240,236,228,0.88) !important; }
+body.light-mode .role-points { color:#f0ece4 !important; }
+
+/* Modals */
+body.light-mode .modal-box { background:#ffffff !important; border-color:rgba(0,0,0,0.1) !important; }
+body.light-mode .modal-box * { color:#1a1a2e !important; }
+body.light-mode .modal-close { color:rgba(26,26,46,0.4) !important; }
+
+/* Push banner */
+body.light-mode #push-banner { background:rgba(255,255,255,0.97) !important; border-color:rgba(0,0,0,0.1) !important; box-shadow:0 4px 20px rgba(0,0,0,0.12) !important; }
+body.light-mode #push-title { color:#1a1a2e !important; }
+body.light-mode #push-body { color:rgba(26,26,46,0.6) !important; }
+
+/* Salon */
+body.light-mode .player-connected { background:rgba(46,204,113,0.06) !important; }
+body.light-mode .player-connected span { color:#1a1a2e !important; }
+body.light-mode .salon-code { color:#b45309 !important; }
+
+/* Stat rows */
+body.light-mode .stat-row { border-color:rgba(0,0,0,0.06) !important; }
+body.light-mode .stat-row * { color:#1a1a2e !important; }
+body.light-mode .stat-val { color:#b45309 !important; }
+body.light-mode .rank-row { background:rgba(0,0,0,0.025) !important; border-color:rgba(0,0,0,0.06) !important; }
+body.light-mode .rank-row * { color:#1a1a2e !important; }
+body.light-mode .rank-score { color:#b45309 !important; }
+
+/* Cover overlay */
+body.light-mode .cover-overlay { background:#f4f5f7 !important; }
+body.light-mode .cover-overlay p { color:rgba(26,26,46,0.5) !important; }
+
+/* Avatar */
+body.light-mode .avatar-opt:hover, body.light-mode .avatar-opt.sel { background:rgba(0,0,0,0.07) !important; border-color:#b45309 !important; }
+
+/* Boutique + Stats en mode clair */
+body.light-mode .shop-item { background:#fff !important; border-color:rgba(0,0,0,0.1) !important; }
+body.light-mode .shop-item.owned { background:rgba(46,204,113,0.05) !important; }
+body.light-mode .shop-item.equipped { background:rgba(212,160,23,0.07) !important; }
+body.light-mode .shop-item-name { color:#1a1a2e !important; }
+body.light-mode .shop-item-desc { color:rgba(26,26,46,0.5) !important; }
+body.light-mode .coin-display { background:rgba(212,160,23,0.1) !important; border-color:rgba(212,160,23,0.4) !important; }
+body.light-mode .stat-card { background:#fff !important; border-color:rgba(0,0,0,0.1) !important; }
+body.light-mode .stat-card-lbl { color:rgba(26,26,46,0.5) !important; }
+body.light-mode .achievement-card { background:#fff !important; border-color:rgba(0,0,0,0.08) !important; }
+body.light-mode .shop-tab { background:rgba(0,0,0,0.04) !important; border-color:rgba(0,0,0,0.1) !important; color:rgba(26,26,46,0.5) !important; }
+body.light-mode .shop-tab.active { background:rgba(212,160,23,0.12) !important; border-color:var(--or) !important; color:#b45309 !important; }
+body.light-mode #shopToast { color:white !important; }
 </style>
 </head>
 <body>
+
+<!-- ===== APP LOADER ===== -->
+<div id="app-loader">
+  <div class="loader-logo">👮</div>
+  <div class="loader-title">POLICIER OU VOLEUR</div>
+  <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
+  <div class="loader-msg" id="loaderMsg">CHARGEMENT...</div>
+</div>
+
+<!-- ===== OFFLINE BANNER ===== -->
+<div id="offline-banner">
+  <span id="offline-icon">📵</span>
+  <span id="offline-text">HORS CONNEXION — Mode solo disponible</span>
+</div>
 
 <!-- COVER OVERLAY -->
 <div class="cover-overlay" id="coverOverlay" style="display:none">
@@ -565,6 +640,12 @@ body.premium .avatar-big { border-color:var(--accent); box-shadow:0 0 20px rgba(
   <div id="homePremiumBadge" style="display:none">
     <span class="premium-badge">👑 MEMBRE PREMIUM</span>
   </div>
+  <!-- Coins display accueil -->
+  <div id="homeCoinsDisplay" onclick="goTo('screen-boutique')" style="cursor:pointer;display:flex;align-items:center;gap:6px;padding:7px 16px;background:rgba(212,160,23,0.12);border:1.5px solid rgba(212,160,23,0.35);border-radius:20px;margin-top:2px">
+    <span style="font-size:18px">🪙</span>
+    <span id="homeCoinsVal" style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--or-clair)">0</span>
+    <span style="font-size:11px;letter-spacing:2px;color:var(--text-muted);font-family:'Bebas Neue',sans-serif">PIÈCES</span>
+  </div>
 
   <div class="divider"></div>
   <p class="tagline">Qui se cache parmi vous ?<br>Le policier trouvera-t-il le voleur ?</p>
@@ -572,6 +653,8 @@ body.premium .avatar-big { border-color:var(--accent); box-shadow:0 0 20px rgba(
   <div class="gap-12" style="margin-top:8px">
     <button class="btn btn-primary" onclick="goTo('screen-mode')"><span class="svg-icon" style="width:20px;height:20px;margin-right:8px"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="6"/><line x1="8" y1="12" x2="12" y2="12"/><line x1="10" y1="10" x2="10" y2="14"/><circle cx="16" cy="11" r="1.2" fill="currentColor" stroke="none"/><circle cx="18.5" cy="13" r="1.2" fill="currentColor" stroke="none"/></svg></span>Jouer</button>
     <button class="btn btn-secondary" onclick="goTo('screen-profile')"><span class="svg-icon" style="width:20px;height:20px;margin-right:8px"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>Mon Profil</button>
+    <button class="btn btn-ghost" onclick="goTo('screen-boutique')" style="font-size:14px"><span class="svg-icon" style="width:18px;height:18px;margin-right:6px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></span>Boutique</button>
+    <button class="btn btn-ghost" onclick="goTo('screen-stats')" style="font-size:14px"><span class="svg-icon" style="width:18px;height:18px;margin-right:6px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>Mes Stats</button>
     <button class="btn btn-ghost" onclick="showRules()" style="font-size:14px"><span class="svg-icon" style="width:18px;height:18px;margin-right:6px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg></span>Règles du jeu</button>
     <button class="btn btn-ghost" onclick="goTo('screen-settings')" style="font-size:14px"><span class="svg-icon" style="width:18px;height:18px;margin-right:6px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span>Paramètres</button>
   </div>
@@ -743,10 +826,10 @@ body.premium .avatar-big { border-color:var(--accent); box-shadow:0 0 20px rgba(
     <!-- Histoire -->
     <div class="mode-card" onclick="startSoloMode('histoire')" style="background:linear-gradient(135deg,rgba(155,89,182,0.15),rgba(10,10,15,0.9));border:2px solid rgba(155,89,182,0.5);width:100%">
       <div class="mode-title" style="color:#9b59b6"><span class="svg-icon" style="width:18px;height:18px;margin-right:6px;vertical-align:middle"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>MODE HISTOIRE</div>
-      <div class="mode-desc">Résous des scénarios policiers. Chaque choix influence la fin !</div>
+      <div class="mode-desc">Résous des scénarios policiers africains. Chaque choix influence la fin !</div>
       <div class="mode-feats">
-        <div class="mode-feat"><span class="svg-icon" style="width:14px;height:14px;margin-right:6px;color:#9b59b6"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span>5 scénarios différents</div>
-        <div class="mode-feat"><span class="svg-icon" style="width:14px;height:14px;margin-right:6px;color:#9b59b6"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg></span>Fins multiples</div>
+        <div class="mode-feat"><span class="svg-icon" style="width:14px;height:14px;margin-right:6px;color:#9b59b6"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span>5 enquêtes narratives différentes</div>
+        <div class="mode-feat"><span class="svg-icon" style="width:14px;height:14px;margin-right:6px;color:#9b59b6"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg></span>Fins multiples • +15 pts/victoire</div>
       </div>
     </div>
 
@@ -871,6 +954,16 @@ body.premium .avatar-big { border-color:var(--accent); box-shadow:0 0 20px rgba(
     </div>
     <div id="quiz-feedback" style="display:none;padding:14px;border-radius:8px;font-size:14px;line-height:1.6"></div>
     <button class="btn btn-primary" onclick="nextQuizQuestion()" id="quiz-next-btn" style="display:none">Question suivante →</button>
+  </div>
+</div>
+
+<!-- ========== LISTE DES HISTOIRES ========== -->
+<div class="screen" id="screen-solo-histoire-list">
+  <div style="width:100%;max-width:480px;padding-top:24px;display:flex;flex-direction:column;gap:16px;align-items:center">
+    <button class="btn-remove" onclick="goTo('screen-solo-menu')" style="align-self:flex-start;font-size:22px"><span style="margin-right:4px">←</span>Retour</button>
+    <h2 class="bebas" style="font-size:24px;letter-spacing:4px;text-align:center;color:#9b59b6">📖 CHOISIR UNE HISTOIRE</h2>
+    <p class="text-muted" style="text-align:center;font-size:13px">5 enquêtes narratives • Fins multiples • +15 pts si victoire</p>
+    <div id="histoire-list" style="display:flex;flex-direction:column;gap:12px;width:100%"></div>
   </div>
 </div>
 
@@ -2474,13 +2567,35 @@ function loadProfilePhoto(event) {
 // ========== MODE SOLO ==========
 
 // ===== DONNÉES PNJ =====
-const PNJ_NAMES = ['Kofi','Amara','Bintou','Sékou','Fatou','Moussa','Aïcha','Ismaël','Mariama','Youssef'];
+const PNJ_NAMES = ['Kofi','Amara','Bintou','Sékou','Fatou','Moussa','Aïcha','Ismaël','Mariama','Youssef','Kader','Diallo','Nadia','Abdou','Léa'];
 const SCENARIOS = [
-  "Un vol a eu lieu au marché central. Le boutiquier Kwame a perdu sa caisse. Les suspects ont tous été vus près du lieu du crime ce matin.",
-  "La salle des fêtes a été cambriolée la nuit dernière. Des bijoux précieux ont disparu. Cinq personnes avaient les clés.",
-  "Le téléphone du chef de quartier a mystérieusement disparu lors d'une réunion. Seuls les participants sont suspects.",
-  "Une enveloppe d'argent a disparu du bureau du directeur. Les suspects sont les employés présents ce jour-là.",
-  "Le sac d'une voyageuse a été volé à la gare routière. Les témoins ont vu plusieurs personnes rôder."
+  // Marché
+  "Un vol a eu lieu au marché central d'Abidjan. Le boutiquier Kwame a perdu toute sa caisse journalière. Les suspects ont tous été vus rôder près de l'étal ce matin entre 8h et 10h.",
+  "Une vendeuse de tissus a été dépouillée de son stock entier au marché de Treichville. Des témoins ont vu une silhouette s'enfuir vers les ruelles. Plusieurs habitués du marché sont convoqués.",
+  "Le distributeur automatique de la coopérative agricole a été vidé en pleine journée. La caméra de surveillance était en panne. Six personnes connaissaient le code d'accès.",
+  // Salle des fêtes
+  "La salle des fêtes du quartier a été cambriolée la nuit dernière après un mariage. Des bijoux et de l'argent liquide ont disparu. Seules les personnes ayant assisté à la cérémonie sont suspectes.",
+  "Lors d'une réunion de quartier, l'urne de collecte pour l'école a été volée. La salle était fermée à clé et seuls les membres du comité avaient accès.",
+  // Bureau et travail
+  "Une enveloppe contenant les salaires du mois a disparu du bureau du directeur. Les suspects sont les employés présents ce vendredi après-midi.",
+  "L'ordinateur portable du comptable a été subtilisé dans une entreprise. Le vol s'est produit entre midi et 14h pendant la pause déjeuner. Trois collègues sont restés dans les bureaux.",
+  "Des documents confidentiels ont disparu de la salle de réunion juste avant une négociation importante. L'accès était réservé à l'équipe de direction.",
+  // Transport
+  "Le sac d'une voyageuse a été volé à la gare routière d'Adjamé. Son téléphone, son portefeuille et son passeport ont disparu. Plusieurs personnes étaient présentes autour d'elle.",
+  "Une valise remplie de marchandises a été dérobée dans un bus de nuit reliant Abidjan à Bouaké. Le chauffeur et les passagers du rang arrière sont interrogés.",
+  // École / Université
+  "Le téléphone d'un professeur a disparu dans la salle des enseignants. Seuls quatre collègues y sont passés durant la récréation.",
+  "La caisse de l'association des étudiants a été vidée après une fête de fin d'année. Les membres du bureau sont convoqués par le doyen.",
+  // Quartier / Domicile
+  "Une moto-taxi a été volée dans la cour d'un immeuble en pleine nuit. Le gardien dit n'avoir rien vu. Les voisins et locataires sont entendus.",
+  "Le téléphone portable du chef de quartier a mystérieusement disparu lors d'une réunion de crise sur la sécurité. Ironie du sort.",
+  "Des bijoux appartenant à une grand-mère ont disparu le jour où ses petits-enfants lui rendaient visite. La famille est sous tension.",
+  // Événements
+  "Lors d'un match de football local, la cagnotte de la compétition a disparu à la mi-temps. Les organisateurs et bénévoles sont convoqués.",
+  "Une boutique de téléphonie a été dévalisée en plein jour par quelqu'un qui connaissait les codes d'alarme. L'enquête pointe vers un employé ou un client régulier.",
+  "Un colis de médicaments destiné à un centre de santé a été détourné. Le livreur, le réceptionniste et deux infirmiers sont suspects.",
+  "La caisse d'une boulangerie populaire a été volée juste avant la fermeture. La patronne affirme n'avoir quitté les lieux que cinq minutes.",
+  "Un téléphone haut de gamme prêté à un ami n'a jamais été rendu. Mais les circonstances sont floues : plusieurs personnes avaient accès à l'appartement ce soir-là."
 ];
 
 const CLUES = {
@@ -2654,9 +2769,7 @@ function startSoloMode(mode) {
     displayQuizQuestion();
     goTo('screen-solo-quiz');
   } else if (mode === 'histoire') {
-    soloState.histoireNode = 0;
-    displayHistoire();
-    goTo('screen-solo-histoire');
+    startHistoireMode();
   }
 }
 
@@ -2695,15 +2808,25 @@ function prevLesson() {
 // ===== QUIZ =====
 const QUIZ_QUESTIONS = [
   { q: "Combien de points gagne le Policier s'il trouve le Voleur ?", opts: ["10 pts", "15 pts", "20 pts", "5 pts"], correct: 1 },
-  { q: "Que se passe-t-il si le Temoin aide mais designe la mauvaise personne ?", opts: ["0 pt", "10 pts", "5 pts", "15 pts"], correct: 2 },
-  { q: "Quel role est automatiquement sauve si le Voleur est arrete en premier ?", opts: ["Policier", "Complice", "Temoin", "Assassin"], correct: 1 },
-  { q: "Combien de fois le Policier peut-il demander l'aide du Temoin ?", opts: ["2 fois", "3 fois", "1 seule fois", "Illimite"], correct: 2 },
-  { q: "Combien de points gagne l'Innocent a chaque tour ?", opts: ["5 pts", "0 pt", "15 pts", "10 pts"], correct: 3 },
-  { q: "Que gagne le Complice s'il denonce correctement le Voleur ?", opts: ["0 pt", "10 pts", "5 pts", "15 pts"], correct: 2 },
-  { q: "Qui dirige l'enquete dans le jeu ?", opts: ["Le Policier", "Le Juge", "Le Commandant", "Le Temoin"], correct: 2 },
-  { q: "Que gagne le Temoin s'il refuse d'aider le Policier ?", opts: ["0 pt", "5 pts", "15 pts", "10 pts"], correct: 3 },
+  { q: "Que se passe-t-il si le Témoin aide mais désigne la mauvaise personne ?", opts: ["0 pt", "10 pts", "5 pts", "15 pts"], correct: 2 },
+  { q: "Quel rôle est automatiquement sauvé si le Voleur est arrêté en premier ?", opts: ["Policier", "Complice", "Témoin", "Assassin"], correct: 1 },
+  { q: "Combien de fois le Policier peut-il demander l'aide du Témoin ?", opts: ["2 fois", "3 fois", "1 seule fois", "Illimité"], correct: 2 },
+  { q: "Combien de points gagne l'Innocent à chaque tour ?", opts: ["5 pts", "0 pt", "15 pts", "10 pts"], correct: 3 },
+  { q: "Que gagne le Complice s'il dénonce correctement le Voleur ?", opts: ["0 pt", "10 pts", "5 pts", "15 pts"], correct: 2 },
+  { q: "Qui dirige l'enquête dans le jeu ?", opts: ["Le Policier", "Le Juge", "Le Commandant", "Le Témoin"], correct: 2 },
+  { q: "Que gagne le Témoin s'il refuse d'aider le Policier ?", opts: ["0 pt", "5 pts", "15 pts", "10 pts"], correct: 3 },
   { q: "Si le Policier trouve un Complice, combien de points gagne-t-il ?", opts: ["15 pts", "5 pts", "0 pt", "10 pts"], correct: 3 },
   { q: "Quel est le prix de l'abonnement Premium ?", opts: ["500 FCFA", "1000 FCFA", "520 FCFA", "250 FCFA"], correct: 2 },
+  { q: "Quel rôle ne peut PAS être accusé par le Policier ?", opts: ["Complice", "Innocent", "Voleur", "Assassin"], correct: 1 },
+  { q: "Combien de joueurs minimum pour jouer en mode Classique ?", opts: ["2 joueurs", "3 joueurs", "4 joueurs", "5 joueurs"], correct: 2 },
+  { q: "Que fait l'Avocat dans le jeu ?", opts: ["Accuse les suspects", "Défend les accusés — Joueur protégé", "Aide le Voleur", "Remplace le Policier"], correct: 1 },
+  { q: "Le Juge est-il automatiquement sauvé ?", opts: ["Non, il peut être accusé", "Oui, 10 pts garantis", "Seulement s'il aide le Policier", "Seulement au dernier tour"], correct: 1 },
+  { q: "Que se passe-t-il si le Témoin aide et désigne correctement le Voleur ?", opts: ["10 pts", "5 pts", "15 pts", "20 pts"], correct: 2 },
+  { q: "La Victime est-elle automatiquement sauvée ?", opts: ["Oui, 10 pts", "Non, elle peut perdre", "Seulement si le Voleur est trouvé", "Cela dépend du tour"], correct: 0 },
+  { q: "En mode Premium, combien de joueurs peut-on avoir ?", opts: ["8 maximum", "12 maximum", "10 maximum", "Illimité"], correct: 3 },
+  { q: "Quel est l'emoji du rôle Témoin ?", opts: ["🚔", "🦹", "👁️", "⭐"], correct: 2 },
+  { q: "Si l'Assassin est arrêté en premier, que peut-il faire ?", opts: ["Rien, il perd", "Dénoncer le Voleur pour 5 pts", "Accuser le Policier", "Passer son tour"], correct: 1 },
+  { q: "Combien de tours minimum peut-on jouer en mode Classique ?", opts: ["2 tours", "1 tour", "3 tours", "5 tours"], correct: 1 },
 ];
 
 function displayQuizQuestion() {
@@ -2769,48 +2892,167 @@ function showQuizResult() {
   document.getElementById('solo-result-desc').textContent = `Tu as répondu correctement à ${score} questions sur ${total} (${pct}%).`;
   document.getElementById('solo-result-details').innerHTML = `
     <div class="result-row"><span>Score</span><span style="font-family:'Bebas Neue',sans-serif;color:var(--or-clair)">${score} / ${total}</span></div>
-    <div class="result-row" style="border:none"><span>Niveau</span><span style="font-family:'Bebas Neue',sans-serif;color:${pct>=80?'#2ecc71':pct>=50?'#f1c40f':'#e74c3c'}">${pct >= 80 ? '🏆 EXPERT' : pct >= 50 ? '👍 INTERMÉDIAIRE' : '📚 DÉBUTANT'}</span></div>`;
+    <div class="result-row" style="border:none"><span>Niveau</span><span style="font-family:'Bebas Neue',sans-serif;color:${pct>=80?'#2ecc71':pct>=50?'#f1c40f':'#e74c3c'}">${pct >= 80 ? '🏆 EXPERT' : pct >= 50 ? '👍 INTERMÉDIAIRE' : '📚 DÉBUTANT'}</span></div>
+    <div class="result-row" style="border:none;color:var(--or-clair)"><span>🪙 Pièces gagnées</span><span style="font-family:'Bebas Neue',sans-serif">+${score}</span></div>`;
   if (pct >= 80) { playVictory(); launchConfetti(); }
+  // Gagner des pièces
+  if (score > 0) {
+    addCoins(score, `Quiz Solo — ${score} bonnes réponses`);
+    shopData.quizCorrect = (shopData.quizCorrect||0) + score;
+    profile.soloPoints = (profile.soloPoints||0) + score;
+    localStorage.setItem('profile', JSON.stringify(profile));
+    saveShopData();
+    checkAchievements();
+  }
   document.getElementById('result-next-btn') && (document.getElementById('result-next-btn').style.display = 'none');
   goTo('screen-solo-result');
   const replayBtn = document.querySelector('#screen-solo-result .btn-primary');
   if (replayBtn) replayBtn.onclick = () => startSoloMode('quiz');
 }
 
-// ===== HISTOIRE =====
-const HISTOIRE_NODES = [
-  { id: 0, title: "L'AFFAIRE DU MARCHE", text: "Tu es detective prive a Abidjan. On t'appelle : une somme importante a disparu au marche de Treichville. Trois suspects sont presents : Kofi le boutiquier, Amara la vendeuse, et Sekou le livreur. Par ou commences-tu ?", choices: [{ text: "Interroger Kofi en premier", next: 1 }, { text: "Fouiller les environs", next: 2 }, { text: "Observer les suspects discretement", next: 3 }] },
-  { id: 1, title: "INTERROGATOIRE DE KOFI", text: "Kofi est nerveux. Il dit etre a son stand toute la matinee. Mais tu remarques qu'il evite ton regard et que ses poches semblent lourdes. Que fais-tu ?", choices: [{ text: "L'accuser directement", next: 4 }, { text: "Continuer vers Amara", next: 5 }, { text: "Lui demander de vider ses poches", next: 6 }] },
-  { id: 2, title: "LES ENVIRONS", text: "Tu trouves un ticket de caisse froisse et des traces de pas vers la sortie. Les traces correspondent a de grandes chaussures. Sekou porte de grandes chaussures. Que fais-tu ?", choices: [{ text: "Accuser Sekou", next: 7 }, { text: "Interroger Sekou d'abord", next: 8 }] },
-  { id: 3, title: "OBSERVATION", text: "En observant discretement, tu vois Amara qui regarde souvent vers la sortie. Elle semble prete a partir. Mais Kofi est aussi tres agite. Que decides-tu ?", choices: [{ text: "Intercepter Amara", next: 9 }, { text: "Interroger Kofi", next: 1 }] },
-  { id: 4, title: "MAUVAISE PISTE", text: "Tu accuses Kofi directement. Mais il prouve son innocence avec des temoins. Le vrai voleur Sekou s'est enfui ! GAME OVER.", choices: [{ text: "Recommencer", next: 0 }], isEnd: true, win: false },
-  { id: 5, title: "AMARA PARLE", text: "Amara dit avoir vu Sekou fouiller dans la caisse de Kofi alors que celui-ci etait absent quelques minutes. C'est un indice crucial !", choices: [{ text: "Accuser Sekou avec cet indice", next: 7 }, { text: "Verifier son alibi d'abord", next: 8 }] },
-  { id: 6, title: "LES POCHES DE KOFI", text: "Kofi sort des pieces de monnaie normales. Il n'a rien de suspect. Tu t'es trompe de piste. Sekou a eu le temps de s'enfuir.", choices: [{ text: "Recommencer", next: 0 }], isEnd: true, win: false },
-  { id: 7, title: "BRAVO DETECTIVE !", text: "Tu accuses Sekou ! Confronte aux preuves, il avoue avoir vole l'argent. Le marche est sauve grace a toi ! Tu es un vrai detective !", choices: [{ text: "Nouvelle enquete", next: 0 }], isEnd: true, win: true },
-  { id: 8, title: "INTERROGATOIRE DE SEKOU", text: "Sekou nie tout mais ses explications sont contradictoires. Un temoin l'a vu a 10h alors qu'il dit etre parti avant 9h. La preuve s'accumule !", choices: [{ text: "L'arreter maintenant !", next: 7 }] },
-  { id: 9, title: "AMARA S'ENFUIT !", text: "Amara essaie de fuir mais tu la rattrapes. Dans son sac tu trouves l'argent vole ! Elle avoue. Tu as resolu l'enquete en observant intelligemment !", choices: [{ text: "Nouvelle enquete", next: 0 }], isEnd: true, win: true },
+// ===== HISTOIRES RAMIFIÉES (5 scénarios) =====
+const HISTOIRES = [
+  {
+    id: "marche",
+    titre: "🏪 L'AFFAIRE DU MARCHÉ",
+    couleur: "#e67e22",
+    nodes: {
+      0: { title:"L'Appel du Devoir", text:"Tu es détective privé à Abidjan. On t'appelle d'urgence : une somme de 500 000 FCFA a disparu au marché de Treichville. Trois suspects : Kofi le boutiquier voisin, Amara la vendeuse de tissu, et Sékou le livreur. Par où commences-tu ?", choices:[{text:"Interroger Kofi en premier",next:1},{text:"Fouiller les environs du marché",next:2},{text:"Observer discrètement les trois suspects",next:3}] },
+      1: { title:"L'Interrogatoire de Kofi", text:"Kofi est nerveux. Il dit être resté à son stand toute la matinée. Mais ses yeux évitent les tiens et ses poches semblent gonflées. Quand tu poses ta main sur son épaule, il sursaute.", choices:[{text:"L'accuser directement",next:4},{text:"Lui demander de vider ses poches",next:6},{text:"Continuer vers Amara",next:5}] },
+      2: { title:"Les Preuves au Sol", text:"Tu trouves un ticket de reçu froissé et des traces de grandes chaussures menant vers la sortie principale. Dans une poubelle, un sac reconnu par la propriétaire. Les traces mènent vers le stand de Sékou.", choices:[{text:"Accuser Sékou immédiatement",next:7},{text:"Interroger Sékou calmement",next:8}] },
+      3: { title:"Observation Discrète", text:"Caché derrière des étals de légumes, tu observes : Amara regarde souvent vers la sortie. Kofi transpire malgré le ventilateur. Sékou, lui, semble trop calme — presque théâtral.", choices:[{text:"Intercepter Amara en premier",next:9},{text:"Aller parler à Kofi",next:1},{text:"Approcher Sékou",next:8}] },
+      4: { title:"Fausse Piste !", text:"Tu accuses Kofi trop vite. Il produit un reçu de caisse et trois témoins. Pendant la confusion, Sékou profite et disparaît avec l'argent. ÉCHEC. Le vrai voleur s'est enfui.", choices:[{text:"Recommencer l'enquête",next:0}], isEnd:true, win:false },
+      5: { title:"Amara Parle !", text:"Amara hésite puis avoue : elle a vu Sékou fouiller dans la caisse de Kofi pendant que celui-ci était parti cinq minutes à la pharmacie. Un indice décisif !", choices:[{text:"Accuser Sékou avec cette preuve",next:7},{text:"Vérifier l'alibi de Sékou avant",next:8}] },
+      6: { title:"Les Poches de Kofi", text:"Kofi sort des pièces de monnaie ordinaires. Rien de suspect. Il est innocent. Mais pendant ton interrogatoire, Sékou en a profité pour cacher le butin.", choices:[{text:"Courir après Sékou",next:8}] },
+      7: { title:"🏆 Affaire Résolue !", text:"Tu confrontes Sékou avec les preuves : les traces de pas, le sac trouvé, et le témoignage d'Amara. Acculé, il avoue. La somme est retrouvée intacte. Tu es un vrai détective !", choices:[{text:"Nouvelle enquête",next:0}], isEnd:true, win:true },
+      8: { title:"Sékou Craque", text:"Sékou tient bon dix minutes, mais tu lui montres les traces de chaussures qui correspondent parfaitement aux siennes. Il commence à hésiter, puis ses explications deviennent contradictoires.", choices:[{text:"L'arrêter maintenant !",next:7}] },
+      9: { title:"Amara Interpellée !", text:"Tu bloques Amara à la sortie. Dans sa hâte, elle laisse tomber son sac. Il contient... le sac volé ! Elle avoue avoir été complice de Sékou. Les deux sont confondus. VICTOIRE !", choices:[{text:"Nouvelle enquête",next:0}], isEnd:true, win:true },
+    }
+  },
+  {
+    id: "nuit",
+    titre: "🌙 VOL DANS LA NUIT",
+    couleur: "#9b59b6",
+    nodes: {
+      0: { title:"Minuit — Appel d'Urgence", text:"Une villa huppée de Cocody a été cambriolée à 23h. Les bijoux de la propriétaire, Mme Diallo, ont disparu. Quatre personnes étaient dans la maison : le gardien Ismaël, la cuisinière Bintou, le neveu Moussa et la voisine Mariama qui était venue dîner.", choices:[{text:"Interroger le gardien Ismaël",next:1},{text:"Inspecter les lieux du vol",next:2},{text:"Parler au neveu Moussa",next:3}] },
+      1: { title:"Le Gardien", text:"Ismaël dit être resté à son poste toute la nuit. Mais tu remarques qu'il porte une montre neuve qu'il ne portait pas hier selon Mme Diallo. Quand tu le confrontes, il devient agressif.", choices:[{text:"L'accuser de complicité",next:4},{text:"Vérifier les registres d'entrée",next:5},{text:"Aller voir Bintou",next:6}] },
+      2: { title:"La Scène du Crime", text:"La fenêtre de la chambre a été forcée de l'intérieur — quelqu'un qui connaît la maison. Le coffre-fort a été ouvert sans forcer : quelqu'un connaissait le code.", choices:[{text:"Interroger ceux qui connaissent le code",next:3},{text:"Tester les empreintes sur le coffre",next:7}] },
+      3: { title:"Le Neveu Suspect", text:"Moussa est aux abonnés absents ce matin. Sa chambre est vide. Il est parti tôt selon Bintou. Trop tôt.", choices:[{text:"Lancer son signalement",next:8},{text:"Vérifier ses affaires",next:9}] },
+      4: { title:"Erreur de Jugement", text:"Ismaël est innocent. La montre était un cadeau. Tu l'as humilié publiquement. Pendant ce temps, Moussa disparaît à jamais avec les bijoux. ÉCHEC.", choices:[{text:"Recommencer",next:0}], isEnd:true, win:false },
+      5: { title:"Registre Révélateur", text:"Selon le registre, Moussa est sorti à 02h du matin après avoir demandé le code Wi-Fi — mais le coffre est dans la pièce voisine du routeur. Il a tout vu.", choices:[{text:"Localiser Moussa",next:8}] },
+      6: { title:"Bintou Témoigne", text:"Bintou tremble mais parle : elle a entendu Moussa murmurer au téléphone 'c'est dans le coffre, code 1984'. Elle n'a rien dit par peur.", choices:[{text:"Courir après Moussa",next:8}] },
+      7: { title:"Empreinte Decisive", text:"Les empreintes sur le coffre correspondent à deux personnes : Mme Diallo elle-même... et son neveu Moussa. La vérité éclate.", choices:[{text:"Arrêter Moussa",next:8}] },
+      8: { title:"🏆 Le Coupable Arrêté !", text:"Moussa est intercepté à l'aéroport avec les bijoux dans ses bagages. Confronté aux preuves, il avoue. Mme Diallo est dévastée mais reconnaissante. Tu as résolu l'affaire !", choices:[{text:"Nouvelle enquête",next:0}], isEnd:true, win:true },
+      9: { title:"La Chambre de Moussa", text:"Dans sa chambre, tu trouves un papier avec '1984 — coffre tante'. Il planifiait ça depuis des semaines. La preuve est irréfutable.", choices:[{text:"Alerter les autorités",next:8}] },
+    }
+  },
+  {
+    id: "ecole",
+    titre: "🎓 LE MYSTÈRE DE L'ÉCOLE",
+    couleur: "#3498db",
+    nodes: {
+      0: { title:"La Caisse Disparue", text:"La caisse de l'association des élèves du Lycée Technique d'Abidjan a été volée : 250 000 FCFA collectés pour le voyage de fin d'année. Quatre membres du bureau sont suspects : Fatou (présidente), Youssef (trésorier), Kader (secrétaire) et Diallo (chargé comm).", choices:[{text:"Interroger Fatou",next:1},{text:"Vérifier les accès à la caisse",next:2},{text:"Parler à Youssef le trésorier",next:3}] },
+      0: { title:"La Caisse Disparue", text:"La caisse de l'association des élèves a été volée. Quatre suspects : Fatou (présidente), Youssef (trésorier), Kader (secrétaire) et Diallo (comm).", choices:[{text:"Interroger Fatou",next:1},{text:"Vérifier les accès à la caisse",next:2},{text:"Parler à Youssef",next:3}] },
+      1: { title:"Fatou sous Pression", text:"Fatou est en larmes. Elle dit n'avoir pas touché à la caisse depuis deux jours. Elle pointe du doigt Youssef qui avait seul les clés hier soir.", choices:[{text:"Confronter Youssef",next:3},{text:"Lui demander des preuves",next:4}] },
+      2: { title:"L'Accès à la Caisse", text:"Selon le registre des clés, Youssef a signé pour prendre les clés à 18h45 hier, et ne les a rendues qu'à 20h10. La réunion prévue à 19h a été annulée au dernier moment. Il était seul.", choices:[{text:"Confronter Youssef directement",next:3}] },
+      3: { title:"Youssef Interrogé", text:"Youssef transpire. Il dit qu'il est allé chercher des documents dans l'armoire, pas toucher à la caisse. Mais Kader t'a confié qu'il a vu Youssef sortir avec un sac plus lourd qu'à l'entrée.", choices:[{text:"Accuser Youssef",next:5},{text:"Fouiller son casier",next:6}] },
+      4: { title:"Preuve Manquante", text:"Fatou n'a pas de preuve concrète. Mais elle te montre un message WhatsApp où Youssef disait avoir besoin d'argent urgent pour sa famille.", choices:[{text:"Fouiller le casier de Youssef",next:6}] },
+      5: { title:"🏆 Vérité Éclate !", text:"Face à l'accumulation de preuves — les clés, le témoignage de Kader, les messages — Youssef avoue. Il avait pris l'argent pour payer les frais médicaux de sa mère. Situation dramatique. La direction décide de ne pas porter plainte mais de le renvoyer du bureau.", choices:[{text:"Nouvelle enquête",next:0}], isEnd:true, win:true },
+      6: { title:"La Preuve dans le Casier", text:"Dans le casier de Youssef, tu trouves une enveloppe kraft avec 180 000 FCFA et un reçu de pharmacie au nom de sa mère. La vérité est plus complexe que prévu.", choices:[{text:"Rapporter à la direction",next:5}] },
+    }
+  },
+  {
+    id: "gare",
+    titre: "🚌 L'AFFAIRE DE LA GARE",
+    couleur: "#2ecc71",
+    nodes: {
+      0: { title:"La Gare Routière", text:"À la gare d'Adjamé, une femme signale le vol de son sac contenant passeport, billets d'avion et 300 000 FCFA. Elle partait rejoindre son mari en France. Les suspects autour d'elle : un vendeur ambulant, un homme en costume, une vieille dame et un jeune en capuche.", choices:[{text:"Interroger le jeune en capuche",next:1},{text:"Vérifier les caméras",next:2},{text:"Parler à l'homme en costume",next:3}] },
+      1: { title:"Le Jeune Suspect", text:"Il est nerveux, répond mal aux questions, refuse de montrer son sac. Mais une vendeuse de beignets dit l'avoir vu assis là depuis 2h — bien avant la victime.", choices:[{text:"L'accuser quand même",next:4},{text:"Élargir les recherches",next:2}] },
+      2: { title:"Les Caméras", text:"La caméra montre clairement : l'homme en costume s'est cogné 'accidentellement' contre la femme, puis a récupéré quelque chose au sol une seconde après — en faisant semblant d'aider.", choices:[{text:"Interpeller l'homme en costume",next:5}] },
+      3: { title:"L'Homme en Costume", text:"Il est poli, coopératif, présente une carte de visite. Mais en lui serrant la main, tu sens quelque chose de dur dans sa veste intérieure — une pochette volumineuse.", choices:[{text:"Demander à fouiller sa veste",next:5},{text:"Le laisser partir",next:6}] },
+      4: { title:"Mauvaise Arrestation", text:"Le jeune est innocent. Son arrestation crée un attroupement. Dans la confusion, l'homme en costume s'éclipse. ÉCHEC.", choices:[{text:"Recommencer",next:0}], isEnd:true, win:false },
+      5: { title:"🏆 Le Pickpocket Professionnel !", text:"Dans la veste de l'homme en costume : le passeport, les billets et l'enveloppe de la femme. C'est un pickpocket professionnel connu des services. Arrêté grâce à toi, la femme prend son avion. VICTOIRE !", choices:[{text:"Nouvelle enquête",next:0}], isEnd:true, win:true },
+      6: { title:"Erreur Fatale", text:"Tu l'as laissé partir. La femme manque son avion et perd tout. Mais une chose est sûre : les caméras l'ont filmé. Il sera retrouvé. Fin triste.", choices:[{text:"Recommencer",next:0}], isEnd:true, win:false },
+    }
+  },
+  {
+    id: "mariage",
+    titre: "💍 LE VOL DU MARIAGE",
+    couleur: "#e74c3c",
+    nodes: {
+      0: { title:"La Fête Gâchée", text:"Lors d'un mariage à Grand-Bassam, les enveloppes de dons (plus de 800 000 FCFA) ont disparu pendant le dîner. La salle était bondée mais seuls quelques personnes avaient accès à la table des dons : le garçon d'honneur, la demoiselle d'honneur, le photographe et le DJ.", choices:[{text:"Interroger le garçon d'honneur",next:1},{text:"Parler à la demoiselle d'honneur",next:2},{text:"Questionner le photographe",next:3}] },
+      1: { title:"Le Garçon d'Honneur", text:"Il est blessé qu'on le suspecte. Il dit être resté aux côtés des mariés toute la soirée. Dix invités peuvent confirmer. Innocenté.", choices:[{text:"Aller vers le photographe",next:3},{text:"Parler à la demoiselle",next:2}] },
+      2: { title:"La Demoiselle d'Honneur", text:"Elle est anxieuse. Elle avoue avoir vu le DJ 'réarranger les enveloppes' pendant une pause. Elle ne sait pas si c'était normal.", choices:[{text:"Aller interroger le DJ",next:4},{text:"Vérifier les vidéos du photographe",next:3}] },
+      3: { title:"Le Photographe", text:"Il a tout filmé ! En revoyant ses vidéos, vous voyez clairement le DJ glisser plusieurs enveloppes sous sa console à 22h37 pendant que les invités dansaient.", choices:[{text:"Confronter le DJ maintenant",next:4}] },
+      4: { title:"Face au DJ", text:"Coincé par la vidéo et le témoignage, le DJ craque. Il avait des dettes de jeu. Il a tenté de prendre 'juste une partie' mais l'excitation l'a emporté. La police est appelée.", choices:[{text:"🏆 Justice rendue",next:5}] },
+      5: { title:"🏆 Les Mariés Sauvés !", text:"Grâce à toi, les enveloppes sont retrouvées dans le coffre de la voiture du DJ — il n'avait pas encore eu le temps de partir. Les mariés récupèrent leur argent. La fête reprend !", choices:[{text:"Nouvelle enquête",next:0}], isEnd:true, win:true },
+    }
+  }
 ];
 
+let currentHistoire = null;
+
+function startHistoireMode() {
+  // Afficher la liste des histoires
+  const list = document.getElementById('histoire-list');
+  if (list) {
+    list.innerHTML = HISTOIRES.map((h, i) => `
+      <div class="mode-card" onclick="selectHistoire(${i})"
+        style="background:linear-gradient(135deg,${h.couleur}22,rgba(10,10,15,0.9));border:2px solid ${h.couleur}80;width:100%;cursor:pointer">
+        <div class="mode-title" style="color:${h.couleur}">${h.titre}</div>
+        <div class="mode-desc" style="margin-top:4px;font-size:13px">Enquête narrative • Fins multiples</div>
+      </div>`).join('');
+  }
+  goTo('screen-solo-histoire-list');
+}
+
+function selectHistoire(idx) {
+  currentHistoire = HISTOIRES[idx];
+  soloState.histoireNode = 0;
+  displayHistoire();
+  goTo('screen-solo-histoire');
+}
+
 function displayHistoire() {
-  const node = HISTOIRE_NODES[soloState.histoireNode];
+  if (!currentHistoire) { currentHistoire = HISTOIRES[0]; }
+  const node = currentHistoire.nodes[soloState.histoireNode];
+  if (!node) return;
+
   document.getElementById('histoire-title').textContent = node.title;
   document.getElementById('histoire-text').textContent = node.text;
 
   if (node.isEnd) {
     if (node.win) { playVictory(); launchConfetti(); }
     else playLock();
+    // Mettre à jour les points
+    if (node.win) {
+      profile.soloPoints = (profile.soloPoints || 0) + 15;
+      localStorage.setItem('profile', JSON.stringify(profile));
+    }
   }
 
   document.getElementById('histoire-choices').innerHTML = node.choices.map(c => `
     <button onclick="chooseHistoire(${c.next})"
-      class="btn ${c.next === 0 ? 'btn-ghost' : 'btn-primary'}"
-      style="width:100%;text-align:left;padding:14px 18px;font-size:15px;font-family:'Crimson Pro',serif;letter-spacing:0">
-      ${c.text}
+      class="btn ${c.next === 0 && node.isEnd ? 'btn-ghost' : 'btn-primary'}"
+      style="width:100%;text-align:left;padding:14px 18px;font-size:15px;font-family:'Crimson Pro',serif;letter-spacing:0;line-height:1.4">
+      ${node.isEnd ? '' : '▸ '}${c.text}
     </button>`).join('');
 }
 
+// ===== GAINS DE PIÈCES AUTOMATIQUES =====
+// Patch chooseHistoire pour les pièces
 function chooseHistoire(nextId) {
   soloState.histoireNode = nextId;
+  const node = currentHistoire && currentHistoire.nodes[nextId];
+  if (node && node.isEnd && node.win) {
+    // Gain histoire
+    addCoins(15, `Victoire : ${currentHistoire.titre}`);
+    shopData.histoiresFinished = (shopData.histoiresFinished||0) + 1;
+    profile.soloPoints = (profile.soloPoints||0) + 15;
+    localStorage.setItem('profile', JSON.stringify(profile));
+    saveShopData();
+    checkAchievements();
+  }
   displayHistoire();
   playTransition();
 }
@@ -2972,23 +3214,25 @@ function saveSettings() {
 
 function setTheme(mode, silent) {
   settings.theme = mode;
+  // Appliquer sur body ET html pour couvrir tous les cas
   if (mode === 'light') {
+    document.documentElement.classList.add('light-mode');
     document.body.classList.add('light-mode');
     const lbl = document.getElementById('theme-current-label');
-    if (lbl) lbl.textContent = 'Mode clair actif';
-    // Highlight bouton actif
+    if (lbl) lbl.textContent = '☀️ Mode clair actif';
     const btnD = document.getElementById('btn-dark');
     const btnL = document.getElementById('btn-light');
-    if (btnD) { btnD.style.background = 'rgba(255,255,255,0.05)'; btnD.style.borderColor = 'rgba(255,255,255,0.15)'; }
-    if (btnL) { btnL.style.background = 'rgba(255,200,0,0.2)'; btnL.style.borderColor = '#f1c40f'; }
+    if (btnD) { btnD.style.background = 'rgba(255,255,255,0.05)'; btnD.style.borderColor = 'rgba(255,255,255,0.15)'; btnD.style.opacity = '0.6'; }
+    if (btnL) { btnL.style.background = 'rgba(255,200,0,0.25)'; btnL.style.borderColor = '#f1c40f'; btnL.style.opacity = '1'; }
   } else {
+    document.documentElement.classList.remove('light-mode');
     document.body.classList.remove('light-mode');
     const lbl = document.getElementById('theme-current-label');
-    if (lbl) lbl.textContent = 'Mode sombre actif';
+    if (lbl) lbl.textContent = '🌙 Mode sombre actif';
     const btnD = document.getElementById('btn-dark');
     const btnL = document.getElementById('btn-light');
-    if (btnD) { btnD.style.background = 'rgba(100,100,255,0.2)'; btnD.style.borderColor = '#7986cb'; }
-    if (btnL) { btnL.style.background = 'rgba(255,255,255,0.05)'; btnL.style.borderColor = 'rgba(255,255,255,0.15)'; }
+    if (btnD) { btnD.style.background = 'rgba(100,100,255,0.2)'; btnD.style.borderColor = '#7986cb'; btnD.style.opacity = '1'; }
+    if (btnL) { btnL.style.background = 'rgba(255,255,255,0.05)'; btnL.style.borderColor = 'rgba(255,255,255,0.15)'; btnL.style.opacity = '0.6'; }
   }
   if (!silent) { saveSettings(); playClick(); }
 }
@@ -3593,19 +3837,525 @@ function stopBgMusic(){if(bgMusicNodes){clearInterval(bgMusicNodes.interval);try
 
 function createMuteButton(){const btn=document.createElement('div');btn.id='muteBtn';btn.innerHTML='🔊';btn.style.cssText='position:fixed;bottom:20px;right:20px;z-index:999;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;';btn.onclick=()=>{musicEnabled=!musicEnabled;soundEnabled=!soundEnabled;if(musicEnabled){btn.innerHTML='🔊';btn.style.opacity='1';startBgMusic();}else{btn.innerHTML='🔇';btn.style.opacity='0.4';stopBgMusic();}};document.body.appendChild(btn);}
 
+// ========== BOUTIQUE & STATISTIQUES ==========
+
+// Catalogue des articles
+const SHOP_CATALOG = {
+  avatars: [
+    { id:'av_detective', name:'Détective 🕵️', icon:'🕵️', desc:'Le vrai chasseur de voleurs', price:0, isFree:true },
+    { id:'av_policier', name:'Policier 👮', icon:'👮', desc:'La loi, c\'est moi !', price:0, isFree:true },
+    { id:'av_voleur', name:'Voleur 🦹', icon:'🦹', desc:'Pour ceux qui jouent l\'autre camp', price:30 },
+    { id:'av_roi', name:'Roi 👑', icon:'👑', desc:'Le roi de tous les joueurs', price:80 },
+    { id:'av_ninja', name:'Ninja 🥷', icon:'🥷', desc:'Discret et redoutable', price:60 },
+    { id:'av_lion', name:'Lion 🦁', icon:'🦁', desc:'Le prédateur du jeu', price:50 },
+    { id:'av_robot', name:'Robot 🤖', icon:'🤖', desc:'Intelligence artificielle', price:70 },
+    { id:'av_alien', name:'Alien 👽', icon:'👽', desc:'Venu d\'une autre galaxie', price:45 },
+    { id:'av_pirate', name:'Pirate 🏴‍☠️', icon:'🏴‍☠️', desc:'Fais plier le navire', price:55 },
+    { id:'av_astronaute', name:'Astronaute 👨‍🚀', icon:'👨‍🚀', desc:'Au-delà du jeu', price:90, isNew:true },
+  ],
+  themes: [
+    { id:'th_sombre', name:'Nuit Africaine', icon:'🌙', desc:'Thème sombre par défaut', price:0, isFree:true },
+    { id:'th_rouge', name:'Sang Rouge', icon:'🩸', desc:'Pour les polices impitoyables', price:40 },
+    { id:'th_or', name:'Or d\'Abidjan', icon:'✨', desc:'Brillant comme l\'or de la ville', price:60 },
+    { id:'th_ocean', name:'Bleu Atlantique', icon:'🌊', desc:'La sérénité du Golfe de Guinée', price:50 },
+    { id:'th_savane', name:'Savane Dorée', icon:'🌿', desc:'Les couleurs de la brousse', price:70, isNew:true },
+    { id:'th_violet', name:'Mystère Violet', icon:'🔮', desc:'Pour les enquêtes les plus sombres', price:55 },
+  ],
+  titres: [
+    { id:'ti_recrue', name:'Recrue', icon:'🔰', desc:'Début de l\'aventure', price:0, isFree:true },
+    { id:'ti_enqueteur', name:'Enquêteur', icon:'🔍', desc:'Tu cherches la vérité', price:30 },
+    { id:'ti_detective', name:'Détective', icon:'🕵️', desc:'Tu sais ce que tu fais', price:60 },
+    { id:'ti_commissaire', name:'Commissaire', icon:'🚔', desc:'Les autres t\'obéissent', price:100 },
+    { id:'ti_legende', name:'Légende', icon:'🏆', desc:'Ton nom est connu de tous', price:150 },
+    { id:'ti_patriarche', name:'Patriarche', icon:'👴', desc:'La sagesse avant tout', price:80 },
+    { id:'ti_fantome', name:'Fantôme', icon:'👻', desc:'Tu es partout et nulle part', price:90 },
+    { id:'ti_roi_abidjan', name:'Roi d\'Abidjan', icon:'👑', desc:'Le maître incontesté', price:200, isNew:true },
+  ],
+  bonus: [
+    { id:'bo_indice', name:'Indice +1', icon:'💡', desc:'Révèle 1 rôle supplémentaire en mode Solo', price:20 },
+    { id:'bo_bouclier', name:'Bouclier', icon:'🛡️', desc:'Protège ton score une fois par jour', price:35 },
+    { id:'bo_loupe', name:'Super Loupe', icon:'🔎', desc:'Double les points du prochain quiz', price:40 },
+    { id:'bo_multiplicateur', name:'x2 Points', icon:'⚡', desc:'Double tes gains pendant 30 min', price:60 },
+    { id:'bo_revive', name:'Revive', icon:'💊', desc:'Continue après un Game Over', price:25 },
+    { id:'bo_joker', name:'Joker', icon:'🃏', desc:'Passe une question de quiz', price:15 },
+  ]
+};
+
+// Profil boutique
+let shopData = {
+  coins: 0,
+  owned: ['av_detective','av_policier','th_sombre','ti_recrue'],
+  equipped: { avatar: 'av_detective', theme: 'th_sombre', titre: 'ti_recrue' },
+  pointsHistory: [],
+  quizCorrect: 0,
+  histoiresFinished: 0,
+  streakMax: 0,
+  currentStreak: 0,
+  achievementsUnlocked: []
+};
+
+function loadShopData() {
+  const saved = localStorage.getItem('shopData');
+  if (saved) {
+    try { shopData = { ...shopData, ...JSON.parse(saved) }; } catch(e) {}
+  }
+  updateCoinsDisplay();
+}
+
+function saveShopData() {
+  localStorage.setItem('shopData', JSON.stringify(shopData));
+  updateCoinsDisplay();
+}
+
+function updateCoinsDisplay() {
+  const v = shopData.coins || 0;
+  const el1 = document.getElementById('shopCoinsVal');
+  const el2 = document.getElementById('homeCoinsVal');
+  if (el1) el1.textContent = v;
+  if (el2) el2.textContent = v;
+}
+
+// Ajouter des pièces
+function addCoins(amount, reason) {
+  shopData.coins = (shopData.coins || 0) + amount;
+  if (!shopData.pointsHistory) shopData.pointsHistory = [];
+  shopData.pointsHistory.unshift({ amount, reason, date: new Date().toLocaleDateString('fr-FR'), ts: Date.now() });
+  if (shopData.pointsHistory.length > 50) shopData.pointsHistory.length = 50;
+  saveShopData();
+  checkAchievements();
+  showShopToast(`+${amount} 🪙 ${reason}`);
+}
+
+// Toast boutique
+function showShopToast(msg) {
+  const t = document.getElementById('shopToast');
+  if (!t) return;
+  t.textContent = msg;
+  t.style.display = 'block';
+  t.style.opacity = '1';
+  setTimeout(() => { t.style.opacity = '0'; setTimeout(() => { t.style.display = 'none'; }, 400); }, 2200);
+}
+
+// Afficher les articles selon catégorie
+let currentShopCat = 'avatars';
+function filterShop(cat) {
+  currentShopCat = cat;
+  // Tabs
+  document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+  const tabs = { avatars:0, themes:1, titres:2, bonus:3 };
+  document.querySelectorAll('.shop-tab')[tabs[cat]].classList.add('active');
+  renderShopItems();
+}
+
+function renderShopItems() {
+  const items = SHOP_CATALOG[currentShopCat] || [];
+  const list = document.getElementById('shopItemsList');
+  if (!list) return;
+  list.innerHTML = items.map(item => {
+    const owned = (shopData.owned || []).includes(item.id);
+    const equipped = Object.values(shopData.equipped || {}).includes(item.id);
+    const canAfford = (shopData.coins || 0) >= item.price;
+    let badgeHTML = '';
+    if (equipped) badgeHTML = '<span class="shop-item-badge badge-equipped">ÉQUIPÉ</span>';
+    else if (owned) badgeHTML = '<span class="shop-item-badge badge-owned">POSSÉDÉ</span>';
+    else if (item.isNew) badgeHTML = '<span class="shop-item-badge badge-new">NOUVEAU</span>';
+
+    let btnHTML = '';
+    if (equipped) {
+      btnHTML = `<button style="padding:8px 14px;border-radius:8px;border:1.5px solid var(--or);background:transparent;color:var(--or-clair);font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;cursor:default">✓ EN JEU</button>`;
+    } else if (owned) {
+      const cat = currentShopCat === 'avatars' ? 'avatar' : currentShopCat === 'themes' ? 'theme' : currentShopCat === 'titres' ? 'titre' : null;
+      if (cat) btnHTML = `<button onclick="equipItem('${item.id}','${cat}')" style="padding:8px 14px;border-radius:8px;border:1.5px solid #2ecc71;background:rgba(46,204,113,0.12);color:#2ecc71;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;cursor:pointer">ÉQUIPER</button>`;
+    } else if (item.isFree) {
+      btnHTML = `<button onclick="buyItem('${item.id}')" style="padding:8px 14px;border-radius:8px;border:1.5px solid #2ecc71;background:rgba(46,204,113,0.12);color:#2ecc71;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;cursor:pointer">GRATUIT</button>`;
+    } else {
+      btnHTML = `<button onclick="buyItem('${item.id}')" ${!canAfford?'disabled':''} style="padding:8px 14px;border-radius:8px;border:1.5px solid ${canAfford?'var(--or)':'rgba(255,255,255,0.15)'};background:${canAfford?'rgba(212,160,23,0.15)':'rgba(255,255,255,0.04)'};color:${canAfford?'var(--or-clair)':'rgba(255,255,255,0.3)'};font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;cursor:${canAfford?'pointer':'not-allowed'}">🪙 ${item.price}</button>`;
+    }
+    return `
+      <div class="shop-item ${equipped?'equipped':owned?'owned':''}">
+        ${badgeHTML}
+        <div class="shop-item-icon">${item.icon}</div>
+        <div class="shop-item-info">
+          <div class="shop-item-name">${item.name}</div>
+          <div class="shop-item-desc">${item.desc}</div>
+        </div>
+        ${btnHTML}
+      </div>`;
+  }).join('');
+}
+
+function buyItem(id) {
+  // Chercher l'article dans toutes les catégories
+  let item = null;
+  for (const cat of Object.values(SHOP_CATALOG)) {
+    item = cat.find(i => i.id === id);
+    if (item) break;
+  }
+  if (!item) return;
+  if ((shopData.owned||[]).includes(id)) { showShopToast('Déjà possédé !'); return; }
+  if (!item.isFree && (shopData.coins||0) < item.price) { showShopToast('Pièces insuffisantes !'); return; }
+  if (!item.isFree) shopData.coins -= item.price;
+  if (!shopData.owned) shopData.owned = [];
+  shopData.owned.push(id);
+  saveShopData();
+  renderShopItems();
+  showShopToast(`✅ ${item.name} acheté !`);
+  playVictory();
+}
+
+function equipItem(id, cat) {
+  if (!shopData.equipped) shopData.equipped = {};
+  shopData.equipped[cat] = id;
+  saveShopData();
+  renderShopItems();
+  // Appliquer le thème si applicable
+  if (cat === 'theme') applyShopTheme(id);
+  showShopToast('Équipement mis à jour !');
+}
+
+function applyShopTheme(themeId) {
+  // Map thème → accent color
+  const themeColors = {
+    th_rouge: ['#c0392b','#e74c3c'],
+    th_or: ['#b8860b','#d4a017'],
+    th_ocean: ['#1a6b9a','#3498db'],
+    th_savane: ['#7d6608','#d4ac0d'],
+    th_violet: ['#6c3483','#9b59b6'],
+    th_sombre: ['#c0392b','#e74c3c'],
+  };
+  const colors = themeColors[themeId];
+  if (colors) {
+    document.documentElement.style.setProperty('--accent', colors[0]);
+    document.documentElement.style.setProperty('--accent-vif', colors[1]);
+  }
+}
+
+// Ouvrir boutique
+function openBoutique() {
+  loadShopData();
+  filterShop('avatars');
+  goTo('screen-boutique');
+}
+
+// Surcharger goTo pour init boutique/stats
+const _origGoTo = window.goTo;
+
+// ===== STATISTIQUES =====
+const ACHIEVEMENTS = [
+  { id:'ac_first', icon:'🎮', name:'Première Partie', desc:'Jouer ta première partie', condition: s => (s.parties||0) >= 1 },
+  { id:'ac_quiz10', icon:'🧠', name:'Quiz Master', desc:'Répondre juste à 10 questions de quiz', condition: s => (s.quizCorrect||0) >= 10 },
+  { id:'ac_quiz50', icon:'🏆', name:'Génie du Quiz', desc:'50 bonnes réponses au quiz', condition: s => (s.quizCorrect||0) >= 50 },
+  { id:'ac_histoire1', icon:'📖', name:'Premier Chapitre', desc:'Finir une histoire avec victoire', condition: s => (s.histoiresFinished||0) >= 1 },
+  { id:'ac_histoire5', icon:'📚', name:'Bibliothèque', desc:'Finir 5 histoires avec victoire', condition: s => (s.histoiresFinished||0) >= 5 },
+  { id:'ac_coins50', icon:'🪙', name:'Avare', desc:'Accumuler 50 pièces', condition: s => (s.coins||0) >= 50 },
+  { id:'ac_coins200', icon:'💰', name:'Riche !', desc:'Accumuler 200 pièces', condition: s => (s.coins||0) >= 200 },
+  { id:'ac_victoire5', icon:'🥇', name:'Invincible', desc:'Gagner 5 parties', condition: s => (s.victoires||0) >= 5 },
+  { id:'ac_solo100', icon:'⭐', name:'Centurion Solo', desc:'100 points en mode Solo', condition: s => (s.soloPoints||0) >= 100 },
+  { id:'ac_shop3', icon:'🛒', name:'Acheteur', desc:'Acheter 3 articles dans la boutique', condition: s => ((s.owned||[]).length - 4) >= 3 },
+];
+
+function checkAchievements() {
+  const combined = { ...profile, ...shopData };
+  let newUnlocks = 0;
+  ACHIEVEMENTS.forEach(a => {
+    if (!(shopData.achievementsUnlocked||[]).includes(a.id) && a.condition(combined)) {
+      if (!shopData.achievementsUnlocked) shopData.achievementsUnlocked = [];
+      shopData.achievementsUnlocked.push(a.id);
+      newUnlocks++;
+      addCoins(10, `Succès : ${a.name}`);
+      showShopToast(`🏅 Succès débloqué : ${a.name} (+10 🪙)`);
+    }
+  });
+  if (newUnlocks > 0) saveShopData();
+}
+
+function renderStats() {
+  loadShopData();
+  const p = profile || {};
+  const s = shopData || {};
+  const soloPoints = p.soloPoints || 0;
+  const parties = p.parties || 0;
+  const victoires = p.victoires || 0;
+
+  // Rang basé sur total points
+  const totalPts = soloPoints + (s.coins||0);
+  const RANKS = [
+    { min:0,    max:49,   icon:'🔰', title:'RECRUE',      color:'#95a5a6' },
+    { min:50,   max:149,  icon:'🔍', title:'ENQUÊTEUR',   color:'#3498db' },
+    { min:150,  max:299,  icon:'🕵️', title:'DÉTECTIVE',   color:'#9b59b6' },
+    { min:300,  max:599,  icon:'🚔', title:'INSPECTEUR',  color:'#e67e22' },
+    { min:600,  max:999,  icon:'⭐', title:'COMMISSAIRE', color:'#d4a017' },
+    { min:1000, max:9999, icon:'🏆', title:'LÉGENDE',     color:'#e74c3c' },
+  ];
+  const rank = RANKS.find(r => totalPts >= r.min && totalPts <= r.max) || RANKS[0];
+  const nextRank = RANKS[RANKS.indexOf(rank)+1];
+  const pct = nextRank ? Math.min(100, Math.round((totalPts - rank.min)/(nextRank.min - rank.min)*100)) : 100;
+
+  const el = id => document.getElementById(id);
+  if (el('statsRankIcon')) el('statsRankIcon').textContent = rank.icon;
+  if (el('statsRankTitle')) { el('statsRankTitle').textContent = rank.title; el('statsRankTitle').style.color = rank.color; }
+  if (el('statsRankSub')) el('statsRankSub').textContent = nextRank ? `${totalPts - rank.min} / ${nextRank.min - rank.min} pts pour "${nextRank.title}"` : 'Rang maximum atteint ! 🏆';
+  if (el('statsRankBar')) el('statsRankBar').style.width = pct+'%';
+
+  if (el('statsParties')) el('statsParties').textContent = parties;
+  if (el('statsVictoires')) el('statsVictoires').textContent = victoires;
+  if (el('statsPieces')) el('statsPieces').textContent = s.coins||0;
+  if (el('statsTotalPts')) el('statsTotalPts').textContent = soloPoints;
+  if (el('statsQuiz')) el('statsQuiz').textContent = s.quizCorrect||0;
+  if (el('statsHistoires')) el('statsHistoires').textContent = s.histoiresFinished||0;
+  if (el('statsStreak')) el('statsStreak').textContent = s.streakMax||0;
+  if (el('statsAchiev')) el('statsAchiev').textContent = (s.achievementsUnlocked||[]).length;
+
+  // Succès
+  const achEl = el('achievementsList');
+  if (achEl) {
+    achEl.innerHTML = ACHIEVEMENTS.map(a => {
+      const unlocked = (s.achievementsUnlocked||[]).includes(a.id);
+      return `<div class="achievement-card ${unlocked?'unlocked':''}">
+        <div class="achievement-icon ${unlocked?'unlocked':''}" style="${unlocked?'':'filter:grayscale(1);opacity:0.4'}">${a.icon}</div>
+        <div style="flex:1">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:2px;${unlocked?'color:var(--or-clair)':'color:var(--text-muted)'}">${a.name}</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:2px">${a.desc}</div>
+          ${unlocked?'<div style="font-size:11px;color:#2ecc71;margin-top:3px">✅ Débloqué • +10 🪙</div>':''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // Historique
+  const histEl = el('pointsHistory');
+  if (histEl) {
+    const hist = (s.pointsHistory||[]).slice(0,20);
+    if (hist.length === 0) {
+      histEl.innerHTML = '<div style="color:var(--text-muted);font-size:13px;font-style:italic;text-align:center;padding:10px">Aucun gain enregistré pour l\'instant</div>';
+    } else {
+      histEl.innerHTML = hist.map(h => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
+          <span style="font-size:13px;color:var(--blanc)">${h.reason}</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--or-clair)">+${h.amount} 🪙</span>
+        </div>`).join('');
+    }
+  }
+  checkAchievements();
+}
+
+// ===== HOOK GAINS DE PIÈCES DANS LE JEU =====
+// Patch showQuizResult pour donner des pièces
+const _origShowQuizResult = window.showQuizResult;
+
+// ========== OFFLINE SUPPORT ==========
+function initOfflineSupport() {
+  const banner = document.getElementById('offline-banner');
+  const icon = document.getElementById('offline-icon');
+  const text = document.getElementById('offline-text');
+
+  function updateStatus() {
+    if (!navigator.onLine) {
+      banner.className = 'show';
+      icon.textContent = '📵';
+      text.textContent = 'HORS CONNEXION — Mode solo & classique disponibles';
+      // Désactiver les boutons Firebase
+      document.querySelectorAll('[onclick*="goToPremiumMode"],[onclick*="initFirebase"]').forEach(btn => {
+        btn.style.opacity = '0.5';
+        btn.title = 'Nécessite une connexion internet';
+      });
+    } else {
+      if (banner.classList.contains('show')) {
+        banner.classList.add('online-mode');
+        icon.textContent = '✅';
+        text.textContent = 'CONNEXION RÉTABLIE !';
+        setTimeout(() => { banner.className = ''; }, 3000);
+      }
+    }
+  }
+
+  window.addEventListener('online', updateStatus);
+  window.addEventListener('offline', updateStatus);
+  updateStatus();
+}
+
+// ========== LOADER ==========
+function runLoader() {
+  const bar = document.getElementById('loaderBar');
+  const msg = document.getElementById('loaderMsg');
+  const loader = document.getElementById('app-loader');
+  const msgs = ['CHARGEMENT...', 'PRÉPARATION DU JEU...', 'ASSIGNATION DES RÔLES...', 'C\'EST PARTI !'];
+  let pct = 0;
+  let step = 0;
+
+  const interval = setInterval(() => {
+    pct += Math.random() * 22 + 10;
+    if (pct > 100) pct = 100;
+    bar.style.width = pct + '%';
+    step = Math.floor(pct / 30);
+    if (msgs[step]) msg.textContent = msgs[step];
+
+    if (pct >= 100) {
+      clearInterval(interval);
+      msg.textContent = 'C\'EST PARTI !';
+      setTimeout(() => {
+        loader.classList.add('hidden');
+      }, 500);
+    }
+  }, 180);
+}
+
 // ========== INIT ==========
 window.onload = () => {
+  runLoader();
   loadCustomRoles();
   initSetup();
   renderPlayerListPremium();
   updateRolesPreviewPremium();
   applyTheme();
+  initSettings();
   initProfile();
+  loadShopData();
+  initOfflineSupport();
   createMuteButton();
+
+  // Hook goTo pour init boutique/stats à l'ouverture
+  const _goToOrig = window.goTo;
+  window.goTo = function(screen) {
+    _goToOrig(screen);
+    if (screen === 'screen-boutique') {
+      loadShopData();
+      filterShop(currentShopCat || 'avatars');
+    }
+    if (screen === 'screen-stats') {
+      renderStats();
+    }
+  };
+
   document.addEventListener('click', ()=>{ startBgMusic(); }, {once:true});
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 };
 </script>
+
+<!-- ========== BOUTIQUE ========== -->
+<div class="screen" id="screen-boutique">
+  <div style="width:100%;max-width:480px;padding-top:24px;display:flex;flex-direction:column;gap:16px">
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="btn-remove" onclick="goTo('screen-home')" style="font-size:24px">←</button>
+      <h2 class="bebas" style="font-size:26px;letter-spacing:4px;flex:1">🛒 BOUTIQUE</h2>
+    </div>
+
+    <!-- Solde pièces -->
+    <div class="coin-display" style="justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:32px">🪙</span>
+        <div>
+          <div class="coin-amount" id="shopCoinsVal">0</div>
+          <div class="coin-label">TES PIÈCES</div>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:11px;letter-spacing:2px;color:var(--text-muted);font-family:'Bebas Neue',sans-serif">GAGNER DES PIÈCES</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:3px">Quiz +1 • Solo +5 • Histoire +15</div>
+      </div>
+    </div>
+
+    <!-- Onglets catégories -->
+    <div class="shop-tabs" id="shopTabs">
+      <div class="shop-tab active" onclick="filterShop('avatars')">😎 Avatars</div>
+      <div class="shop-tab" onclick="filterShop('themes')">🎨 Thèmes</div>
+      <div class="shop-tab" onclick="filterShop('titres')">🏷️ Titres</div>
+      <div class="shop-tab" onclick="filterShop('bonus')">⚡ Bonus</div>
+    </div>
+
+    <!-- Liste des articles -->
+    <div id="shopItemsList" style="display:flex;flex-direction:column;gap:10px"></div>
+
+    <!-- Toast confirmation -->
+    <div id="shopToast" style="display:none;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
+      background:rgba(46,204,113,0.9);color:white;padding:12px 24px;border-radius:10px;
+      font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:14px;z-index:9000;
+      white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.4)"></div>
+  </div>
+</div>
+
+<!-- ========== STATISTIQUES ========== -->
+<div class="screen" id="screen-stats">
+  <div style="width:100%;max-width:480px;padding-top:24px;display:flex;flex-direction:column;gap:16px">
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="btn-remove" onclick="goTo('screen-home')" style="font-size:24px">←</button>
+      <h2 class="bebas" style="font-size:26px;letter-spacing:4px;flex:1">📊 MES STATS</h2>
+    </div>
+
+    <!-- Rang et progression -->
+    <div class="panel" style="text-align:center;padding:20px 16px">
+      <div id="statsRankIcon" style="font-size:56px;margin-bottom:6px">🔰</div>
+      <div id="statsRankTitle" style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;color:var(--or)">RECRUE</div>
+      <div id="statsRankSub" style="font-size:13px;color:var(--text-muted);margin-top:4px">0 / 50 pts pour le rang suivant</div>
+      <div class="rank-progress-bar" style="margin-top:12px">
+        <div class="rank-progress-fill" id="statsRankBar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- Grille stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-icon">🎮</div>
+        <div class="stat-card-val" id="statsParties" style="color:#3498db">0</div>
+        <div class="stat-card-lbl">PARTIES</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🏆</div>
+        <div class="stat-card-val" id="statsVictoires" style="color:#2ecc71">0</div>
+        <div class="stat-card-lbl">VICTOIRES</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🪙</div>
+        <div class="stat-card-val" id="statsPieces" style="color:var(--or-clair)">0</div>
+        <div class="stat-card-lbl">PIÈCES</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">⭐</div>
+        <div class="stat-card-val" id="statsTotalPts" style="color:#e74c3c">0</div>
+        <div class="stat-card-lbl">POINTS SOLO</div>
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-icon">🧩</div>
+        <div class="stat-card-val" id="statsQuiz" style="color:#9b59b6">0</div>
+        <div class="stat-card-lbl">QUIZ OK</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">📖</div>
+        <div class="stat-card-val" id="statsHistoires" style="color:#e67e22">0</div>
+        <div class="stat-card-lbl">HISTOIRES</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🔥</div>
+        <div class="stat-card-val" id="statsStreak" style="color:#e74c3c">0</div>
+        <div class="stat-card-lbl">SÉRIE MAX</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🎁</div>
+        <div class="stat-card-val" id="statsAchiev" style="color:#2ecc71">0</div>
+        <div class="stat-card-lbl">SUCCÈS</div>
+      </div>
+    </div>
+
+    <!-- Succès / Trophées -->
+    <div class="panel">
+      <div class="panel-title">🏅 SUCCÈS</div>
+      <div id="achievementsList" style="display:flex;flex-direction:column;gap:10px;margin-top:12px"></div>
+    </div>
+
+    <!-- Historique points -->
+    <div class="panel">
+      <div class="panel-title">📈 HISTORIQUE DES POINTS</div>
+      <div id="pointsHistory" style="display:flex;flex-direction:column;gap:6px;margin-top:12px;max-height:220px;overflow-y:auto"></div>
+    </div>
+
+  </div>
+</div>
 
 <!-- ========== PARAMÈTRES ========== -->
 <div class="screen" id="screen-settings">
@@ -3754,7 +4504,7 @@ window.onload = () => {
       <div style="text-align:center;padding:24px 16px;background:linear-gradient(135deg,rgba(192,57,43,0.15),rgba(26,26,46,0.8));border-radius:12px;margin-bottom:16px;border:1px solid rgba(192,57,43,0.3)">
         <div style="font-size:48px;margin-bottom:8px">👮</div>
         <div class="bebas" style="font-size:28px;letter-spacing:4px;background:linear-gradient(135deg,#e74c3c,#f1c40f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">POLICIER OU VOLEUR</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-top:4px">Version 2.0 — Build stable</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:4px">Version 2.1 — Mode hors-ligne & Solo enrichi</div>
         <div style="font-size:12px;color:var(--text-muted);margin-top:6px;font-style:italic">Le jeu de société qui révèle les traîtres !</div>
       </div>
 
