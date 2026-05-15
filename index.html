@@ -1565,18 +1565,34 @@ const ROLES_DATA = {
   avocat:{emoji:'📁',name:'AVOCAT',theme:'role-avocat',desc:'Tu défends les accusés. Joueur protégé.',points:'10 pts — Joueur sauvé',basePoints:10,type:'safe'}
 };
 
+// ========== RÈGLE DE DISTRIBUTION DES RÔLES ==========
+// Les 3 rôles principaux sont TOUJOURS présents, peu importe le nombre de joueurs.
+// Les rôles secondaires s'ajoutent progressivement à partir du 4e joueur.
+//
+//  3 joueurs  → commandant, policier, voleur
+//  4 joueurs  → + temoin
+//  5 joueurs  → + complice
+//  6 joueurs  → + assassin
+//  7 joueurs  → + victime
+//  8 joueurs  → + juge
+//  9 joueurs  → + avocat
+// 10+ joueurs → + innocent (autant que nécessaire)
+//
 function getRolesForPlayers(n) {
-  const mandatory = ['commandant','policier','voleur'];
-  const optional = ['temoin','victime','complice','assassin','juge','innocent','avocat'];
-  let roles = [...mandatory];
-  let i = 0;
-  while (roles.length < n && i < optional.length) roles.push(optional[i++]);
-  // Ajouter rôles custom
-  const cKeys = Object.keys(ROLES_DATA).filter(k => k.startsWith('custom_'));
+  // Les 3 piliers — TOUJOURS présents
+  const CORE = ['commandant', 'policier', 'voleur'];
+  // Rôles secondaires ajoutés dans cet ordre précis
+  const SECONDARY = ['temoin','complice','assassin','victime','juge','avocat'];
+  // Rôles custom créés par l'utilisateur
+  const CUSTOM = Object.keys(ROLES_DATA).filter(k => k.startsWith('custom_'));
+
+  let roles = [...CORE];
+  let si = 0;
+  while (roles.length < n && si < SECONDARY.length) roles.push(SECONDARY[si++]);
   let ci = 0;
-  while (roles.length < n && ci < cKeys.length) roles.push(cKeys[ci++]);
+  while (roles.length < n && ci < CUSTOM.length) roles.push(CUSTOM[ci++]);
   while (roles.length < n) roles.push('innocent');
-  return roles;
+  return roles.slice(0, n);
 }
 
 // ========== ÉTAT ==========
@@ -2061,6 +2077,12 @@ function startDistribution() {
   state.roundRoles = {};
   state.currentDistribIdx = 0;
   document.getElementById('dist-round-badge').textContent = `TOUR ${state.currentTour} / ${state.tours}`;
+  // Vérification de sécurité : s'assurer que les 3 rôles principaux sont bien présents
+  const hasCore = ['commandant','policier','voleur'].every(r => state.rolesOrder.includes(r));
+  if (!hasCore) {
+    // Sécurité absolue : forcer la régénération
+    state.rolesOrder = shuffle(getRolesForPlayers(state.players.length));
+  }
   showNextDistrib();
   goTo('screen-distribute');
 }
@@ -3539,33 +3561,52 @@ function startSalonGame() {
   state.scores = {};
   names.forEach(n => state.scores[n] = 0);
 
-  // Attribuer les rôles
-  const roles = shuffle(getRolesForPlayers(names.length));
-  state.roundRoles = {};
-  names.forEach((n, i) => state.roundRoles[n] = roles[i]);
-
-  // Créer un mapping clé joueur → rôle pour Firebase
-  // Récupérer les clés depuis Firebase
+  // Récupérer l'ordre exact des joueurs depuis Firebase (trié par joinedAt)
+  // pour que les rôles correspondent aux bons joueurs sur tous les appareils
   salonRef.child('players').once('value').then(snapshot => {
     const playersData = snapshot.val();
-    const playersList = Object.entries(playersData).sort(([,a],[,b]) => a.joinedAt - b.joinedAt);
+    if (!playersData) throw new Error('Aucun joueur trouvé');
+
+    // Trier les joueurs par ordre d'arrivée (joinedAt)
+    const playersList = Object.entries(playersData)
+      .sort(([,a],[,b]) => (a.joinedAt||0) - (b.joinedAt||0));
+
+    const nbPlayers = playersList.length;
+
+    // Générer les rôles avec les 3 PRINCIPAUX garantis + secondaires selon le nombre
+    const rolesPool = getRolesForPlayers(nbPlayers);
+
+    // Mélanger UNIQUEMENT les rôles secondaires (au-delà du 3e)
+    // pour que commandant/policier/voleur soient toujours distribués
+    // mais à des joueurs aléatoires
+    const shuffledRoles = shuffle([...rolesPool]);
+
+    // Construire le mapping clé Firebase → rôle
     const rolesMapping = {};
-    playersList.forEach(([key, player], i) => {
-      rolesMapping[key] = roles[i] || 'innocent';
+    playersList.forEach(([key], i) => {
+      rolesMapping[key] = shuffledRoles[i] || 'innocent';
     });
 
-    // Mettre à jour Firebase avec les rôles et statut
+    // Mettre à jour state.roundRoles avec les noms
+    state.roundRoles = {};
+    playersList.forEach(([key, player], i) => {
+      state.roundRoles[player.name] = shuffledRoles[i] || 'innocent';
+    });
+
+    // Mettre à jour Firebase
     return salonRef.update({
       status: 'started',
       game: {
         roles: rolesMapping,
+        rolesCount: nbPlayers,
         startedAt: Date.now(),
         tours: state.tours
       }
+    }).then(() => {
+      // L'hôte est toujours le premier joueur (index 0)
+      showWaitingRole(shuffledRoles[0]);
     });
-  }).then(() => {
-    // Hôte voit son propre rôle
-    showWaitingRole(roles[0]);
+
   }).catch(e => {
     alert('Erreur lancement: ' + e.message);
   });
@@ -3793,27 +3834,35 @@ function nextSalonRound(isLast) {
   state.currentTour++;
 
   if (isHost && salonRef) {
-    // Réinitialiser ready et redistribuer rôles
     salonRef.child('ready').remove();
     salonRef.child('roundResult').remove();
 
-    // Redistribuer les rôles
-    const names = state.players;
-    const roles = shuffle(getRolesForPlayers(names.length));
-    state.roundRoles = {};
-    names.forEach((n, i) => state.roundRoles[n] = roles[i]);
-
-    // Récupérer les clés et renvoyer les rôles
+    // Redistribuer les rôles en récupérant l'ordre Firebase exact
     salonRef.child('players').once('value').then(snapshot => {
       const playersData = snapshot.val();
-      const playersList = Object.entries(playersData).sort(([,a],[,b]) => a.joinedAt - b.joinedAt);
-      const rolesMapping = {};
-      playersList.forEach(([key, player], i) => {
-        rolesMapping[key] = roles[i] || 'innocent';
+      if (!playersData) return;
+
+      const playersList = Object.entries(playersData)
+        .sort(([,a],[,b]) => (a.joinedAt||0) - (b.joinedAt||0));
+
+      const nbPlayers = playersList.length;
+      const shuffledRoles = shuffle(getRolesForPlayers(nbPlayers));
+
+      // Rebuild roundRoles par nom
+      state.roundRoles = {};
+      playersList.forEach(([, player], i) => {
+        state.roundRoles[player.name] = shuffledRoles[i] || 'innocent';
       });
-      return salonRef.child('game/roles').set(rolesMapping);
-    }).then(() => {
-      showWaitingRole(roles[0]);
+
+      // Mapping clé Firebase → rôle
+      const rolesMapping = {};
+      playersList.forEach(([key], i) => {
+        rolesMapping[key] = shuffledRoles[i] || 'innocent';
+      });
+
+      return salonRef.child('game/roles').set(rolesMapping).then(() => {
+        showWaitingRole(shuffledRoles[0]);
+      });
     });
   } else {
     // Non-hôte attend le prochain rôle
