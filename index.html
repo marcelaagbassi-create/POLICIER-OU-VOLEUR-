@@ -367,6 +367,27 @@ body.premium .avatar-big { border-color:var(--accent); box-shadow:0 0 20px rgba(
 
 @media (max-width:400px) { .reveal-circle{width:150px;height:150px} .reveal-icon{font-size:36px} }
 
+/* ===== QR CODE & SALON OPTIONS ===== */
+.join-section { background:#15171f; border:1.5px solid #252836; border-radius:16px; padding:18px 16px; width:100%; }
+.join-section-title { font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:3px; color:#00bcd4; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+.qr-canvas-wrap { display:flex; flex-direction:column; align-items:center; gap:10px; }
+#qrCanvas { border-radius:10px; background:white; padding:8px; }
+.qr-scan-wrap { position:relative; width:100%; border-radius:12px; overflow:hidden; background:#000; }
+#qrVideo { width:100%; display:block; border-radius:12px; }
+.qr-crosshair { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; }
+.qr-crosshair-inner { width:180px; height:180px; border:2.5px solid var(--or); border-radius:8px; position:relative; }
+.qr-crosshair-inner::before, .qr-crosshair-inner::after { content:''; position:absolute; width:20px; height:20px; border-color:var(--or); border-style:solid; }
+.qr-crosshair-inner::before { top:-2px; left:-2px; border-width:3px 0 0 3px; border-radius:4px 0 0 0; }
+.qr-crosshair-inner::after { bottom:-2px; right:-2px; border-width:0 3px 3px 0; border-radius:0 0 4px 0; }
+.qr-scan-line { position:absolute; left:50%; transform:translateX(-50%); width:160px; height:2px; background:linear-gradient(90deg,transparent,var(--or),transparent); animation:scanLine 2s ease-in-out infinite; top:50%; }
+@keyframes scanLine { 0%,100%{top:30%;opacity:0.5} 50%{top:70%;opacity:1} }
+.salon-share-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; }
+.invite-link-input { background:#1e2130; border:1.5px solid #2e3248; border-radius:10px; padding:10px 14px; color:rgba(240,236,228,0.6); font-size:12px; width:100%; word-break:break-all; cursor:pointer; font-family:monospace; }
+
+/* Bouton copier animé */
+.btn-copy { position:relative; overflow:hidden; }
+.btn-copy.copied { background:linear-gradient(135deg,#27ae60,#2ecc71) !important; }
+
 /* ===== BOUTIQUE ===== */
 .shop-tabs { display:flex; gap:8px; width:100%; margin-bottom:4px; }
 .shop-tab { flex:1; padding:10px 6px; border-radius:10px; border:2px solid #2e3248;
@@ -1437,41 +1458,110 @@ body.light-mode #shopToast { color:white !important; }
 
 <!-- ========== SALON HOST ========== -->
 <div class="screen" id="screen-salon-host">
-  <div style="width:100%;max-width:480px;padding-top:20px;display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center">
+  <div style="width:100%;max-width:480px;padding-top:20px;display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center">
     <span class="premium-badge">👑 MODE PREMIUM</span>
-    <div>
-      <div class="bebas" style="font-size:13px;letter-spacing:4px;color:rgba(240,236,228,0.4);margin-bottom:6px">CODE DU SALON</div>
+
+    <!-- Code + partage -->
+    <div style="width:100%">
+      <div class="bebas" style="font-size:12px;letter-spacing:4px;color:rgba(240,236,228,0.4);margin-bottom:6px">🏆 SALON</div>
       <div class="salon-code" id="salonCodeDisplay">----</div>
-      <div style="font-size:13px;color:rgba(240,236,228,0.4);margin-top:4px">Partage ce code avec les joueurs</div>
+      <div style="font-size:13px;color:rgba(240,236,228,0.4);margin-top:4px">Partage le code ou le QR avec tes joueurs</div>
     </div>
+
+    <!-- Boutons partage -->
+    <div class="salon-share-btns">
+      <button class="btn btn-primary btn-copy" id="btnShareLink" onclick="shareSalonLink()" style="background:linear-gradient(135deg,#00bcd4,#0097a7);font-size:13px;padding:12px 10px"><span style="margin-right:6px">📤</span>PARTAGER</button>
+      <button class="btn btn-ghost" onclick="toggleSalonQR()" style="font-size:13px;padding:12px 10px"><span style="margin-right:6px">⬛</span>QR CODE</button>
+    </div>
+
+    <!-- QR Code masqué par défaut -->
+    <div id="salonQRWrap" style="display:none;width:100%" class="join-section">
+      <div class="join-section-title">⬛ QR CODE DU SALON</div>
+      <div class="qr-canvas-wrap">
+        <canvas id="qrCanvas" width="180" height="180"></canvas>
+        <div style="font-size:12px;color:rgba(240,236,228,0.4)">Fais scanner ce QR pour rejoindre</div>
+        <div style="display:flex;gap:8px">
+          <button onclick="copyInviteLink()" class="btn btn-ghost btn-copy" id="btnCopyLink" style="font-size:12px;padding:8px 14px">📋 Copier le lien</button>
+          <button onclick="toggleSalonQR()" class="btn btn-ghost" style="font-size:12px;padding:8px 14px">✕ Fermer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Joueurs connectés -->
     <div class="panel" style="width:100%">
-      <div class="panel-title">👥 Joueurs (<span id="connectedCount">0</span>)</div>
+      <div class="panel-title">👥 JOUEURS EN LIGNE (<span id="connectedCount">0</span>)</div>
       <div id="connectedList" style="display:flex;flex-direction:column;gap:8px;min-height:50px">
         <div style="color:rgba(240,236,228,0.3);font-style:italic;font-size:14px;text-align:center;padding:12px">En attente des joueurs...</div>
       </div>
     </div>
-    <button class="btn btn-primary" id="startSalonBtn" onclick="startSalonGame()" disabled style="background:#00bcd4"><span class="svg-icon" style="width:18px;height:18px;margin-right:8px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg></span>Lancer la partie</button>
-    <button class="btn btn-ghost" onclick="leaveSalon()" style="font-size:13px">Quitter</button>
+
+    <!-- Réglages -->
+    <div class="panel" style="width:100%">
+      <div class="panel-title" style="margin-bottom:10px">⚙️ RÉGLAGES</div>
+      <div style="font-size:12px;letter-spacing:2px;color:rgba(240,236,228,0.45);font-family:'Bebas Neue',sans-serif;margin-bottom:6px">NOMBRE DE TOURS</div>
+      <div class="select-wrap">
+        <select id="toursInputPremium">
+          <option value="1">1 tour (rapide)</option>
+          <option value="3" selected>3 tours (standard)</option>
+          <option value="5">5 tours (long)</option>
+          <option value="10">10 tours (marathon)</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="startSalonBtn" onclick="startSalonGame()" disabled style="background:#00bcd4;width:100%">
+      <span class="svg-icon" style="width:18px;height:18px;margin-right:8px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg></span>LANCER LA PARTIE
+    </button>
+    <button class="btn btn-ghost" onclick="leaveSalon()" style="font-size:13px;width:100%;color:#e74c3c;border-color:#e74c3c"><span style="margin-right:6px">→</span>QUITTER LE SALON</button>
   </div>
 </div>
 
 <!-- ========== REJOINDRE ========== -->
 <div class="screen" id="screen-salon-join">
-  <div style="width:100%;max-width:460px;padding-top:50px;display:flex;flex-direction:column;gap:22px;align-items:center;text-align:center">
-    <button class="btn-remove" onclick="goTo('screen-salon-options')" style="align-self:flex-start;font-size:22px"><span style="margin-right:4px">←</span>Retour</button>
-    <div class="pulse-ring">📱</div>
-    <div>
-      <div class="bebas" style="font-size:22px;letter-spacing:3px">REJOINDRE UN SALON</div>
-      <div style="font-size:14px;color:rgba(240,236,228,0.5);margin-top:4px">Entre le code partagé par l'hôte</div>
+  <div style="width:100%;max-width:460px;padding-top:24px;display:flex;flex-direction:column;gap:16px">
+
+    <button class="btn-remove" onclick="goTo('screen-salon-options')" style="align-self:flex-start;font-size:22px">← Retour</button>
+    <h2 class="bebas" style="font-size:28px;letter-spacing:4px;text-align:center">📱 REJOINDRE</h2>
+
+    <!-- SECTION 1 : Code manuel -->
+    <div class="join-section">
+      <div class="join-section-title">🔢 CODE DU SALON</div>
+      <input type="text" placeholder="Ton prénom" id="joinPlayerName" style="text-align:center;margin-bottom:10px;width:100%">
+      <input class="code-input" id="joinCode" placeholder="X X X X" maxlength="4" style="width:100%;text-align:center;font-size:28px;letter-spacing:10px;margin-bottom:10px">
+      <button class="btn btn-primary" onclick="joinSalon()" style="width:100%;background:#00bcd4">
+        <span style="margin-right:8px">🚀</span>REJOINDRE
+      </button>
+      <button class="btn btn-ghost" onclick="goTo('screen-salon-options')" style="width:100%;margin-top:8px;font-size:13px">← RETOUR</button>
     </div>
-    <div style="width:100%;max-width:320px;display:flex;flex-direction:column;gap:10px">
-      <input type="text" placeholder="Ton prénom" id="joinPlayerName" style="text-align:center">
-      <div style="display:flex;gap:8px">
-        <input class="code-input" id="joinCode" placeholder="CODE" maxlength="4">
-        <button class="btn btn-primary" onclick="joinSalon()" style="min-width:70px;background:#00bcd4">OK</button>
+
+    <!-- SECTION 2 : Lien d'invitation -->
+    <div class="join-section">
+      <div class="join-section-title">🔗 OU COLLE UN LIEN D'INVITATION</div>
+      <input type="url" id="joinInviteLink" placeholder="https://...?salon=XXXX" style="width:100%;font-size:13px;margin-bottom:10px" oninput="parseSalonLink(this.value)">
+      <div id="linkParseStatus" style="font-size:13px;color:rgba(240,236,228,0.4);text-align:center"></div>
+    </div>
+
+    <!-- SECTION 3 : QR Code -->
+    <div class="join-section">
+      <div class="join-section-title">📷 SCANNER UN QR CODE</div>
+      <div id="qrScanWrap" style="display:none">
+        <div class="qr-scan-wrap">
+          <video id="qrVideo" autoplay playsinline muted></video>
+          <div class="qr-crosshair"><div class="qr-crosshair-inner"></div></div>
+          <div class="qr-scan-line"></div>
+        </div>
+        <p style="font-size:13px;color:rgba(240,236,228,0.45);text-align:center;margin-top:8px">Pointe vers le QR Code...</p>
+        <button onclick="stopQRScan()" class="btn btn-ghost" style="width:100%;margin-top:6px;color:#e74c3c;border-color:#e74c3c">⬛ ARRÊTER</button>
       </div>
+      <div id="qrScanBtn">
+        <button onclick="startQRScan()" class="btn" style="width:100%;background:linear-gradient(135deg,#b8860b,#d4a017);color:white">
+          📷 OUVRIR LA CAMÉRA
+        </button>
+      </div>
+      <div id="qrScanResult" style="font-size:14px;color:#2ecc71;text-align:center;margin-top:8px;display:none"></div>
     </div>
-    <div id="joinStatus" style="font-size:14px;color:rgba(240,236,228,0.4)"></div>
+
+    <div id="joinStatus" style="font-size:14px;color:rgba(240,236,228,0.5);text-align:center;padding:4px 0"></div>
   </div>
 </div>
 
@@ -3442,7 +3532,9 @@ function createSalon() {
     listenToPlayers();
     renderConnectedPlayers();
     goTo('screen-salon-host');
-  notifyGameEvent('salon_created', {code: salonCode});
+    notifyGameEvent('salon_created', {code: salonCode});
+    // Pré-générer le QR en arrière-plan
+    setTimeout(() => drawQRCode('qrCanvas', getSalonInviteURL()), 500);
 
     // Auto-supprimer le salon après 2h
     setTimeout(() => {
@@ -3876,6 +3968,227 @@ function nextSalonRound(isLast) {
   }
 }
 
+// ========== QR CODE & PARTAGE SALON ==========
+
+// Générer l'URL d'invitation
+function getSalonInviteURL() {
+  const base = window.location.href.split('?')[0];
+  return `${base}?salon=${salonCode}`;
+}
+
+// Générer le QR Code dans le canvas (algorithme natif, sans librairie)
+function drawQRCode(canvasId, text) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const size = canvas.width;
+
+  // Utiliser un QR code via API publique en image
+  // On dessine via l'API qr-server (SVG → canvas)
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, size, size);
+    ctx.drawImage(img, 8, 8, size - 16, size - 16);
+  };
+  img.onerror = () => {
+    // Fallback : dessiner un QR minimaliste avec texte
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, size, size);
+    ctx.fillStyle = '#0a0a0f';
+    ctx.font = 'bold 14px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(text.slice(-12), size/2, size/2 - 8);
+    ctx.fillText('salon=' + salonCode, size/2, size/2 + 12);
+    // Dessiner un pattern simple
+    for (let i = 0; i < 5; i++) {
+      for (let j = 0; j < 5; j++) {
+        if ((i + j) % 2 === 0) {
+          ctx.fillRect(20 + i * 28, 20 + j * 28, 20, 20);
+        }
+      }
+    }
+  };
+  img.src = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(text)}&margin=1&color=0a0a0f&bgcolor=ffffff`;
+}
+
+// Afficher / masquer le QR Code
+function toggleSalonQR() {
+  const wrap = document.getElementById('salonQRWrap');
+  if (!wrap) return;
+  const isVisible = wrap.style.display !== 'none';
+  if (isVisible) {
+    wrap.style.display = 'none';
+  } else {
+    wrap.style.display = 'block';
+    drawQRCode('qrCanvas', getSalonInviteURL());
+  }
+}
+
+// Partager via Web Share API ou copier
+function shareSalonLink() {
+  const url = getSalonInviteURL();
+  const text = `🎮 Rejoins mon salon Policier ou Voleur !\nCode : ${salonCode}\n${url}`;
+  const btn = document.getElementById('btnShareLink');
+
+  if (navigator.share) {
+    navigator.share({ title: 'Policier ou Voleur', text, url })
+      .catch(() => copyToClipboard(url, btn));
+  } else {
+    copyToClipboard(url, btn);
+  }
+}
+
+// Copier le lien d'invitation
+function copyInviteLink() {
+  const url = getSalonInviteURL();
+  const btn = document.getElementById('btnCopyLink');
+  copyToClipboard(url, btn);
+}
+
+// Copier dans le presse-papier avec feedback visuel
+function copyToClipboard(text, btn) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => {
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Copié !';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
+      }
+    });
+  } else {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    if (btn) {
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✅ Copié !';
+      setTimeout(() => { btn.innerHTML = orig; }, 2000);
+    }
+  }
+}
+
+// Parser un lien d'invitation collé
+function parseSalonLink(url) {
+  const statusEl = document.getElementById('linkParseStatus');
+  if (!url || url.length < 10) { statusEl.textContent = ''; return; }
+
+  try {
+    const urlObj = new URL(url);
+    const code = urlObj.searchParams.get('salon');
+    if (code && code.length === 4) {
+      document.getElementById('joinCode').value = code.toUpperCase();
+      statusEl.textContent = `✅ Code détecté : ${code.toUpperCase()} — Clique sur REJOINDRE`;
+      statusEl.style.color = '#2ecc71';
+    } else {
+      statusEl.textContent = '⚠️ Lien invalide — aucun code trouvé';
+      statusEl.style.color = '#e74c3c';
+    }
+  } catch(e) {
+    statusEl.textContent = '⚠️ URL invalide';
+    statusEl.style.color = '#e74c3c';
+  }
+}
+
+// ========== SCAN QR CODE CAMÉRA ==========
+let qrStream = null;
+let qrScanInterval = null;
+
+function startQRScan() {
+  const scanWrap = document.getElementById('qrScanWrap');
+  const scanBtn = document.getElementById('qrScanBtn');
+  const video = document.getElementById('qrVideo');
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    alert('Caméra non disponible sur cet appareil.');
+    return;
+  }
+
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+    .then(stream => {
+      qrStream = stream;
+      video.srcObject = stream;
+      scanWrap.style.display = 'block';
+      scanBtn.style.display = 'none';
+
+      // Scanner via canvas à intervalle
+      const scanCanvas = document.createElement('canvas');
+      const scanCtx = scanCanvas.getContext('2d');
+      qrScanInterval = setInterval(() => {
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+          scanCanvas.width = video.videoWidth;
+          scanCanvas.height = video.videoHeight;
+          scanCtx.drawImage(video, 0, 0);
+          // Utiliser BarcodeDetector si disponible
+          if ('BarcodeDetector' in window) {
+            const detector = new BarcodeDetector({ formats: ['qr_code'] });
+            detector.detect(scanCanvas).then(codes => {
+              if (codes.length > 0) {
+                const qrValue = codes[0].rawValue;
+                handleQRResult(qrValue);
+              }
+            }).catch(() => {});
+          }
+        }
+      }, 400);
+    })
+    .catch(err => {
+      alert('Impossible d\'accéder à la caméra : ' + err.message);
+    });
+}
+
+function stopQRScan() {
+  if (qrStream) { qrStream.getTracks().forEach(t => t.stop()); qrStream = null; }
+  if (qrScanInterval) { clearInterval(qrScanInterval); qrScanInterval = null; }
+  document.getElementById('qrScanWrap').style.display = 'none';
+  document.getElementById('qrScanBtn').style.display = 'block';
+}
+
+function handleQRResult(value) {
+  stopQRScan();
+  const resultEl = document.getElementById('qrScanResult');
+  resultEl.style.display = 'block';
+
+  // Essayer de parser comme URL avec paramètre salon
+  try {
+    const url = new URL(value);
+    const code = url.searchParams.get('salon');
+    if (code) {
+      document.getElementById('joinCode').value = code.toUpperCase();
+      resultEl.textContent = `✅ QR scanné ! Code : ${code.toUpperCase()}`;
+      parseSalonLink(value);
+      return;
+    }
+  } catch(e) {}
+
+  // Peut-être que c'est directement le code
+  if (/^[A-Z0-9]{4}$/.test(value.trim().toUpperCase())) {
+    document.getElementById('joinCode').value = value.trim().toUpperCase();
+    resultEl.textContent = `✅ Code scanné : ${value.trim().toUpperCase()}`;
+  } else {
+    resultEl.textContent = '⚠️ QR non reconnu, entre le code manuellement';
+    resultEl.style.color = '#e74c3c';
+  }
+}
+
+// Vérifier si l'URL contient un code salon au chargement
+function checkURLForSalonCode() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get('salon');
+  if (code && code.length === 4) {
+    const codeInput = document.getElementById('joinCode');
+    if (codeInput) codeInput.value = code.toUpperCase();
+    // Aller directement à l'écran rejoindre
+    setTimeout(() => goTo('screen-salon-join'), 1500);
+  }
+}
+
 // ===== QUITTER LE SALON =====
 function leaveSalon() {
   // Supprimer les listeners Firebase
@@ -4302,6 +4615,7 @@ window.onload = () => {
   initProfile();
   loadShopData();
   initOfflineSupport();
+  checkURLForSalonCode();
   createMuteButton();
 
   // Hook goTo pour init boutique/stats à l'ouverture
