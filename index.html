@@ -14,6 +14,8 @@
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<!-- jsQR : fallback scan QR pour iOS Safari -->
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
 <style>
 /* ===== VARIABLES — basculement classique/premium ===== */
@@ -3477,17 +3479,51 @@ let connectedPlayers = [];
 let myPlayerName = '';
 let salonListeners = [];
 
-// Initialiser Firebase
+// ===== FIREBASE — INIT ROBUSTE =====
+let firebaseReady = false;
+let firebaseConnected = false; // état connexion temps réel
+
 function initFirebase() {
-  if (db) return;
-  try {
-    firebase.initializeApp(firebaseConfig);
-    db = firebase.database();
-    console.log('✅ Firebase connecté !');
-  } catch(e) {
-    console.log('Firebase déjà initialisé ou erreur:', e.message);
-    db = firebase.database();
-  }
+  if (db) return Promise.resolve(db);
+  return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      reject(new Error('Connexion Firebase trop lente. Vérifie ta connexion internet.'));
+    }, 8000);
+
+    try {
+      if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+      db = firebase.database();
+      firebaseReady = true;
+      clearTimeout(timeout);
+
+      // Surveiller l'état de la connexion Firebase en temps réel
+      db.ref('.info/connected').on('value', snap => {
+        firebaseConnected = snap.val() === true;
+        const banner = document.getElementById('offline-banner');
+        const icon = document.getElementById('offline-icon');
+        const text = document.getElementById('offline-text');
+        if (banner && icon && text) {
+          if (!firebaseConnected && navigator.onLine) {
+            banner.classList.add('show');
+            banner.classList.remove('online-mode');
+            icon.textContent = '⚡';
+            text.textContent = 'SERVEUR INACCESSIBLE — Mode solo disponible';
+          }
+        }
+      });
+
+      resolve(db);
+    } catch(e) {
+      clearTimeout(timeout);
+      try {
+        db = firebase.database();
+        firebaseReady = true;
+        resolve(db);
+      } catch(e2) {
+        reject(new Error('Impossible de se connecter au serveur: ' + e2.message));
+      }
+    }
+  });
 }
 
 function generateCode() {
@@ -3499,50 +3535,70 @@ function generateCode() {
 
 // ===== CRÉER UN SALON =====
 function createSalon() {
-  initFirebase();
-  isHost = true;
-  salonCode = generateCode();
-  myPlayerName = profile.name || 'Hôte';
-  connectedPlayers = [];
+  // Afficher un loader pendant la connexion
+  const btn = document.querySelector('[onclick="createSalon()"]');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Connexion...'; }
 
-  document.getElementById('salonCodeDisplay').textContent = salonCode;
-  document.getElementById('connectedCount').textContent = '1';
-  document.getElementById('startSalonBtn').disabled = true;
+  initFirebase().then(() => {
+    isHost = true;
+    salonCode = generateCode();
+    myPlayerName = profile.name || 'Hôte';
+    connectedPlayers = [];
 
-  // Créer le salon dans Firebase
-  salonRef = db.ref('salons/' + salonCode);
+    document.getElementById('salonCodeDisplay').textContent = salonCode;
+    document.getElementById('connectedCount').textContent = '1';
+    document.getElementById('startSalonBtn').disabled = true;
 
-  // Effacer l'ancien salon si existe
-  salonRef.remove().then(() => {
-    // Créer le nouveau salon
-    return salonRef.set({
-      host: myPlayerName,
-      status: 'waiting',
-      createdAt: Date.now(),
-      players: {
-        [myPlayerName.replace(/[.#$[\]]/g,'_')]: {
-          name: myPlayerName,
-          isHost: true,
-          joinedAt: Date.now()
+    salonRef = db.ref('salons/' + salonCode);
+
+    // Timeout si Firebase ne répond pas
+    const createTimeout = setTimeout(() => {
+      if (btn) { btn.disabled = false; btn.textContent = '+ Créer un salon'; }
+      showFirebaseError('Création du salon trop lente. Réessaie.');
+    }, 6000);
+
+    return salonRef.remove().then(() => {
+      return salonRef.set({
+        host: myPlayerName,
+        status: 'waiting',
+        createdAt: Date.now(),
+        players: {
+          [myPlayerName.replace(/[.#$[\]]/g,'_')]: {
+            name: myPlayerName,
+            isHost: true,
+            joinedAt: Date.now()
+          }
         }
-      }
+      });
+    }).then(() => {
+      clearTimeout(createTimeout);
+      if (btn) { btn.disabled = false; }
+      listenToPlayers();
+      renderConnectedPlayers();
+      goTo('screen-salon-host');
+      notifyGameEvent('salon_created', {code: salonCode});
+      setTimeout(() => drawQRCode('qrCanvas', getSalonInviteURL()), 500);
+      // Auto-supprimer après 2h
+      setTimeout(() => { if (salonRef) salonRef.remove(); }, 7200000);
     });
-  }).then(() => {
-    // Écouter les joueurs qui rejoignent
-    listenToPlayers();
-    renderConnectedPlayers();
-    goTo('screen-salon-host');
-    notifyGameEvent('salon_created', {code: salonCode});
-    // Pré-générer le QR en arrière-plan
-    setTimeout(() => drawQRCode('qrCanvas', getSalonInviteURL()), 500);
-
-    // Auto-supprimer le salon après 2h
-    setTimeout(() => {
-      if (salonRef) salonRef.remove();
-    }, 7200000);
   }).catch(e => {
-    alert('Erreur création salon: ' + e.message);
+    if (btn) { btn.disabled = false; btn.textContent = '+ Créer un salon'; }
+    showFirebaseError(e.message);
   });
+}
+
+// Afficher une erreur Firebase claire
+function showFirebaseError(msg) {
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+  modal.innerHTML = `
+    <div style="background:#1e2130;border:2px solid #e74c3c;border-radius:16px;padding:24px 20px;max-width:320px;text-align:center;display:flex;flex-direction:column;gap:14px">
+      <div style="font-size:36px">❌</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:3px;color:#e74c3c">ERREUR DE CONNEXION</div>
+      <div style="font-size:14px;color:rgba(240,236,228,0.7);line-height:1.5">${msg}</div>
+      <button onclick="this.closest('div[style]').remove()" style="padding:12px;background:linear-gradient(135deg,#c0392b,#e74c3c);border:none;border-radius:10px;color:white;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:2px;cursor:pointer">FERMER</button>
+    </div>`;
+  document.body.appendChild(modal);
 }
 
 // Écouter les joueurs en temps réel
@@ -3586,59 +3642,115 @@ function renderConnectedPlayers() {
 
 // ===== REJOINDRE UN SALON =====
 function joinSalon() {
-  initFirebase();
   const name = document.getElementById('joinPlayerName').value.trim();
   const code = document.getElementById('joinCode').value.trim().toUpperCase();
   const statusEl = document.getElementById('joinStatus');
+  const btn = document.querySelector('#screen-salon-join .btn-primary');
 
-  if (!name) { statusEl.textContent = '⚠️ Entre ton prénom !'; return; }
-  if (code.length !== 4) { statusEl.textContent = '⚠️ Code à 4 caractères !'; return; }
+  if (!name) { statusEl.textContent = '⚠️ Entre ton prénom !'; statusEl.style.color = '#e74c3c'; return; }
+  if (code.length !== 4) { statusEl.textContent = '⚠️ Code à 4 caractères !'; statusEl.style.color = '#e74c3c'; return; }
 
-  statusEl.textContent = '🔄 Connexion au salon ' + code + '...';
-  myPlayerName = name;
+  statusEl.textContent = '🔄 Connexion au serveur...';
+  statusEl.style.color = 'rgba(240,236,228,0.5)';
+  if (btn) btn.disabled = true;
 
-  // Vérifier que le salon existe
-  const checkRef = db.ref('salons/' + code);
-  checkRef.once('value').then(snapshot => {
-    if (!snapshot.exists()) {
-      statusEl.textContent = '❌ Salon introuvable ! Vérifie le code.';
-      return;
-    }
+  const joinTimeout = setTimeout(() => {
+    if (btn) btn.disabled = false;
+    statusEl.textContent = '❌ Connexion trop lente. Vérifie ta connexion.';
+    statusEl.style.color = '#e74c3c';
+  }, 8000);
 
-    const salonData = snapshot.val();
-    if (salonData.status === 'started') {
-      statusEl.textContent = '❌ La partie a déjà commencé !';
-      return;
-    }
+  initFirebase().then(() => {
+    statusEl.textContent = '🔄 Recherche du salon ' + code + '...';
+    myPlayerName = name;
+    const checkRef = db.ref('salons/' + code);
 
-    // Rejoindre le salon
-    salonRef = db.ref('salons/' + code);
-    const playerKey = name.replace(/[.#$[\]]/g, '_') + '_' + Date.now();
+    return checkRef.once('value').then(snapshot => {
+      if (!snapshot.exists()) {
+        clearTimeout(joinTimeout);
+        if (btn) btn.disabled = false;
+        statusEl.textContent = '❌ Salon introuvable ! Vérifie le code.';
+        statusEl.style.color = '#e74c3c';
+        return;
+      }
 
-    return salonRef.child('players/' + playerKey).set({
-      name: name,
-      isHost: false,
-      joinedAt: Date.now()
-    }).then(() => {
-      statusEl.innerHTML = '✅ Connecté ! En attente du début...';
+      const salonData = snapshot.val();
 
-      // Écouter le démarrage de la partie
-      const gameListener = salonRef.child('game').on('value', snapshot => {
-        const game = snapshot.val();
-        if (game && game.roles && game.roles[playerKey]) {
-          showWaitingRole(game.roles[playerKey]);
-        }
-      });
-      salonListeners.push({ref: salonRef.child('game'), listener: gameListener, event: 'value'});
+      // Vérifier que le salon n'est pas fantôme (créé il y a plus de 2h)
+      const age = Date.now() - (salonData.createdAt || 0);
+      if (age > 7200000) {
+        clearTimeout(joinTimeout);
+        if (btn) btn.disabled = false;
+        statusEl.textContent = '❌ Ce salon a expiré. Demande un nouveau code.';
+        statusEl.style.color = '#e74c3c';
+        return;
+      }
 
-      // Stocker la clé du joueur
-      myPlayerName = name;
+      if (salonData.status === 'started') {
+        clearTimeout(joinTimeout);
+        if (btn) btn.disabled = false;
+        statusEl.textContent = '❌ La partie a déjà commencé !';
+        statusEl.style.color = '#e74c3c';
+        return;
+      }
+
+      // Vérifier si le prénom est déjà pris dans ce salon
+      const existingPlayers = salonData.players ? Object.values(salonData.players) : [];
+      const nameTaken = existingPlayers.some(p => p.name.toLowerCase() === name.toLowerCase());
+      if (nameTaken) {
+        clearTimeout(joinTimeout);
+        if (btn) btn.disabled = false;
+        statusEl.textContent = '⚠️ Ce prénom est déjà pris dans ce salon !';
+        statusEl.style.color = '#e74c3c';
+        return;
+      }
+
+      // Rejoindre le salon
+      salonRef = db.ref('salons/' + code);
+      const playerKey = name.replace(/[.#$[\]]/g, '_') + '_' + Date.now();
       window._myPlayerKey = playerKey;
 
-      goTo('screen-waiting');
+      return salonRef.child('players/' + playerKey).set({
+        name: name,
+        isHost: false,
+        joinedAt: Date.now()
+      }).then(() => {
+        clearTimeout(joinTimeout);
+        if (btn) btn.disabled = false;
+        statusEl.textContent = '✅ Connecté ! En attente du lancement...';
+        statusEl.style.color = '#2ecc71';
+
+        // Nettoyer le joueur si il quitte (onDisconnect)
+        salonRef.child('players/' + playerKey).onDisconnect().remove();
+
+        // Écouter le démarrage de la partie
+        const gameListener = salonRef.child('game').on('value', snapshot => {
+          const game = snapshot.val();
+          if (game && game.roles) {
+            // Chercher notre rôle par clé ou par nom
+            const myRole = game.roles[playerKey] || game.roles[name.replace(/[.#$[\]]/g,'_')];
+            if (myRole) showWaitingRole(myRole);
+          }
+        });
+        salonListeners.push({ref: salonRef.child('game'), listener: gameListener, event: 'value'});
+
+        // Écouter si le salon est supprimé (hôte parti)
+        const statusListener = salonRef.child('status').on('value', snap => {
+          if (snap.val() === 'closed') {
+            showFirebaseError('L\'hôte a fermé le salon.');
+            goTo('screen-salon-options');
+          }
+        });
+        salonListeners.push({ref: salonRef.child('status'), listener: statusListener, event: 'value'});
+
+        goTo('screen-waiting');
+      });
     });
   }).catch(e => {
-    statusEl.textContent = '❌ Erreur: ' + e.message;
+    clearTimeout(joinTimeout);
+    if (btn) btn.disabled = false;
+    statusEl.textContent = '❌ ' + e.message;
+    statusEl.style.color = '#e74c3c';
   });
 }
 
@@ -4106,41 +4218,53 @@ function startQRScan() {
   const video = document.getElementById('qrVideo');
 
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    alert('Caméra non disponible sur cet appareil.');
+    alert('Caméra non disponible sur cet appareil. Entre le code manuellement.');
     return;
   }
 
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-    .then(stream => {
-      qrStream = stream;
-      video.srcObject = stream;
-      scanWrap.style.display = 'block';
-      scanBtn.style.display = 'none';
+  navigator.mediaDevices.getUserMedia({
+    video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }
+  }).then(stream => {
+    qrStream = stream;
+    video.srcObject = stream;
+    scanWrap.style.display = 'block';
+    scanBtn.style.display = 'none';
 
-      // Scanner via canvas à intervalle
-      const scanCanvas = document.createElement('canvas');
-      const scanCtx = scanCanvas.getContext('2d');
-      qrScanInterval = setInterval(() => {
-        if (video.readyState === video.HAVE_ENOUGH_DATA) {
-          scanCanvas.width = video.videoWidth;
-          scanCanvas.height = video.videoHeight;
-          scanCtx.drawImage(video, 0, 0);
-          // Utiliser BarcodeDetector si disponible
-          if ('BarcodeDetector' in window) {
-            const detector = new BarcodeDetector({ formats: ['qr_code'] });
-            detector.detect(scanCanvas).then(codes => {
-              if (codes.length > 0) {
-                const qrValue = codes[0].rawValue;
-                handleQRResult(qrValue);
-              }
-            }).catch(() => {});
-          }
-        }
-      }, 400);
-    })
-    .catch(err => {
-      alert('Impossible d\'accéder à la caméra : ' + err.message);
-    });
+    const scanCanvas = document.createElement('canvas');
+    const scanCtx = scanCanvas.getContext('2d');
+    const useBarcodeDetector = 'BarcodeDetector' in window;
+    let barcodeDetector = null;
+    if (useBarcodeDetector) {
+      try { barcodeDetector = new BarcodeDetector({ formats: ['qr_code'] }); } catch(e) {}
+    }
+
+    qrScanInterval = setInterval(() => {
+      if (video.readyState !== video.HAVE_ENOUGH_DATA) return;
+      scanCanvas.width = video.videoWidth;
+      scanCanvas.height = video.videoHeight;
+      scanCtx.drawImage(video, 0, 0);
+
+      if (useBarcodeDetector && barcodeDetector) {
+        // Méthode 1 : BarcodeDetector (Chrome Android)
+        barcodeDetector.detect(scanCanvas).then(codes => {
+          if (codes.length > 0) handleQRResult(codes[0].rawValue);
+        }).catch(() => {});
+      } else if (typeof jsQR !== 'undefined') {
+        // Méthode 2 : jsQR (iOS Safari + anciens navigateurs)
+        const imageData = scanCtx.getImageData(0, 0, scanCanvas.width, scanCanvas.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height, {
+          inversionAttempts: 'dontInvert'
+        });
+        if (code) handleQRResult(code.data);
+      }
+    }, 300);
+
+  }).catch(err => {
+    let msg = 'Impossible d\'accéder à la caméra.';
+    if (err.name === 'NotAllowedError') msg = 'Permission caméra refusée. Active-la dans les paramètres.';
+    else if (err.name === 'NotFoundError') msg = 'Aucune caméra trouvée sur cet appareil.';
+    alert(msg + ' Entre le code manuellement.');
+  });
 }
 
 function stopQRScan() {
