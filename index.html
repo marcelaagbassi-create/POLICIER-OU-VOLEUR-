@@ -369,6 +369,52 @@ body.premium .avatar-big { border-color:var(--accent); box-shadow:0 0 20px rgba(
 
 @media (max-width:400px) { .reveal-circle{width:150px;height:150px} .reveal-icon{font-size:36px} }
 
+/* ===== CHAT SALON ===== */
+.chat-wrap { display:flex; flex-direction:column; height:220px; border-radius:12px; border:1.5px solid #252836; overflow:hidden; background:#0d0f18; }
+.chat-messages { flex:1; overflow-y:auto; padding:10px 12px; display:flex; flex-direction:column; gap:6px; scroll-behavior:smooth; }
+.chat-msg { display:flex; gap:8px; align-items:flex-start; animation:msgSlide 0.2s ease; }
+@keyframes msgSlide { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+.chat-msg.me { flex-direction:row-reverse; }
+.chat-bubble { max-width:78%; padding:8px 12px; border-radius:12px; font-size:13px; line-height:1.4; font-family:'Crimson Pro',serif; }
+.chat-msg.me .chat-bubble { background:linear-gradient(135deg,#00838f,#00bcd4); color:white; border-radius:12px 12px 4px 12px; }
+.chat-msg.other .chat-bubble { background:#1e2130; color:#e8eaed; border-radius:12px 12px 12px 4px; }
+.chat-msg.system .chat-bubble { background:transparent; color:rgba(240,236,228,0.35); font-size:12px; font-style:italic; text-align:center; width:100%; }
+.chat-name { font-family:'Bebas Neue',sans-serif; font-size:11px; letter-spacing:1px; color:#00bcd4; margin-bottom:2px; }
+.chat-input-row { display:flex; gap:8px; padding:8px 10px; border-top:1px solid #1e2130; background:#13151e; }
+.chat-input-row input { flex:1; background:#1e2130; border:1px solid #2e3248; border-radius:8px; padding:8px 12px; color:#e8eaed; font-size:14px; font-family:'Crimson Pro',serif; outline:none; }
+.chat-input-row button { padding:8px 14px; border-radius:8px; background:linear-gradient(135deg,#00838f,#00bcd4); border:none; color:white; font-size:16px; cursor:pointer; }
+.chat-badge { position:absolute; top:-4px; right:-4px; background:#e74c3c; color:white; border-radius:50%; width:16px; height:16px; font-size:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; }
+
+/* ===== TIMER DE TOUR ===== */
+.tour-timer { display:flex; flex-direction:column; align-items:center; gap:4px; }
+.timer-ring-wrap { position:relative; width:64px; height:64px; }
+.timer-ring-svg { transform:rotate(-90deg); }
+.timer-ring-bg { fill:none; stroke:#252836; stroke-width:5; }
+.timer-ring-fill { fill:none; stroke-width:5; stroke-linecap:round; transition:stroke-dashoffset 1s linear, stroke 1s; }
+.timer-num { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:1px; }
+.timer-label { font-size:10px; letter-spacing:2px; color:rgba(240,236,228,0.4); font-family:'Bebas Neue',sans-serif; }
+
+/* ===== HISTORIQUE PARTIES ===== */
+.history-card { background:#15171f; border:1.5px solid #252836; border-radius:14px; padding:14px 16px; display:flex; flex-direction:column; gap:8px; }
+.history-header { display:flex; justify-content:space-between; align-items:center; }
+.history-date { font-size:11px; color:rgba(240,236,228,0.35); font-family:'Bebas Neue',sans-serif; letter-spacing:2px; }
+.history-mode { font-size:11px; padding:3px 8px; border-radius:4px; font-family:'Bebas Neue',sans-serif; letter-spacing:1px; }
+.history-players { display:flex; gap:6px; flex-wrap:wrap; }
+.history-player-pill { font-size:12px; padding:3px 10px; border-radius:20px; background:#1e2130; border:1px solid #2e3248; }
+.history-player-pill.winner { background:rgba(212,160,23,0.15); border-color:var(--or); color:var(--or-clair); }
+.history-roles { font-size:12px; color:rgba(240,236,228,0.4); font-style:italic; }
+
+/* ===== TUTORIAL ===== */
+.tuto-step { display:flex; flex-direction:column; align-items:center; gap:20px; text-align:center; padding:10px 0; }
+.tuto-icon { font-size:72px; animation:tutoFloat 2s ease-in-out infinite; }
+@keyframes tutoFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.tuto-title { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:4px; }
+.tuto-desc { font-size:15px; color:rgba(240,236,228,0.75); line-height:1.6; max-width:320px; font-family:'Crimson Pro',serif; }
+.tuto-dots { display:flex; gap:8px; justify-content:center; }
+.tuto-dot { width:8px; height:8px; border-radius:50%; background:#252836; transition:all 0.3s; }
+.tuto-dot.active { background:var(--or); width:24px; border-radius:4px; }
+.tuto-highlight { background:rgba(212,160,23,0.1); border:1px solid rgba(212,160,23,0.3); border-radius:10px; padding:10px 14px; font-size:13px; color:var(--or-clair); font-family:'Bebas Neue',sans-serif; letter-spacing:1px; }
+
 /* ===== QR CODE & SALON OPTIONS ===== */
 .join-section { background:#15171f; border:1.5px solid #252836; border-radius:16px; padding:18px 16px; width:100%; }
 .join-section-title { font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:3px; color:#00bcd4; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
@@ -390,7 +436,29 @@ body.premium .avatar-big { border-color:var(--accent); box-shadow:0 0 20px rgba(
 .btn-copy { position:relative; overflow:hidden; }
 .btn-copy.copied { background:linear-gradient(135deg,#27ae60,#2ecc71) !important; }
 
-/* ===== BOUTIQUE ===== */
+/* ===== TRANSITIONS ÉCRANS ===== */
+.screen { opacity:0; transform:translateY(12px); transition:opacity 0.28s ease, transform 0.28s ease; pointer-events:none; }
+.screen.active { opacity:1; transform:translateY(0); pointer-events:all; }
+.screen.exit { opacity:0; transform:translateY(-10px); }
+
+/* ===== SPECTATEUR ===== */
+.spectator-badge { background:linear-gradient(135deg,#6c3483,#9b59b6); color:white; font-family:'Bebas Neue',sans-serif; font-size:12px; letter-spacing:3px; padding:4px 14px; border-radius:20px; }
+.spectator-role-row { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; background:#15171f; border:1.5px solid #252836; }
+.spectator-role-emoji { font-size:24px; width:38px; text-align:center; }
+.spectator-role-info { flex:1; }
+.spectator-role-name-text { font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:2px; }
+.spectator-role-player { font-size:12px; color:rgba(240,236,228,0.45); margin-top:2px; }
+
+/* ===== PROFIL PUBLIC ===== */
+.public-profile-card { background:linear-gradient(135deg,#0d0f18,#1e2130); border:2px solid var(--or); border-radius:20px; padding:24px 20px; text-align:center; width:100%; }
+.profile-share-btn { background:linear-gradient(135deg,#00838f,#00bcd4); border:none; border-radius:12px; padding:14px 20px; color:white; font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:3px; cursor:pointer; width:100%; }
+
+/* ===== BONUS APERÇU BOUTIQUE ===== */
+.bonus-effect-tag { display:inline-flex; align-items:center; gap:4px; padding:4px 10px; border-radius:6px; font-size:11px; font-family:'Bebas Neue',sans-serif; letter-spacing:1px; background:rgba(212,160,23,0.12); color:var(--or-clair); border:1px solid rgba(212,160,23,0.3); margin-top:4px; }
+
+/* ===== INVITATION WHATSAPP ===== */
+.invite-btn-wa { background:#25D366; border:none; border-radius:12px; padding:12px 16px; color:white; font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:2px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; width:100%; }
+.invite-btn-sms { background:#007AFF; border:none; border-radius:12px; padding:12px 16px; color:white; font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:2px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; width:100%; }
 .shop-tabs { display:flex; gap:8px; width:100%; margin-bottom:4px; }
 .shop-tab { flex:1; padding:10px 6px; border-radius:10px; border:2px solid #2e3248;
   background:#1a1c28; cursor:pointer; font-family:'Bebas Neue',sans-serif;
@@ -719,6 +787,8 @@ body.light-mode #shopToast { color:white !important; }
     <button class="btn btn-secondary" onclick="goTo('screen-profile')"><span class="svg-icon" style="width:20px;height:20px;margin-right:8px"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>Mon Profil</button>
     <button class="btn btn-ghost" onclick="goTo('screen-boutique')" style="font-size:14px"><span class="svg-icon" style="width:18px;height:18px;margin-right:6px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></span>Boutique</button>
     <button class="btn btn-ghost" onclick="goTo('screen-stats')" style="font-size:14px"><span class="svg-icon" style="width:18px;height:18px;margin-right:6px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>Mes Stats</button>
+    <button class="btn btn-ghost" onclick="goTo('screen-historique')" style="font-size:14px">📋 Historique</button>
+    <button class="btn btn-ghost" onclick="goTo('screen-tutorial')" style="font-size:14px">🎓 Comment jouer</button>
     <button class="btn btn-ghost" onclick="showRules()" style="font-size:14px"><span class="svg-icon" style="width:18px;height:18px;margin-right:6px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg></span>Règles du jeu</button>
     <button class="btn btn-ghost" onclick="goTo('screen-settings')" style="font-size:14px"><span class="svg-icon" style="width:18px;height:18px;margin-right:6px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span>Paramètres</button>
   </div>
@@ -782,6 +852,7 @@ body.light-mode #shopToast { color:white !important; }
     </div>
 
     <button class="btn btn-primary" onclick="saveProfile()"><span class="svg-icon" style="width:18px;height:18px;margin-right:8px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg></span>Sauvegarder</button>
+    <button class="btn btn-ghost" onclick="openPublicProfile()" style="width:100%;font-size:13px">🌐 Mon Profil Public</button>
   </div>
 </div>
 
@@ -1368,7 +1439,7 @@ body.light-mode #shopToast { color:white !important; }
         <div class="emoji-picker-grid" id="emojiPicker" style="display:none"></div>
       </div>
       <div><div class="action-title">Nom du rôle</div><input type="text" id="newRoleName" placeholder="Ex: Espion, Oracle..." maxlength="20"></div>
-      <div><div class="action-title">Description</div><textarea id="newRoleDesc" placeholder="Ce que fait ce rôle..." rows="2" maxlength="120"></textarea></div>
+      <div><div class="action-title">Description</div><textarea id="newRoleDesc" placeholder="Ce que fait ce rôle..." rows="5" maxlength="200" style="min-height:110px;resize:vertical"></textarea></div>
       <div>
         <div class="action-title">Type</div>
         <div class="select-wrap">
@@ -1421,16 +1492,48 @@ body.light-mode #shopToast { color:white !important; }
     <div class="bebas" style="font-size:13px;letter-spacing:5px;color:var(--or)" id="round-num-label"></div>
     <div class="bebas" style="font-size:30px;letter-spacing:3px">🕹️ EN COURS</div>
   </div>
-  <div class="panel"><div class="panel-title">📊 Scores</div><table class="scores-table" id="scores-table"></table></div>
-  <div class="panel">
-    <div class="panel-title">🚔 Action du Policier</div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div><div class="action-title">Le policier accuse :</div><div class="select-wrap"><select id="accuseSelect"></select></div></div>
-      <div><div class="action-title">Le témoin aide ? (optionnel)</div><div class="select-wrap"><select id="temoinAide"><option value="non">Non, refuse</option><option value="oui">Oui, aide</option></select></div></div>
-      <div id="temoin-choice-wrap" style="display:none"><div class="action-title">Le témoin désigne :</div><div class="select-wrap"><select id="temoinDesigne"></select></div></div>
+
+  <!-- Timer de tour -->
+  <div id="tourTimerWrap" style="display:none;align-items:center;justify-content:center">
+    <div class="tour-timer">
+      <div class="timer-ring-wrap">
+        <svg class="timer-ring-svg" width="64" height="64" viewBox="0 0 64 64">
+          <circle class="timer-ring-bg" cx="32" cy="32" r="28"/>
+          <circle class="timer-ring-fill" id="timerRingFill" cx="32" cy="32" r="28"
+            stroke-dasharray="175.9" stroke-dashoffset="0" stroke="#2ecc71"/>
+        </svg>
+        <div class="timer-num" id="timerNum" style="color:#2ecc71">90</div>
+      </div>
+      <div class="timer-label">SECONDES</div>
     </div>
   </div>
-  <button class="btn btn-primary" onclick="state.isPremiumMode ? resolveSalonRound() : resolveRound()"><span class="svg-icon" style="width:18px;height:18px;margin-right:8px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H7"/><path d="M4 18l4-8 4 8M12 18l4-8 4 8"/></svg></span>Résoudre le tour</button>
+
+  <div class="panel"><div class="panel-title">📊 Scores</div><table class="scores-table" id="scores-table"></table></div>
+
+  <!-- PANNEAU COMMANDANT — visible uniquement pour lui -->
+  <div id="commandant-action-panel">
+    <div class="panel">
+      <div class="panel-title">🚔 Action du Commandant</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div><div class="action-title">Le policier accuse :</div><div class="select-wrap"><select id="accuseSelect"></select></div></div>
+        <div><div class="action-title">Le témoin aide ? (optionnel)</div><div class="select-wrap"><select id="temoinAide"><option value="non">Non, refuse</option><option value="oui">Oui, aide</option></select></div></div>
+        <div id="temoin-choice-wrap" style="display:none"><div class="action-title">Le témoin désigne :</div><div class="select-wrap"><select id="temoinDesigne"></select></div></div>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="state.isPremiumMode ? resolveSalonRound() : resolveRound()">
+      <span class="svg-icon" style="width:18px;height:18px;margin-right:8px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H7"/><path d="M4 18l4-8 4 8M12 18l4-8 4 8"/></svg></span>Résoudre le tour
+    </button>
+  </div>
+
+  <!-- PANNEAU ATTENTE — pour les non-commandants -->
+  <div id="non-commandant-wait-panel" style="display:none;flex-direction:column;align-items:center;gap:16px;padding:20px;background:#15171f;border:1.5px solid #252836;border-radius:16px">
+    <div style="font-size:48px;animation:loaderPulse 1.4s ease-in-out infinite">⚖️</div>
+    <div class="bebas" style="font-size:18px;letter-spacing:3px;color:var(--or)">LE COMMANDANT DÉCIDE</div>
+    <div style="font-size:14px;color:rgba(240,236,228,0.55);text-align:center">
+      <strong id="waitingCommandantName" style="color:#00bcd4"></strong> est en train de décider qui accuser...
+    </div>
+    <div style="font-size:12px;color:rgba(240,236,228,0.3);font-style:italic">Discutez, débattez, convaincez !</div>
+  </div>
 </div>
 
 <!-- ========== RÉSULTAT ========== -->
@@ -1475,6 +1578,15 @@ body.light-mode #shopToast { color:white !important; }
       <button class="btn btn-primary btn-copy" id="btnShareLink" onclick="shareSalonLink()" style="background:linear-gradient(135deg,#00bcd4,#0097a7);font-size:13px;padding:12px 10px"><span style="margin-right:6px">📤</span>PARTAGER</button>
       <button class="btn btn-ghost" onclick="toggleSalonQR()" style="font-size:13px;padding:12px 10px"><span style="margin-right:6px">⬛</span>QR CODE</button>
     </div>
+    <!-- Partage rapide WhatsApp / SMS -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%">
+      <button class="invite-btn-wa" onclick="inviteViaWhatsApp()">
+        <span style="font-size:18px">💬</span>WhatsApp
+      </button>
+      <button class="invite-btn-sms" onclick="inviteViaSMS()">
+        <span style="font-size:18px">📱</span>SMS
+      </button>
+    </div>
 
     <!-- QR Code masqué par défaut -->
     <div id="salonQRWrap" style="display:none;width:100%" class="join-section">
@@ -1515,6 +1627,20 @@ body.light-mode #shopToast { color:white !important; }
       <span class="svg-icon" style="width:18px;height:18px;margin-right:8px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg></span>LANCER LA PARTIE
     </button>
     <button class="btn btn-ghost" onclick="leaveSalon()" style="font-size:13px;width:100%;color:#e74c3c;border-color:#e74c3c"><span style="margin-right:6px">→</span>QUITTER LE SALON</button>
+
+    <!-- Chat du salon -->
+    <div class="panel" style="width:100%;position:relative">
+      <div class="panel-title" style="margin-bottom:10px">💬 CHAT DU SALON</div>
+      <div class="chat-wrap">
+        <div class="chat-messages" id="salonChatMessages">
+          <div class="chat-msg system"><div class="chat-bubble">Bienvenue dans le salon ! 👋</div></div>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="salonChatInput" placeholder="Message..." maxlength="80" onkeydown="if(event.key==='Enter') sendChatMsg()">
+          <button onclick="sendChatMsg()">➤</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1569,13 +1695,27 @@ body.light-mode #shopToast { color:white !important; }
 
 <!-- ========== ATTENTE (joueur connecté) ========== -->
 <div class="screen" id="screen-waiting">
-  <div style="width:100%;max-width:480px;padding-top:50px;display:flex;flex-direction:column;gap:22px;align-items:center;text-align:center">
+  <div style="width:100%;max-width:480px;padding-top:50px;display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center">
     <span class="premium-badge">👑 MODE PREMIUM</span>
     <div class="pulse-ring" id="waitingPulse">⏳</div>
     <div class="bebas" style="font-size:20px;letter-spacing:3px" id="waitingMsg">EN ATTENTE...</div>
     <div style="font-size:14px;color:rgba(240,236,228,0.5)">L'hôte va bientôt lancer la partie !</div>
     <div id="waitingRoleReveal" style="display:none;width:100%"></div>
-    <button class="btn btn-ghost" onclick="leaveSalon()" style="font-size:13px;margin-top:16px">Quitter</button>
+
+    <!-- Chat pour joueurs en attente -->
+    <div class="panel" style="width:100%;text-align:left">
+      <div class="panel-title" style="margin-bottom:10px">💬 CHAT</div>
+      <div class="chat-wrap">
+        <div class="chat-messages" id="waitingChatMessages">
+          <div class="chat-msg system"><div class="chat-bubble">En attente de l'hôte... Discutez en attendant 🎮</div></div>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="waitingChatInput" placeholder="Message..." maxlength="80" onkeydown="if(event.key==='Enter') sendChatMsg()">
+          <button onclick="sendChatMsg()">➤</button>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-ghost" onclick="leaveSalon()" style="font-size:13px;margin-top:4px;color:#e74c3c;border-color:#e74c3c">Quitter le salon</button>
   </div>
 </div>
 
@@ -1702,9 +1842,20 @@ let isPremium = localStorage.getItem('premium') === 'true';
 // ========== NAVIGATION ==========
 function goTo(screenId) {
   playTransition();
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(screenId).classList.add('active');
-  window.scrollTo(0,0);
+  const current = document.querySelector('.screen.active');
+  const next = document.getElementById(screenId);
+  if (!next || next === current) return;
+
+  if (current) {
+    current.classList.add('exit');
+    setTimeout(() => {
+      current.classList.remove('active','exit');
+    }, 200);
+  }
+  setTimeout(() => {
+    next.classList.add('active');
+    window.scrollTo({top:0, behavior:'instant'});
+  }, current ? 120 : 0);
 }
 
 function showCover(cb) {
@@ -1956,11 +2107,81 @@ function activatePremium() { initCinetPay(); }
 
 // ========== SETUP CLASSIQUE ==========
 function initSetup() {
-  state.players = ['','','',''];
+  // Pré-remplir avec le nom du profil courant + noms des dernières parties
+  const recentNames = getRecentPlayerNames();
+  // Joueur 1 = toujours le profil actuel
+  const firstName = profile.name && profile.name !== 'Joueur' ? profile.name : '';
+  state.players = [firstName, '', '', ''];
+  // Remplir avec les noms récents (sans doublon avec le joueur 1)
+  const others = recentNames.filter(n => n !== firstName);
+  for (let i = 1; i < state.players.length && others.length > 0; i++) {
+    state.players[i] = others.shift() || '';
+  }
   renderPlayerList();
   updateRolesPreview();
   renderCustomRolesList();
   updateCustomRoleLimit();
+}
+
+// Récupérer les noms uniques des dernières parties jouées
+function getRecentPlayerNames() {
+  try {
+    const history = JSON.parse(localStorage.getItem('gamesHistory') || '[]');
+    const names = new Map(); // nom → fréquence
+    history.slice(0, 10).forEach(g => {
+      (g.players || []).forEach(n => {
+        if (n && n.trim()) names.set(n, (names.get(n) || 0) + 1);
+      });
+    });
+    // Trier par fréquence décroissante
+    return [...names.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([name]) => name)
+      .slice(0, 7); // max 7 suggestions
+  } catch(e) { return []; }
+}
+
+// Suggestions de noms rapides dans renderPlayerList
+function renderPlayerList() {
+  const list = document.getElementById('playerList');
+  const recentNames = getRecentPlayerNames();
+  const usedNames = state.players.filter(Boolean);
+  const suggestions = recentNames.filter(n => !usedNames.includes(n)).slice(0, 5);
+
+  list.innerHTML = state.players.map((p, i) => `
+    <div class="player-row">
+      <span class="player-num">${i+1}</span>
+      <input type="text" placeholder="Nom du joueur ${i+1}" value="${p}"
+        oninput="state.players[${i}]=this.value;renderPlayerList()"
+        onkeydown="if(event.key==='Enter')addPlayer()"
+        list="nameSuggestions">
+      ${i>0?`<button class="btn-remove" onclick="removePlayer(${i})">✕</button>`:'<span style="width:28px"></span>'}
+    </div>`).join('') +
+    // Datalist pour suggestions navigateur natif
+    `<datalist id="nameSuggestions">${recentNames.map(n=>`<option value="${n}">`).join('')}</datalist>` +
+    // Suggestions cliquables si des noms récents non utilisés existent
+    (suggestions.length > 0 && state.players.filter(Boolean).length < state.players.length ? `
+    <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;padding:2px 0">
+      <span style="font-size:11px;color:rgba(240,236,228,0.35);letter-spacing:1px;align-self:center;font-family:'Bebas Neue',sans-serif">RÉCENTS :</span>
+      ${suggestions.map(n => `
+        <button onclick="addNameSuggestion('${n.replace(/'/g,"\\'")}');return false"
+          style="padding:4px 10px;border-radius:6px;background:#1e2130;border:1px solid #2e3248;color:rgba(240,236,228,0.65);font-size:12px;cursor:pointer">
+          ${n}
+        </button>`).join('')}
+    </div>` : '');
+}
+
+// Ajouter un nom suggéré dans le premier champ vide
+function addNameSuggestion(name) {
+  const emptyIdx = state.players.findIndex(p => !p);
+  if (emptyIdx !== -1) {
+    state.players[emptyIdx] = name;
+  } else if (state.players.length < 8) {
+    state.players.push(name);
+    updateRolesPreview();
+  }
+  renderPlayerList();
+  playClick();
 }
 
 function addPlayer() {
@@ -1979,21 +2200,11 @@ function addPlayer() {
 }
 
 function removePlayer(i) {
-  state.players.splice(i,1);
+  state.players.splice(i, 1);
   renderPlayerList();
   updateRolesPreview();
   document.getElementById('playerLimitMsg').style.display = 'none';
   document.getElementById('addPlayerBtn').style.display = 'block';
-}
-
-function renderPlayerList() {
-  const list = document.getElementById('playerList');
-  list.innerHTML = state.players.map((p,i) => `
-    <div class="player-row">
-      <span class="player-num">${i+1}</span>
-      <input type="text" placeholder="Nom du joueur ${i+1}" value="${p}" oninput="state.players[${i}]=this.value" onkeydown="if(event.key==='Enter')addPlayer()">
-      ${i>0?`<button class="btn-remove" onclick="removePlayer(${i})">✕</button>`:'<span style="width:28px"></span>'}
-    </div>`).join('');
 }
 
 function adjustTours(d) {
@@ -2169,14 +2380,26 @@ function startDistribution() {
   state.roundRoles = {};
   state.currentDistribIdx = 0;
   document.getElementById('dist-round-badge').textContent = `TOUR ${state.currentTour} / ${state.tours}`;
-  // Vérification de sécurité : s'assurer que les 3 rôles principaux sont bien présents
   const hasCore = ['commandant','policier','voleur'].every(r => state.rolesOrder.includes(r));
-  if (!hasCore) {
-    // Sécurité absolue : forcer la régénération
-    state.rolesOrder = shuffle(getRolesForPlayers(state.players.length));
-  }
+  if (!hasCore) state.rolesOrder = shuffle(getRolesForPlayers(state.players.length));
   showNextDistrib();
   goTo('screen-distribute');
+}
+
+function showGame() {
+  updateScoresTable();
+  document.getElementById('round-num-label').textContent = `TOUR ${state.currentTour} / ${state.tours}`;
+  const accuseSelect = document.getElementById('accuseSelect');
+  accuseSelect.innerHTML = state.players.map(p => `<option value="${p}">${p}</option>`).join('');
+  const temoinSelect = document.getElementById('temoinDesigne');
+  if (temoinSelect) temoinSelect.innerHTML = state.players.map(p => `<option value="${p}">${p}</option>`).join('');
+  // Mode classique : tout le monde voit le panneau commandant (1 seul téléphone)
+  const actionPanel = document.getElementById('commandant-action-panel');
+  const waitPanel = document.getElementById('non-commandant-wait-panel');
+  if (actionPanel) actionPanel.style.display = 'block';
+  if (waitPanel) waitPanel.style.display = 'none';
+  goTo('screen-game');
+  startTourTimer();
 }
 
 function showNextDistrib() {
@@ -2184,7 +2407,6 @@ function showNextDistrib() {
 }
 
 function revealRole() {
-  playReveal();
   const idx = state.currentDistribIdx;
   const player = state.players[idx];
   const role = state.rolesOrder[idx];
@@ -2198,6 +2420,7 @@ function revealRole() {
   document.getElementById('role-points').textContent = d.points;
   const isLast = idx >= state.players.length-1;
   document.getElementById('role-next-btn').textContent = isLast ? '▶ Démarrer le tour' : '🔒 Joueur suivant';
+  playRoleSound(role); // Son spécifique au rôle
   goTo('screen-role');
 }
 
@@ -2235,6 +2458,7 @@ function renderScoresTable(id) {
 
 // ========== RÉSOLUTION ==========
 function resolveRound() {
+  stopTourTimer(); // Arrêter le timer
   playSuspense();
   const accused = document.getElementById('accuseSelect').value;
   const temoinAide = document.getElementById('temoinAide').value;
@@ -2316,9 +2540,36 @@ function showEndGame() {
 
   // Update profile stats
   if ((state.scores[winner]||0) > (profile.bestScore||0)) profile.bestScore = state.scores[winner];
-  if (winner === profile.name) profile.victoires++;
-  localStorage.setItem('profile',JSON.stringify(profile));
+  if (winner === profile.name) { profile.victoires = (profile.victoires||0) + 1; }
+  profile.parties = (profile.parties||0) + 1;
+  localStorage.setItem('profile', JSON.stringify(profile));
 
+  // Sauvegarder dans l'historique
+  saveGameToHistory({
+    players: state.players,
+    scores: state.scores,
+    winner,
+    roles: state.roundRoles || {},
+    mode: state.isPremiumMode ? 'Premium' : 'Classique',
+    tours: state.tours || 1
+  });
+  // Sauvegarder les noms pour suggestions futures
+  localStorage.setItem('lastPlayers', JSON.stringify(state.players.filter(Boolean)));
+
+  // Donner des pièces au vainqueur
+  if (winner === profile.name) {
+    addCoins(10, `Victoire en ${state.isPremiumMode ? 'multijoueur' : 'classique'}`);
+  }
+  addCoins(3, `Partie terminée`);
+
+  // Mettre à jour les stats Firebase shopData
+  shopData.parties = (shopData.parties||0) + 1;
+  if (winner === profile.name) shopData.victoires = (shopData.victoires||0) + 1;
+  saveShopData();
+  checkAchievements();
+  syncStatsToFirebase(); // Sync classement mondial
+
+  stopTourTimer();
   stopBgMusic(); playVictory();
   goTo('screen-end');
   launchConfetti();
@@ -2368,39 +2619,39 @@ const PLAYBOT_PROFILES = [
   { name:"AISHA",   emoji:"👩🏿",  personality:"honnete",   color:"#1abc9c" },
 ];
 
-// Dialogues selon rôle et personnalité
+// Dialogues selon rôle et personnalité — 6 réponses par combo
 const BOT_DIALOGUES = {
   voleur: {
-    bavard:   ["Je n'ai rien fait ! Demandez aux autres...", "C'est pas moi je vous jure !", "Regardez plutôt les autres !"],
-    discret:  ["...", "Je ne sais rien.", "Aucun commentaire."],
-    nerveux:  ["Pk vous me regardez comme ça ??", "Je suis innocent !! Laissez-moi tranquille !", "Je... j'étais ailleurs !"],
-    calme:    ["Je comprends votre suspicion.", "Faites votre travail, je n'ai rien à cacher.", "Je coopère pleinement."],
-    menteur:  ["J'étais chez moi toute la nuit !", "C'est AMARA qui rôdait près du lieu !", "Vérifiez mon alibi !"],
-    honnete:  ["Je préfère ne pas commenter.", "Je coopère avec l'enquête.", "..."],
+    bavard:   ["Je n'ai rien fait ! Demandez aux autres...", "C'est pas moi je vous jure !", "Regardez plutôt vos amis là !", "Pourquoi vous m'accusez encore ?", "J'étais occupé à autre chose !", "On m'accuse toujours à tort ici."],
+    discret:  ["...", "Je ne sais rien.", "Aucun commentaire.", "Je préfère me taire.", "Pas de réponse.", "...voyez par vous-même."],
+    nerveux:  ["Pk vous me regardez comme ça ??", "Je suis innocent !! Laissez-moi !", "Je... j'étais ailleurs !", "Vous m'accusez sans preuves !", "Mon cœur bat vite là c'est normal ?", "Je transpire mais c'est la chaleur !"],
+    calme:    ["Je comprends votre suspicion.", "Faites votre travail, j'attends.", "Je coopère pleinement, pas de souci.", "Interrogez-moi autant que vous voulez.", "Je n'ai rien à cacher à personne.", "Ma conscience est tranquille."],
+    menteur:  ["J'étais chez moi toute la nuit !", "C'est AMARA qui rôdait près du lieu !", "Vérifiez mon alibi, je vous dis !", "J'ai un témoin qui peut confirmer.", "Mon voisin m'a vu à cette heure-là.", "Regardez les empreintes, c'est pas les miennes."],
+    honnete:  ["Je préfère ne pas commenter.", "Je coopère avec l'enquête.", "...", "Je dirai ce que je sais, rien de plus.", "Je ne veux pas accuser sans preuves.", "Je reste neutre dans tout ça."],
   },
   complice: {
-    bavard:   ["Moi je coopère toujours !", "Je n'ai rien vu d'anormal.", "Les autres semblent suspects non ?"],
-    discret:  ["Je n'ai rien à dire.", "...", "Passez votre chemin."],
-    nerveux:  ["J'ai rien fait ! J'étais loin !", "Pourquoi vous me regardez ?", "Stressant tout ça !"],
-    calme:    ["Je n'ai rien remarqué d'inhabituel.", "J'aide si je peux.", "Faites votre travail."],
-    menteur:  ["J'ai vu quelqu'un courir mais je sais plus qui...", "C'était la nuit, difficile de voir.", "Peut-être KOFI ?"],
-    honnete:  ["Je dirai tout ce que je sais.", "Je n'ai rien vu.", "Je coopère."],
+    bavard:   ["Moi je coopère toujours !", "Je n'ai rien vu d'anormal.", "Les autres semblent suspects hein ?", "J'aide l'enquête du mieux que je peux !", "Je suis là si vous avez besoin.", "Posez-moi toutes vos questions !"],
+    discret:  ["Je n'ai rien à dire.", "...", "Passez votre chemin.", "Je ne me mêle pas de ça.", "J'ai mes propres affaires.", "Ce n'est pas mon problème."],
+    nerveux:  ["J'ai rien fait ! J'étais loin !", "Pourquoi vous me regardez ?", "C'est stressant tout ça !", "J'aime pas les interrogatoires moi.", "Ma main tremble un peu... c'est rien.", "Vous êtes sûrs que c'est moi qui vous intéresse ?"],
+    calme:    ["Je n'ai rien remarqué d'inhabituel.", "J'aide si je peux.", "Faites votre travail, je comprends.", "Questions suivantes s'il vous plaît.", "Je suis disponible pour la suite.", "Tout est clair pour moi dans cette affaire."],
+    menteur:  ["J'ai vu quelqu'un courir, je sais plus qui...", "Ma mémoire est floue ce soir-là.", "Peut-être KOFI ? Non, je confonds...", "J'étais loin de là au moment des faits.", "Je me souviens plus très bien de l'heure.", "Un détail m'échappe, donnez-moi le temps."],
+    honnete:  ["Je dirai tout ce que je sais.", "Je n'ai rien vu de particulier.", "Je coopère sans conditions.", "Voici ce que j'ai observé exactement.", "Je ne cache rien à la justice.", "Je parle en toute transparence."],
   },
   innocent: {
-    bavard:   ["Moi ? Innocent à 100% ! Cherchez ailleurs !", "J'ai tout vu ! C'est bizarre cette affaire.", "Je veux aider l'enquête !"],
-    discret:  ["Je n'ai rien à déclarer.", "Je faisais mes affaires.", "..."],
-    nerveux:  ["Je n'aime pas les interrogatoires !", "Suis-je suspect ?!", "J'ai rien fait moi !"],
-    calme:    ["J'ai coopéré pleinement.", "Je n'ai rien à cacher.", "Posez vos questions."],
-    menteur:  ["J'ai vu quelqu'un de suspect mais...", "En fait non, je me trompe peut-être.", "Difficile à dire."],
-    honnete:  ["Je dirai toute la vérité.", "J'ai rien fait et je le prouve.", "Voici ce que j'ai vu..."],
+    bavard:   ["Moi ? Innocent à 100% ! Cherchez ailleurs !", "J'ai tout vu ! C'est bizarre cette affaire.", "Je veux absolument aider l'enquête !", "J'ai pas arrêté d'observer depuis le début !", "Il se passe des choses louches ici !", "Demandez-moi, je sais plein de choses !"],
+    discret:  ["Je n'ai rien à déclarer.", "Je faisais mes affaires.", "...", "Ça ne me concerne pas directement.", "Je suis là, c'est tout.", "Je préfère observer en silence."],
+    nerveux:  ["Je n'aime pas les interrogatoires !", "Suis-je suspect ?!", "J'ai rien fait moi c'est clair !", "Vous m'accusez ça m'énerve !", "Mon innocence est totale !", "Je vais appeler quelqu'un si ça continue."],
+    calme:    ["J'ai coopéré pleinement.", "Je n'ai rien à cacher.", "Posez vos questions, je réponds.", "Prenez votre temps, je suis là.", "L'enquête avancera avec ma coopération.", "Je reste disponible jusqu'à la fin."],
+    menteur:  ["J'ai vu quelqu'un de suspect mais...", "En fait non, je me trompe peut-être.", "Difficile à dire avec certitude.", "Ma mémoire joue des tours parfois.", "Je confonds peut-être deux personnes.", "Laissez-moi réfléchir encore un peu."],
+    honnete:  ["Je dirai toute la vérité, promis.", "J'ai rien fait et je le prouve facilement.", "Voici ce que j'ai vu exactement.", "La vérité est de mon côté.", "Je n'ai aucune raison de mentir.", "Mon récit est cohérent du début à la fin."],
   },
   temoin: {
-    bavard:   ["J'ai VU quelque chose d'important !", "Je peux vous aider si vous me demandez !", "Il y avait quelque chose de suspect !"],
-    discret:  ["Je préfère garder ça pour moi.", "Si vous insistez...", "J'ai peut-être quelque chose à dire."],
-    nerveux:  ["J'ai peur de parler !", "Et si le voleur m'entend ?", "Je suis pas sûr de ce que j'ai vu..."],
-    calme:    ["Si vous me demandez officiellement, je coopère.", "J'ai des informations utiles.", "Interrogez-moi."],
-    menteur:  ["J'ai vu quelque chose mais...", "Ma mémoire est floue ce soir-là.", "Je confonds peut-être les personnes."],
-    honnete:  ["J'ai vu clairement ce qui s'est passé !", "Je témoigne volontiers !", "Voici ce que j'ai observé."],
+    bavard:   ["J'ai VU quelque chose d'important !", "Je peux vous aider si vous me demandez !", "Il y avait quelque chose de TRÈS suspect !", "J'attends qu'on m'interroge officiellement !", "Mes informations peuvent changer tout !", "Demandez-moi, vous serez surpris !"],
+    discret:  ["Je préfère garder ça pour moi.", "Si vous insistez vraiment...", "J'ai peut-être quelque chose à dire.", "Ça dépend de ce qu'on me demande.", "Je parle pas à n'importe qui.", "Vous devez mériter ma confiance d'abord."],
+    nerveux:  ["J'ai peur de parler !", "Et si le voleur m'entend ?", "Je suis pas sûr de ce que j'ai vu...", "Ma sécurité d'abord !", "Vous me protégez si je parle ?", "Je risque quoi à témoigner ?"],
+    calme:    ["Si vous me demandez officiellement, je coopère.", "J'ai des informations très utiles.", "Interrogez-moi formellement.", "Je parle dans le cadre légal seulement.", "Ma mémoire est fidèle à ce que j'ai vu.", "Je suis prêt quand vous l'êtes."],
+    menteur:  ["J'ai vu quelque chose mais...", "Ma mémoire est floue sur ce point-là.", "Je confonds peut-être les personnes.", "Le soir était sombre, difficile d'être sûr.", "J'hésite à accuser sans certitude.", "Laissez-moi me rappeler exactement."],
+    honnete:  ["J'ai vu clairement ce qui s'est passé !", "Je témoigne volontiers !", "Voici ce que j'ai observé avec précision.", "Je n'exagère ni ne minimise les faits.", "Ma parole est fiable, posez vos questions.", "Je décrirai chaque détail si nécessaire."],
   },
 };
 
@@ -3578,7 +3829,7 @@ function createSalon() {
       goTo('screen-salon-host');
       notifyGameEvent('salon_created', {code: salonCode});
       setTimeout(() => drawQRCode('qrCanvas', getSalonInviteURL()), 500);
-      // Auto-supprimer après 2h
+      initSalonChat(salonCode); // Démarrer le chat
       setTimeout(() => { if (salonRef) salonRef.remove(); }, 7200000);
     });
   }).catch(e => {
@@ -3744,6 +3995,7 @@ function joinSalon() {
         salonListeners.push({ref: salonRef.child('status'), listener: statusListener, event: 'value'});
 
         goTo('screen-waiting');
+        initSalonChat(code); // Rejoindre le chat
       });
     });
   }).catch(e => {
@@ -3904,7 +4156,10 @@ function listenForRoundReady() {
 
 // Démarrer le tour (pour tous)
 function startSalonRound() {
-  // Configurer les selects avec les joueurs connectés
+  // Identifier qui est le commandant CE tour
+  const commandantPlayer = Object.keys(state.roundRoles || {}).find(p => state.roundRoles[p] === 'commandant');
+  const iAmCommandant = commandantPlayer === myPlayerName;
+
   const nonCoupables = state.players.filter(p => {
     const r = state.roundRoles[p];
     return r !== 'commandant' && r !== 'policier';
@@ -3922,17 +4177,24 @@ function startSalonRound() {
   };
   renderScoresTable('scores-table');
 
-  // Écouter les résultats depuis Firebase (pour les non-hôtes)
-  if (!isHost && salonRef) {
+  // Afficher ou masquer le panneau d'action selon si on est le commandant
+  const actionPanel = document.getElementById('commandant-action-panel');
+  const waitingPanel = document.getElementById('non-commandant-wait-panel');
+  if (actionPanel) actionPanel.style.display = iAmCommandant ? 'block' : 'none';
+  if (waitingPanel) {
+    waitingPanel.style.display = iAmCommandant ? 'none' : 'flex';
+    if (!iAmCommandant && commandantPlayer) {
+      const wMsg = document.getElementById('waitingCommandantName');
+      if (wMsg) wMsg.textContent = commandantPlayer;
+    }
+  }
+
+  // Écouter les résultats depuis Firebase (pour les non-commandants)
+  if (salonRef) {
     const resultListener = salonRef.child('roundResult').on('value', snap => {
       const result = snap.val();
       if (result && result.tour === state.currentTour) {
-        // Appliquer les scores reçus
-        if (result.scores) {
-          Object.keys(result.scores).forEach(p => {
-            state.scores[p] = result.scores[p];
-          });
-        }
+        if (result.scores) Object.keys(result.scores).forEach(p => { state.scores[p] = result.scores[p]; });
         if (result.roundRoles) state.roundRoles = result.roundRoles;
         showSalonResult(result);
       }
@@ -3940,6 +4202,7 @@ function startSalonRound() {
     salonListeners.push({ref: salonRef.child('roundResult'), listener: resultListener, event: 'value'});
   }
 
+  startTourTimer();
   goTo('screen-round');
 }
 
@@ -4353,6 +4616,92 @@ function launchConfetti() {
 // ========== AUDIO ==========
 let audioCtx=null,bgMusicNodes=null,musicEnabled=true,soundEnabled=true;
 function getAudioCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
+function playRoleSound(role) {
+  if (!soundEnabled) return;
+  try {
+    const c = getAudioCtx();
+    const plays = {
+      // Policier : sirène courte montante
+      policier: () => {
+        [440,880,440,880].forEach((f,i) => {
+          const o=c.createOscillator(),g=c.createGain();
+          o.connect(g);g.connect(c.destination);o.type='sawtooth';
+          o.frequency.setValueAtTime(f,c.currentTime+i*0.12);
+          g.gain.setValueAtTime(0.15,c.currentTime+i*0.12);
+          g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+i*0.12+0.18);
+          o.start(c.currentTime+i*0.12);o.stop(c.currentTime+i*0.12+0.18);
+        });
+      },
+      // Voleur : descente inquiétante
+      voleur: () => {
+        [600,500,400,300,200].forEach((f,i) => {
+          const o=c.createOscillator(),g=c.createGain();
+          o.connect(g);g.connect(c.destination);o.type='triangle';
+          o.frequency.setValueAtTime(f,c.currentTime+i*0.1);
+          g.gain.setValueAtTime(0.12,c.currentTime+i*0.1);
+          g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+i*0.1+0.22);
+          o.start(c.currentTime+i*0.1);o.stop(c.currentTime+i*0.1+0.22);
+        });
+      },
+      // Commandant : fanfare autoritaire
+      commandant: () => {
+        [[392,0],[523,0.15],[659,0.3],[784,0.45],[784,0.6]].forEach(([f,t]) => {
+          const o=c.createOscillator(),g=c.createGain();
+          o.connect(g);g.connect(c.destination);o.type='square';
+          o.frequency.setValueAtTime(f,c.currentTime+t);
+          g.gain.setValueAtTime(0.13,c.currentTime+t);
+          g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+t+0.28);
+          o.start(c.currentTime+t);o.stop(c.currentTime+t+0.28);
+        });
+      },
+      // Témoin : notes mystérieuses
+      temoin: () => {
+        [[330,0],[392,0.2],[440,0.4],[523,0.6]].forEach(([f,t]) => {
+          const o=c.createOscillator(),g=c.createGain();
+          o.connect(g);g.connect(c.destination);o.type='sine';
+          o.frequency.setValueAtTime(f,c.currentTime+t);
+          g.gain.setValueAtTime(0.1,c.currentTime+t);
+          g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+t+0.35);
+          o.start(c.currentTime+t);o.stop(c.currentTime+t+0.35);
+        });
+      },
+      // Complice : accord dissonant
+      complice: () => {
+        [[440,0],[466,0.05],[523,0.2]].forEach(([f,t]) => {
+          const o=c.createOscillator(),g=c.createGain();
+          o.connect(g);g.connect(c.destination);o.type='triangle';
+          o.frequency.setValueAtTime(f,c.currentTime+t);
+          g.gain.setValueAtTime(0.1,c.currentTime+t);
+          g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+t+0.4);
+          o.start(c.currentTime+t);o.stop(c.currentTime+t+0.4);
+        });
+      },
+      // Assassin : coup sourd
+      assassin: () => {
+        const o=c.createOscillator(),g=c.createGain();
+        o.connect(g);g.connect(c.destination);o.type='sawtooth';
+        o.frequency.setValueAtTime(150,c.currentTime);
+        o.frequency.exponentialRampToValueAtTime(50,c.currentTime+0.4);
+        g.gain.setValueAtTime(0.2,c.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.4);
+        o.start();o.stop(c.currentTime+0.4);
+      },
+      // Innocent/autres : note neutre douce
+      default: () => {
+        [[523,0],[659,0.2],[523,0.4]].forEach(([f,t]) => {
+          const o=c.createOscillator(),g=c.createGain();
+          o.connect(g);g.connect(c.destination);o.type='sine';
+          o.frequency.setValueAtTime(f,c.currentTime+t);
+          g.gain.setValueAtTime(0.08,c.currentTime+t);
+          g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+t+0.25);
+          o.start(c.currentTime+t);o.stop(c.currentTime+t+0.25);
+        });
+      }
+    };
+    (plays[role] || plays.default)();
+  } catch(e) {}
+}
+
 function playClick(){if(!soundEnabled)return;try{const c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.setValueAtTime(800,c.currentTime);o.frequency.exponentialRampToValueAtTime(400,c.currentTime+0.08);g.gain.setValueAtTime(0.15,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.08);o.start();o.stop(c.currentTime+0.08);}catch(e){}}
 function playReveal(){if(!soundEnabled)return;try{const c=getAudioCtx();[300,400,500,700,900].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(f,c.currentTime+i*0.08);g.gain.setValueAtTime(0.12,c.currentTime+i*0.08);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+i*0.08+0.2);o.start(c.currentTime+i*0.08);o.stop(c.currentTime+i*0.08+0.2);});}catch(e){}}
 function playSuspense(){if(!soundEnabled)return;try{const c=getAudioCtx();[200,180,160,140].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sawtooth';o.frequency.setValueAtTime(f,c.currentTime+i*0.15);g.gain.setValueAtTime(0.08,c.currentTime+i*0.15);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+i*0.15+0.3);o.start(c.currentTime+i*0.15);o.stop(c.currentTime+i*0.15+0.3);});}catch(e){}}
@@ -4399,12 +4748,12 @@ const SHOP_CATALOG = {
     { id:'ti_roi_abidjan', name:'Roi d\'Abidjan', icon:'👑', desc:'Le maître incontesté', price:200, isNew:true },
   ],
   bonus: [
-    { id:'bo_indice', name:'Indice +1', icon:'💡', desc:'Révèle 1 rôle supplémentaire en mode Solo', price:20 },
-    { id:'bo_bouclier', name:'Bouclier', icon:'🛡️', desc:'Protège ton score une fois par jour', price:35 },
-    { id:'bo_loupe', name:'Super Loupe', icon:'🔎', desc:'Double les points du prochain quiz', price:40 },
-    { id:'bo_multiplicateur', name:'x2 Points', icon:'⚡', desc:'Double tes gains pendant 30 min', price:60 },
-    { id:'bo_revive', name:'Revive', icon:'💊', desc:'Continue après un Game Over', price:25 },
-    { id:'bo_joker', name:'Joker', icon:'🃏', desc:'Passe une question de quiz', price:15 },
+    { id:'bo_indice', name:'Indice +1', icon:'💡', desc:'Révèle 1 suspect supplémentaire en mode Solo Détective', price:20, effect:'Utilisable 1x par partie Solo' },
+    { id:'bo_bouclier', name:'Bouclier', icon:'🛡️', desc:'Protège ton score en cas de mauvaise accusation', price:35, effect:'Annule -1 perte de points' },
+    { id:'bo_loupe', name:'Super Loupe', icon:'🔎', desc:'Double les points de ton prochain quiz réussi', price:40, effect:'x2 pièces sur le prochain quiz' },
+    { id:'bo_multiplicateur', name:'x2 Points', icon:'⚡', desc:'Double tous tes gains de pièces pendant 30 minutes', price:60, effect:'x2 pièces pendant 30 min' },
+    { id:'bo_revive', name:'Revive', icon:'💊', desc:'Continue une histoire après un Game Over sans recommencer', price:25, effect:'Continue depuis le dernier choix' },
+    { id:'bo_joker', name:'Joker', icon:'🃏', desc:'Passe une question de quiz sans perdre de points', price:15, effect:'Skip 1 question sans malus' },
   ]
 };
 
@@ -4505,6 +4854,7 @@ function renderShopItems() {
         <div class="shop-item-info">
           <div class="shop-item-name">${item.name}</div>
           <div class="shop-item-desc">${item.desc}</div>
+          ${item.effect ? `<div class="bonus-effect-tag">⚡ ${item.effect}</div>` : ''}
         </div>
         ${btnHTML}
       </div>`;
@@ -4664,11 +5014,427 @@ function renderStats() {
     }
   }
   checkAchievements();
+  // Charger le classement mondial
+  if (db) loadLeaderboard('leaderboardList');
+  else initFirebase().then(() => loadLeaderboard('leaderboardList')).catch(() => {});
 }
 
 // ===== HOOK GAINS DE PIÈCES DANS LE JEU =====
 // Patch showQuizResult pour donner des pièces
 const _origShowQuizResult = window.showQuizResult;
+
+// ========== CHAT SALON (Firebase) ==========
+let chatRef = null;
+let chatListener = null;
+
+function initSalonChat(code) {
+  if (!db) return;
+  chatRef = db.ref('salons/' + code + '/chat');
+  // Écouter les nouveaux messages
+  chatListener = chatRef.limitToLast(50).on('child_added', snap => {
+    const msg = snap.val();
+    if (msg) appendChatMsg(msg);
+  });
+}
+
+function sendChatMsg() {
+  const inputHost = document.getElementById('salonChatInput');
+  const inputWait = document.getElementById('waitingChatInput');
+  const input = inputHost && document.getElementById('screen-salon-host').classList.contains('active')
+    ? inputHost : inputWait;
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text || !chatRef) return;
+  input.value = '';
+  chatRef.push({
+    name: myPlayerName || profile.name || 'Joueur',
+    text,
+    ts: Date.now()
+  });
+}
+
+function appendChatMsg(msg) {
+  const isMe = msg.name === (myPlayerName || profile.name);
+  const isSystem = msg.name === 'SYSTÈME';
+  const html = `
+    <div class="chat-msg ${isSystem ? 'system' : isMe ? 'me' : 'other'}">
+      <div>
+        ${!isMe && !isSystem ? `<div class="chat-name">${msg.name}</div>` : ''}
+        <div class="chat-bubble">${escapeHtml(msg.text)}</div>
+      </div>
+    </div>`;
+  // Ajouter dans les deux containers si présents
+  ['salonChatMessages', 'waitingChatMessages'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.insertAdjacentHTML('beforeend', html);
+      el.scrollTop = el.scrollHeight;
+    }
+  });
+}
+
+function escapeHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function stopSalonChat() {
+  if (chatRef && chatListener) {
+    chatRef.off('child_added', chatListener);
+    chatRef = null; chatListener = null;
+  }
+}
+
+// ========== TIMER DE TOUR ==========
+let tourTimerInterval = null;
+const TOUR_DURATION = 90; // secondes
+
+function startTourTimer() {
+  const wrap = document.getElementById('tourTimerWrap');
+  const num = document.getElementById('timerNum');
+  const ring = document.getElementById('timerRingFill');
+  if (!wrap || !num || !ring) return;
+
+  clearInterval(tourTimerInterval);
+  wrap.style.display = 'flex';
+  let secondes = TOUR_DURATION;
+  const circumference = 175.9;
+
+  function updateTimer() {
+    num.textContent = secondes;
+    const offset = circumference * (1 - secondes / TOUR_DURATION);
+    ring.style.strokeDashoffset = offset;
+    // Changer couleur selon urgence
+    if (secondes > 30) { ring.style.stroke = '#2ecc71'; num.style.color = '#2ecc71'; }
+    else if (secondes > 10) { ring.style.stroke = '#f39c12'; num.style.color = '#f39c12'; }
+    else { ring.style.stroke = '#e74c3c'; num.style.color = '#e74c3c'; }
+  }
+
+  updateTimer();
+  tourTimerInterval = setInterval(() => {
+    secondes--;
+    updateTimer();
+    if (secondes <= 0) {
+      clearInterval(tourTimerInterval);
+      // Résoudre automatiquement quand le temps est écoulé
+      num.textContent = '⏰';
+      playLock();
+      setTimeout(() => {
+        state.isPremiumMode ? resolveSalonRound() : resolveRound();
+      }, 1000);
+    }
+  }, 1000);
+}
+
+function stopTourTimer() {
+  clearInterval(tourTimerInterval);
+  const wrap = document.getElementById('tourTimerWrap');
+  if (wrap) wrap.style.display = 'none';
+}
+
+// ========== HISTORIQUE DES PARTIES ==========
+let gamesHistory = [];
+
+function loadHistory() {
+  try {
+    gamesHistory = JSON.parse(localStorage.getItem('gamesHistory') || '[]');
+  } catch(e) { gamesHistory = []; }
+}
+
+function saveGameToHistory(gameData) {
+  loadHistory();
+  gamesHistory.unshift({
+    ...gameData,
+    id: Date.now(),
+    date: new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' })
+  });
+  if (gamesHistory.length > 30) gamesHistory.length = 30; // max 30 parties
+  localStorage.setItem('gamesHistory', JSON.stringify(gamesHistory));
+}
+
+function renderHistory() {
+  loadHistory();
+  const list = document.getElementById('historyList');
+  if (!list) return;
+  if (!gamesHistory.length) {
+    list.innerHTML = '<div style="text-align:center;color:rgba(240,236,228,0.3);font-style:italic;padding:40px 20px;font-size:14px">Aucune partie enregistrée pour l\'instant.<br>Lance une partie pour voir ton historique !</div>';
+    return;
+  }
+  list.innerHTML = gamesHistory.map(g => {
+    const modeColor = g.mode === 'Premium' ? '#00bcd4' : g.mode === 'PlayBots' ? '#9b59b6' : '#e67e22';
+    return `<div class="history-card">
+      <div class="history-header">
+        <span class="history-date">${g.date}</span>
+        <span class="history-mode" style="background:${modeColor}22;color:${modeColor};border:1px solid ${modeColor}55">${g.mode || 'Classique'}</span>
+      </div>
+      <div class="history-players">
+        ${(g.players || []).map(p => `<span class="history-player-pill ${p === g.winner ? 'winner' : ''}">${p === g.winner ? '🏆 ' : ''}${p}</span>`).join('')}
+      </div>
+      ${g.roles ? `<div class="history-roles">Rôles : ${Object.entries(g.roles).map(([p,r]) => `${p}→${r}`).join(' · ')}</div>` : ''}
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(240,236,228,0.4)">
+        <span>${g.players ? g.players.length : 0} joueurs · ${g.tours || 1} tour(s)</span>
+        <span>Gagnant : <strong style="color:var(--or-clair)">${g.winner || '?'}</strong></span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function clearHistory() {
+  if (!confirm('Effacer tout l\'historique ?')) return;
+  gamesHistory = [];
+  localStorage.removeItem('gamesHistory');
+  renderHistory();
+}
+
+// ========== TUTORIAL INTERACTIF ==========
+const TUTO_STEPS = [
+  {
+    icon: '👮',
+    title: 'BIENVENUE !',
+    desc: 'Policier ou Voleur est un jeu de déduction sociale. Chaque joueur reçoit un rôle secret. Le but : trouver le Voleur avant qu\'il ne s\'échappe !',
+    highlight: null
+  },
+  {
+    icon: '🎭',
+    title: 'LES RÔLES',
+    desc: 'Chaque partie distribue des rôles selon le nombre de joueurs. Trois rôles sont toujours présents, les autres s\'ajoutent avec plus de joueurs.',
+    highlight: '👮 Commandant · 🚔 Policier · 🦹 Voleur'
+  },
+  {
+    icon: '🚔',
+    title: 'LE POLICIER',
+    desc: 'Le Policier doit identifier le Voleur parmi les autres joueurs. Il peut faire appel au Témoin pour l\'aider. S\'il trouve le Voleur : +15 points !',
+    highlight: '15 pts si le Voleur est trouvé'
+  },
+  {
+    icon: '🦹',
+    title: 'LE VOLEUR',
+    desc: 'Le Voleur doit rester caché. Il peut mentir, bluffer et créer des doutes. Si le Policier se trompe : le Voleur gagne des points !',
+    highlight: '10 pts si le Policier se trompe'
+  },
+  {
+    icon: '👁️',
+    title: 'LE TÉMOIN',
+    desc: 'Le Témoin voit tous les rôles. Il peut aider le Policier ou refuser. S\'il aide et désigne correctement : +5 pts. S\'il se trompe : 0 pt.',
+    highlight: '+5 pts si désignation correcte'
+  },
+  {
+    icon: '⚖️',
+    title: 'LE COMMANDANT',
+    desc: 'Le Commandant dirige l\'enquête. C\'est lui qui prend la décision finale d\'accusation à chaque tour. Rôle toujours présent.',
+    highlight: 'Rôle principal — toujours présent'
+  },
+  {
+    icon: '🎮',
+    title: 'COMMENT JOUER',
+    desc: '1. Chaque joueur regarde son rôle en secret.\n2. La discussion commence.\n3. Le Commandant accuse quelqu\'un.\n4. Le résultat est révélé.\n5. On recommence !',
+    highlight: null
+  },
+  {
+    icon: '🏆',
+    title: 'LES MODES',
+    desc: 'Mode Classique (1 téléphone partagé) · Mode Solo (entraînement seul) · Mode PlayBots (contre l\'IA) · Mode Premium (multijoueur en ligne)',
+    highlight: null
+  },
+  {
+    icon: '🪙',
+    title: 'LES PIÈCES',
+    desc: 'Gagne des pièces en jouant : +1 par bonne réponse au quiz, +15 par histoire gagnée. Dépense-les dans la Boutique pour débloquer avatars, titres et bonus !',
+    highlight: 'Boutique → Avatars · Thèmes · Titres'
+  },
+  {
+    icon: '🚀',
+    title: 'C\'EST PARTI !',
+    desc: 'Tu es prêt à jouer ! Lance une partie seul pour t\'entraîner, ou invite tes amis pour une vraie partie multijoueur.',
+    highlight: null
+  }
+];
+
+let tutoIndex = 0;
+
+function renderTutoStep() {
+  const step = TUTO_STEPS[tutoIndex];
+  const el = document.getElementById('tutoStep');
+  const dots = document.getElementById('tutoDots');
+  const prev = document.getElementById('tutoPrevBtn');
+  const next = document.getElementById('tutoNextBtn');
+  if (!el) return;
+
+  el.innerHTML = `
+    <div class="tuto-icon">${step.icon}</div>
+    <div class="tuto-title" style="color:var(--or)">${step.title}</div>
+    <div class="tuto-desc">${step.desc.replace(/\n/g,'<br>')}</div>
+    ${step.highlight ? `<div class="tuto-highlight">${step.highlight}</div>` : ''}`;
+
+  dots.innerHTML = TUTO_STEPS.map((_,i) =>
+    `<div class="tuto-dot ${i === tutoIndex ? 'active' : ''}"></div>`).join('');
+
+  prev.style.display = tutoIndex > 0 ? 'block' : 'none';
+  next.textContent = tutoIndex < TUTO_STEPS.length - 1 ? 'Suivant →' : '✅ Commencer !';
+  next.onclick = tutoIndex < TUTO_STEPS.length - 1 ? () => tutoNav(1) : () => goTo('screen-home');
+}
+
+function tutoNav(dir) {
+  tutoIndex = Math.max(0, Math.min(TUTO_STEPS.length - 1, tutoIndex + dir));
+  renderTutoStep();
+  playClick();
+}
+
+// ===== INVITATION WHATSAPP / SMS =====
+function getInviteText() {
+  return `🎮 *Policier ou Voleur* — Rejoins ma partie !\n👮 Code du salon : *${salonCode}*\n🔗 Lien direct : ${getSalonInviteURL()}\n\n_Jeu DAVIESLAY 💥_`;
+}
+
+function inviteViaWhatsApp() {
+  const text = encodeURIComponent(getInviteText());
+  window.open(`https://wa.me/?text=${text}`, '_blank');
+}
+
+function inviteViaSMS() {
+  const text = encodeURIComponent(`Rejoins ma partie Policier ou Voleur ! Code: ${salonCode} — ${getSalonInviteURL()}`);
+  window.open(`sms:?body=${text}`, '_blank');
+}
+
+// ===== PROFIL PUBLIC =====
+function openPublicProfile() {
+  const p = profile || {};
+  const s = shopData || {};
+  const avatarItem = SHOP_CATALOG.avatars.find(a => a.id === (s.equipped?.avatar || 'av_detective'));
+  const titreItem = SHOP_CATALOG.titres.find(t => t.id === (s.equipped?.titre || 'ti_recrue'));
+
+  document.getElementById('pubAvatar').textContent = avatarItem?.icon || '🕵️';
+  document.getElementById('pubName').textContent = p.name || 'Joueur';
+  document.getElementById('pubTitre').textContent = (titreItem?.icon || '🔰') + ' ' + (titreItem?.name || 'Recrue');
+  document.getElementById('pubParties').textContent = p.parties || 0;
+  document.getElementById('pubVictoires').textContent = p.victoires || 0;
+  document.getElementById('pubPieces').textContent = s.coins || 0;
+  goTo('screen-profil-public');
+}
+
+function sharePublicProfile() {
+  const p = profile || {};
+  const s = shopData || {};
+  const text = `🎮 Mon profil Policier ou Voleur !\n👤 ${p.name || 'Joueur'}\n🎯 ${p.parties||0} parties · 🏆 ${p.victoires||0} victoires · 🪙 ${s.coins||0} pièces\n\n💥 DAVIESLAY — Policier ou Voleur`;
+  if (navigator.share) {
+    navigator.share({ title: 'Mon profil Policier ou Voleur', text });
+  } else {
+    copyToClipboard(text, document.querySelector('.profile-share-btn'));
+  }
+}
+
+function shareProfileWhatsApp() {
+  const p = profile || {};
+  const s = shopData || {};
+  const text = encodeURIComponent(`🎮 Mon profil *Policier ou Voleur* !\n👤 ${p.name||'Joueur'}\n🎯 ${p.parties||0} parties · 🏆 ${p.victoires||0} victoires\n💥 DAVIESLAY`);
+  window.open(`https://wa.me/?text=${text}`, '_blank');
+}
+
+// ===== MODE SPECTATEUR =====
+let isSpectator = false;
+
+function joinAsSpectator() {
+  const code = document.getElementById('joinCode').value.trim().toUpperCase();
+  const name = document.getElementById('joinPlayerName').value.trim() || 'Spectateur';
+  if (code.length !== 4) { document.getElementById('joinStatus').textContent = '⚠️ Code requis'; return; }
+
+  isSpectator = true;
+  initFirebase().then(() => {
+    salonRef = db.ref('salons/' + code);
+    return salonRef.once('value');
+  }).then(snap => {
+    if (!snap.exists()) { document.getElementById('joinStatus').textContent = '❌ Salon introuvable'; return; }
+    myPlayerName = name + ' 👁️';
+    initSalonChat(code);
+    listenSpectator();
+    goTo('screen-spectateur');
+  }).catch(e => {
+    document.getElementById('joinStatus').textContent = '❌ ' + e.message;
+  });
+}
+
+function listenSpectator() {
+  if (!salonRef) return;
+  // Écouter les rôles
+  salonRef.child('game/roles').on('value', snap => {
+    const roles = snap.val();
+    if (!roles) return;
+    salonRef.child('players').once('value').then(pSnap => {
+      const players = pSnap.val() || {};
+      const list = document.getElementById('specRolesList');
+      if (!list) return;
+      list.innerHTML = Object.entries(players).map(([key, p]) => {
+        const role = roles[key] || 'inconnu';
+        const d = ROLES_DATA[role] || { emoji:'❓', name:'Inconnu', theme:'role-innocent' };
+        return `<div class="spectator-role-row">
+          <div class="spectator-role-emoji">${d.emoji}</div>
+          <div class="spectator-role-info">
+            <div class="spectator-role-name-text">${p.name}</div>
+            <div class="spectator-role-player" style="color:${p.isHost?'#00bcd4':'rgba(240,236,228,0.45)'}">${d.name}${p.isHost?' · HÔTE':''}</div>
+          </div>
+        </div>`;
+      }).join('');
+    });
+  });
+
+  // Chat spectateur (lecture seule)
+  const chatRef = db.ref('salons/' + salonRef.key + '/chat');
+  chatRef.limitToLast(30).on('child_added', snap => {
+    const msg = snap.val();
+    if (!msg) return;
+    const el = document.getElementById('specChatMessages');
+    if (el) {
+      el.insertAdjacentHTML('beforeend', `<div class="chat-msg other"><div><div class="chat-name">${msg.name}</div><div class="chat-bubble">${escapeHtml(msg.text)}</div></div></div>`);
+      el.scrollTop = el.scrollHeight;
+    }
+  });
+}
+
+// Ajouter le bouton spectateur dans screen-salon-join
+function addSpectatorBtn() {
+  const joinScreen = document.getElementById('screen-salon-join');
+  if (!joinScreen || joinScreen.querySelector('.spectator-join-btn')) return;
+  const btn = document.createElement('button');
+  btn.className = 'btn btn-ghost spectator-join-btn';
+  btn.style.cssText = 'width:100%;font-size:13px;color:rgba(240,236,228,0.5);margin-top:8px';
+  btn.innerHTML = '👁️ Rejoindre en tant que spectateur';
+  btn.onclick = joinAsSpectator;
+  joinScreen.querySelector('div').appendChild(btn);
+}
+
+// ===== STATS MULTIJOUEUR FIREBASE =====
+function syncStatsToFirebase() {
+  if (!db || !profile.name) return;
+  const playerKey = profile.name.replace(/[.#$[\]]/g,'_');
+  db.ref('leaderboard/' + playerKey).set({
+    name: profile.name,
+    parties: profile.parties || 0,
+    victoires: profile.victoires || 0,
+    soloPoints: profile.soloPoints || 0,
+    coins: shopData.coins || 0,
+    avatar: shopData.equipped?.avatar || 'av_detective',
+    updatedAt: Date.now()
+  }).catch(() => {}); // silencieux si hors ligne
+}
+
+function loadLeaderboard(containerId) {
+  if (!db) { initFirebase().catch(() => {}); return; }
+  db.ref('leaderboard').orderByChild('victoires').limitToLast(10).once('value').then(snap => {
+    const data = snap.val();
+    if (!data) return;
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    const sorted = Object.values(data).sort((a,b) => (b.victoires||0) - (a.victoires||0));
+    el.innerHTML = sorted.map((p, i) => `
+      <div class="rank-row">
+        <span class="rank-num ${i===0?'gold':i===1?'silver':i===2?'bronze':''}">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</span>
+        <span style="flex:1">${p.name}</span>
+        <span style="font-size:11px;color:rgba(240,236,228,0.4);margin-right:8px">${p.parties||0} parties</span>
+        <span class="rank-score">${p.victoires||0} 🏆</span>
+      </div>`).join('');
+  }).catch(() => {
+    const el = document.getElementById(containerId);
+    if (el) el.innerHTML = '<div style="color:rgba(240,236,228,0.3);text-align:center;padding:12px;font-size:13px">Classement indisponible hors ligne</div>';
+  });
+}
 
 // ========== OFFLINE SUPPORT ==========
 function initOfflineSupport() {
@@ -4740,6 +5506,13 @@ window.onload = () => {
   loadShopData();
   initOfflineSupport();
   checkURLForSalonCode();
+  loadHistory();
+  addSpectatorBtn();
+  // Tutorial au 1er lancement
+  if (!localStorage.getItem('tutoSeen')) {
+    localStorage.setItem('tutoSeen','1');
+    setTimeout(() => goTo('screen-tutorial'), 1800);
+  }
   createMuteButton();
 
   // Hook goTo pour init boutique/stats à l'ouverture
@@ -4750,15 +5523,108 @@ window.onload = () => {
       loadShopData();
       filterShop(currentShopCat || 'avatars');
     }
-    if (screen === 'screen-stats') {
-      renderStats();
-    }
+    if (screen === 'screen-stats') renderStats();
+    if (screen === 'screen-historique') renderHistory();
+    if (screen === 'screen-tutorial') { tutoIndex = 0; renderTutoStep(); }
   };
 
   document.addEventListener('click', ()=>{ startBgMusic(); }, {once:true});
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 };
 </script>
+
+<!-- ========== SPECTATEUR ========== -->
+<div class="screen" id="screen-spectateur">
+  <div style="width:100%;max-width:480px;padding-top:24px;display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="spectator-badge">👁️ SPECTATEUR</div>
+      <div class="bebas" style="font-size:18px;letter-spacing:3px;flex:1" id="specTourLabel">TOUR 1</div>
+    </div>
+    <div class="panel">
+      <div class="panel-title" style="margin-bottom:10px">🎭 RÔLES EN JEU</div>
+      <div id="specRolesList" style="display:flex;flex-direction:column;gap:8px"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title" style="margin-bottom:10px">📊 SCORES EN DIRECT</div>
+      <table class="scores-table" id="specScoresTable"></table>
+    </div>
+    <div class="panel">
+      <div class="panel-title" style="margin-bottom:10px">💬 CHAT</div>
+      <div class="chat-wrap" style="height:160px">
+        <div class="chat-messages" id="specChatMessages"></div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:rgba(240,236,228,0.4);text-align:center;font-style:italic">
+      👁️ Tu observes sans participer. Regarde la partie se dérouler !
+    </div>
+    <button onclick="leaveSalon()" class="btn btn-ghost" style="color:#e74c3c;border-color:#e74c3c;width:100%">Quitter</button>
+  </div>
+</div>
+
+<!-- ========== PROFIL PUBLIC ========== -->
+<div class="screen" id="screen-profil-public">
+  <div style="width:100%;max-width:480px;padding-top:24px;display:flex;flex-direction:column;gap:16px;align-items:center">
+    <button class="btn-remove" onclick="goTo('screen-profile')" style="align-self:flex-start;font-size:22px">←</button>
+    <h2 class="bebas" style="font-size:24px;letter-spacing:4px">🌐 MON PROFIL PUBLIC</h2>
+
+    <div class="public-profile-card" id="publicProfileCard">
+      <div style="font-size:56px" id="pubAvatar">🕵️</div>
+      <div class="bebas" style="font-size:24px;letter-spacing:4px;margin-top:8px" id="pubName">Joueur</div>
+      <div style="font-size:14px;color:var(--or);margin-top:4px" id="pubTitre">Recrue</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px">
+        <div><div class="bebas" style="font-size:22px;color:#3498db" id="pubParties">0</div><div style="font-size:10px;color:rgba(240,236,228,0.4);letter-spacing:2px;font-family:'Bebas Neue',sans-serif">PARTIES</div></div>
+        <div><div class="bebas" style="font-size:22px;color:#2ecc71" id="pubVictoires">0</div><div style="font-size:10px;color:rgba(240,236,228,0.4);letter-spacing:2px;font-family:'Bebas Neue',sans-serif">VICTOIRES</div></div>
+        <div><div class="bebas" style="font-size:22px;color:var(--or-clair)" id="pubPieces">0</div><div style="font-size:10px;color:rgba(240,236,228,0.4);letter-spacing:2px;font-family:'Bebas Neue',sans-serif">PIÈCES</div></div>
+      </div>
+      <div style="margin-top:12px;font-size:12px;color:rgba(240,236,228,0.3)">DAVIESLAY 💥 — Policier ou Voleur</div>
+    </div>
+
+    <button class="profile-share-btn" onclick="sharePublicProfile()">
+      📤 PARTAGER MON PROFIL
+    </button>
+    <button class="invite-btn-wa" onclick="shareProfileWhatsApp()" style="margin-top:0">
+      <span style="font-size:18px">💬</span> Partager sur WhatsApp
+    </button>
+
+    <div style="font-size:13px;color:rgba(240,236,228,0.4);text-align:center">
+      Ton profil sera partagé avec tes stats actuelles
+    </div>
+  </div>
+</div>
+
+<!-- ========== HISTORIQUE DES PARTIES ========== -->
+<div class="screen" id="screen-historique">
+  <div style="width:100%;max-width:480px;padding-top:24px;display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="btn-remove" onclick="goTo('screen-home')" style="font-size:24px">←</button>
+      <h2 class="bebas" style="font-size:26px;letter-spacing:4px;flex:1">📋 HISTORIQUE</h2>
+      <button onclick="clearHistory()" class="btn-ghost" style="font-size:12px;padding:6px 12px;border-radius:8px;border:1px solid #e74c3c;color:#e74c3c;cursor:pointer;background:transparent">🗑 Effacer</button>
+    </div>
+    <div id="historyList" style="display:flex;flex-direction:column;gap:12px">
+      <div style="text-align:center;color:rgba(240,236,228,0.3);font-style:italic;padding:40px 20px">Aucune partie enregistrée pour l'instant</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TUTORIAL ========== -->
+<div class="screen" id="screen-tutorial">
+  <div style="width:100%;max-width:480px;padding-top:24px;display:flex;flex-direction:column;gap:20px;align-items:center">
+    <div style="display:flex;align-items:center;gap:12px;width:100%">
+      <button class="btn-remove" onclick="goTo('screen-home')" style="font-size:24px">←</button>
+      <h2 class="bebas" style="font-size:22px;letter-spacing:4px;flex:1">🎓 COMMENT JOUER</h2>
+    </div>
+
+    <!-- Étapes tutorial -->
+    <div id="tutoStep" class="tuto-step" style="width:100%"></div>
+    <div class="tuto-dots" id="tutoDots"></div>
+
+    <!-- Navigation -->
+    <div style="display:flex;gap:12px;width:100%">
+      <button id="tutoPrevBtn" onclick="tutoNav(-1)" class="btn btn-ghost" style="flex:1;display:none">← Précédent</button>
+      <button id="tutoNextBtn" onclick="tutoNav(1)" class="btn btn-primary" style="flex:1">Suivant →</button>
+    </div>
+  </div>
+</div>
 
 <!-- ========== BOUTIQUE ========== -->
 <div class="screen" id="screen-boutique">
@@ -4882,10 +5748,17 @@ window.onload = () => {
       <div id="pointsHistory" style="display:flex;flex-direction:column;gap:6px;margin-top:12px;max-height:220px;overflow-y:auto"></div>
     </div>
 
+    <!-- Classement mondial -->
+    <div class="panel">
+      <div class="panel-title">🌍 CLASSEMENT MONDIAL</div>
+      <div style="font-size:12px;color:rgba(240,236,228,0.4);margin-bottom:10px">Top 10 des meilleurs joueurs</div>
+      <div id="leaderboardList" style="display:flex;flex-direction:column;gap:8px">
+        <div style="color:rgba(240,236,228,0.3);text-align:center;padding:12px;font-size:13px">Chargement...</div>
+      </div>
+    </div>
+
   </div>
 </div>
-
-<!-- ========== PARAMÈTRES ========== -->
 <div class="screen" id="screen-settings">
   <div style="width:100%;max-width:460px;padding-top:30px;display:flex;flex-direction:column;gap:20px">
     <div style="display:flex;align-items:center;gap:12px">
