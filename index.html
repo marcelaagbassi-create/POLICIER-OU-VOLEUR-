@@ -436,6 +436,132 @@ body.premium .avatar-big { border-color:var(--accent); box-shadow:0 0 20px rgba(
 .btn-copy { position:relative; overflow:hidden; }
 .btn-copy.copied { background:linear-gradient(135deg,#27ae60,#2ecc71) !important; }
 
+/* ===== SYSTÈME CHAT DAVIESLAY ===== */
+#screen-chat { padding:0 !important; }
+.chat-app { display:flex; height:100vh; width:100%; max-width:100%; overflow:hidden; background:#0d0f18; }
+
+/* Sidebar canaux */
+.chat-sidebar { width:72px; background:#0a0c14; display:flex; flex-direction:column; align-items:center; padding:10px 0; gap:6px; flex-shrink:0; border-right:1px solid #1a1c28; overflow-y:auto; }
+.chat-sidebar-top { display:flex; flex-direction:column; align-items:center; gap:6px; width:100%; padding:0 8px; }
+.sidebar-btn { width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; cursor:pointer; background:#15171f; border:none; transition:all 0.2s; position:relative; flex-shrink:0; }
+.sidebar-btn:hover { border-radius:14px; background:#1e2130; }
+.sidebar-btn.active { border-radius:14px; background:linear-gradient(135deg,#00838f,#00bcd4); }
+.sidebar-btn .notif-dot { position:absolute; top:0; right:0; width:14px; height:14px; background:#e74c3c; border-radius:50%; border:2px solid #0a0c14; font-size:8px; color:white; display:flex; align-items:center; justify-content:center; }
+.sidebar-divider { width:32px; height:2px; background:#252836; border-radius:2px; margin:4px 0; }
+
+/* Zone principale */
+.chat-main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+
+/* Header canal */
+.chat-header { display:flex; align-items:center; gap:12px; padding:12px 16px; background:#0d0f18; border-bottom:1px solid #1a1c28; flex-shrink:0; }
+.chat-header-icon { font-size:22px; }
+.chat-header-info { flex:1; min-width:0; }
+.chat-header-name { font-family:'Bebas Neue',sans-serif; font-size:17px; letter-spacing:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.chat-header-desc { font-size:11px; color:rgba(240,236,228,0.4); margin-top:1px; }
+.chat-header-actions { display:flex; gap:8px; }
+.chat-header-btn { background:none; border:none; color:rgba(240,236,228,0.5); font-size:18px; cursor:pointer; padding:4px; border-radius:6px; }
+.chat-header-btn:hover { background:#1e2130; color:#e8eaed; }
+
+/* Messages */
+.chat-messages-area { flex:1; overflow-y:auto; padding:12px 0; display:flex; flex-direction:column; }
+.chat-day-divider { display:flex; align-items:center; gap:10px; padding:8px 16px; }
+.chat-day-divider::before, .chat-day-divider::after { content:''; flex:1; height:1px; background:#1e2130; }
+.chat-day-divider span { font-size:11px; color:rgba(240,236,228,0.3); letter-spacing:2px; font-family:'Bebas Neue',sans-serif; white-space:nowrap; }
+.chat-message { display:flex; gap:10px; padding:3px 16px; position:relative; transition:background 0.15s; }
+.chat-message:hover { background:rgba(255,255,255,0.02); }
+.chat-message:hover .msg-actions { opacity:1; }
+.chat-message.first-of-group { padding-top:10px; }
+.chat-avatar { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#00838f,#00bcd4); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; margin-top:2px; }
+.chat-avatar.hidden { visibility:hidden; }
+.chat-msg-content { flex:1; min-width:0; }
+.chat-msg-header { display:flex; align-items:baseline; gap:8px; margin-bottom:2px; }
+.chat-msg-author { font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:1px; }
+.chat-msg-time { font-size:10px; color:rgba(240,236,228,0.3); }
+.chat-msg-text { font-size:14px; color:#dcddde; line-height:1.5; word-break:break-word; font-family:'Crimson Pro',serif; }
+.chat-msg-text.deleted { color:rgba(240,236,228,0.3); font-style:italic; }
+.chat-msg-image { max-width:240px; border-radius:10px; margin-top:6px; cursor:pointer; }
+.msg-actions { position:absolute; right:16px; top:0; transform:translateY(-50%); opacity:0; display:flex; gap:4px; background:#1e2130; border:1px solid #252836; border-radius:8px; padding:4px 6px; }
+.msg-action-btn { background:none; border:none; color:rgba(240,236,228,0.6); font-size:14px; cursor:pointer; padding:2px 4px; border-radius:4px; }
+.msg-action-btn:hover { background:#252836; }
+
+/* Réactions */
+.msg-reactions { display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }
+.reaction-pill { display:flex; align-items:center; gap:3px; padding:2px 7px; border-radius:10px; background:#1e2130; border:1px solid #2e3248; font-size:12px; cursor:pointer; transition:all 0.2s; }
+.reaction-pill:hover, .reaction-pill.mine { background:rgba(0,188,212,0.15); border-color:#00bcd4; }
+.reaction-count { font-family:'Bebas Neue',sans-serif; font-size:11px; color:#00bcd4; }
+
+/* Réponse citée */
+.chat-reply-quote { border-left:3px solid #00bcd4; padding:4px 8px; margin-bottom:4px; background:rgba(0,188,212,0.06); border-radius:0 6px 6px 0; }
+.chat-reply-quote-author { font-size:11px; color:#00bcd4; font-family:'Bebas Neue',sans-serif; letter-spacing:1px; }
+.chat-reply-quote-text { font-size:12px; color:rgba(240,236,228,0.5); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* Barre de saisie */
+.chat-input-area { padding:10px 16px 16px; background:#0d0f18; flex-shrink:0; }
+.chat-reply-bar { display:flex; align-items:center; gap:8px; padding:8px 12px; background:#1a1c28; border-radius:8px 8px 0 0; border:1px solid #2e3248; border-bottom:none; margin-bottom:0; font-size:12px; color:rgba(240,236,228,0.6); }
+.chat-reply-bar-close { margin-left:auto; background:none; border:none; color:rgba(240,236,228,0.4); cursor:pointer; font-size:16px; }
+.chat-input-box { display:flex; align-items:flex-end; gap:8px; background:#1e2130; border-radius:10px; border:1px solid #2e3248; padding:8px 10px; }
+.chat-input-box.replying { border-radius:0 0 10px 10px; }
+.chat-input-main { flex:1; background:none; border:none; outline:none; color:#e8eaed; font-size:14px; font-family:'Crimson Pro',serif; resize:none; max-height:120px; min-height:22px; line-height:1.4; overflow-y:auto; }
+.chat-input-main::placeholder { color:rgba(240,236,228,0.25); }
+.chat-input-btn { background:none; border:none; font-size:20px; cursor:pointer; color:rgba(240,236,228,0.5); padding:2px; border-radius:6px; transition:color 0.2s; flex-shrink:0; }
+.chat-input-btn:hover { color:#e8eaed; }
+.chat-send-btn { background:linear-gradient(135deg,#00838f,#00bcd4); border:none; border-radius:8px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; color:white; font-size:16px; cursor:pointer; flex-shrink:0; transition:transform 0.15s; }
+.chat-send-btn:hover { transform:scale(1.05); }
+.chat-send-btn:active { transform:scale(0.95); }
+
+/* Liste des membres */
+.members-panel { width:220px; background:#0a0c14; border-left:1px solid #1a1c28; padding:12px 10px; overflow-y:auto; flex-shrink:0; display:none; }
+.members-panel.open { display:flex; flex-direction:column; gap:4px; }
+.members-section-title { font-family:'Bebas Neue',sans-serif; font-size:11px; letter-spacing:3px; color:rgba(240,236,228,0.3); padding:4px 6px; margin:8px 0 4px; }
+.member-row { display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:8px; cursor:pointer; }
+.member-row:hover { background:#15171f; }
+.member-avatar { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#1a1a2e,#252836); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; position:relative; }
+.member-status { position:absolute; bottom:0; right:0; width:10px; height:10px; border-radius:50%; border:2px solid #0a0c14; }
+.status-online { background:#2ecc71; }
+.status-away { background:#f39c12; }
+.status-offline { background:#636363; }
+.member-name { font-size:13px; color:#dcddde; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.member-role-badge { font-size:10px; color:rgba(240,236,228,0.35); }
+
+/* Emoji picker */
+.emoji-picker-overlay { position:fixed; inset:0; z-index:8000; }
+.emoji-picker-popup { position:absolute; background:#1e2130; border:1px solid #2e3248; border-radius:12px; padding:10px; width:280px; box-shadow:0 8px 32px rgba(0,0,0,0.5); z-index:8001; }
+.emoji-picker-popup input { width:100%; background:#15171f; border:1px solid #2e3248; border-radius:8px; padding:6px 10px; color:#e8eaed; font-size:13px; margin-bottom:8px; outline:none; }
+.emoji-grid { display:grid; grid-template-columns:repeat(8,1fr); gap:2px; max-height:200px; overflow-y:auto; }
+.emoji-cell { font-size:20px; padding:4px; border-radius:6px; cursor:pointer; text-align:center; }
+.emoji-cell:hover { background:#252836; }
+
+/* Modal création groupe */
+.create-group-modal { position:fixed; inset:0; z-index:9000; background:rgba(0,0,0,0.85); display:flex; align-items:flex-end; }
+.create-group-sheet { background:#1e2130; border-radius:20px 20px 0 0; width:100%; padding:24px 20px 40px; display:flex; flex-direction:column; gap:16px; max-height:85vh; overflow-y:auto; }
+
+/* Indicateur frappe */
+.typing-indicator { padding:4px 16px 0; min-height:20px; font-size:12px; color:rgba(240,236,228,0.4); font-style:italic; display:flex; align-items:center; gap:6px; }
+.typing-dots { display:flex; gap:3px; }
+.typing-dot { width:4px; height:4px; border-radius:50%; background:#00bcd4; animation:typingBounce 1.2s ease-in-out infinite; }
+.typing-dot:nth-child(2) { animation-delay:0.2s; }
+.typing-dot:nth-child(3) { animation-delay:0.4s; }
+@keyframes typingBounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+
+/* Unread badge */
+.unread-badge { position:absolute; bottom:2px; right:2px; background:#e74c3c; color:white; border-radius:50%; width:16px; height:16px; font-size:9px; display:flex; align-items:center; justify-content:center; border:2px solid #0a0c14; font-weight:bold; }
+
+/* Mode clair */
+body.light-mode .chat-app { background:#f0f1f5; }
+body.light-mode .chat-sidebar { background:#e3e5e8; border-color:rgba(0,0,0,0.1); }
+body.light-mode .sidebar-btn { background:#d1d3d8; }
+body.light-mode .sidebar-btn:hover { background:#c4c6cb; }
+body.light-mode .chat-main { background:#f0f1f5; }
+body.light-mode .chat-header { background:#f0f1f5; border-color:rgba(0,0,0,0.1); }
+body.light-mode .chat-messages-area { background:#f0f1f5; }
+body.light-mode .chat-message:hover { background:rgba(0,0,0,0.02); }
+body.light-mode .chat-msg-text { color:#2e3338; }
+body.light-mode .chat-input-area { background:#f0f1f5; }
+body.light-mode .chat-input-box { background:#fff; border-color:rgba(0,0,0,0.15); }
+body.light-mode .chat-input-main { color:#2e3338; }
+body.light-mode .members-panel { background:#e3e5e8; }
+body.light-mode .member-row:hover { background:#d1d3d8; }
+
 /* ===== TRANSITIONS ÉCRANS ===== */
 .screen { opacity:0; transform:translateY(12px); transition:opacity 0.28s ease, transform 0.28s ease; pointer-events:none; }
 .screen.active { opacity:1; transform:translateY(0); pointer-events:all; }
@@ -743,6 +869,16 @@ body.light-mode #shopToast { color:white !important; }
   <span id="offline-text">HORS CONNEXION — Mode solo disponible</span>
 </div>
 
+
+<!-- ===== AUDIOMACK BACKGROUND MUSIC ===== -->
+<div id="audiomack-player" style="position:fixed;bottom:-200px;left:0;width:1px;height:1px;opacity:0;pointer-events:none;z-index:-1">
+  <iframe 
+    src="https://audiomack.com/embed/twxny/song/heavenly-jumpstyle-2?background=1&autoplay=1"
+    width="1" height="1" frameborder="0"
+    allow="autoplay; encrypted-media"
+    title="Policier ou Voleur — BGM">
+  </iframe>
+</div>
 <!-- COVER OVERLAY -->
 <div class="cover-overlay" id="coverOverlay" style="display:none">
   <div class="big-lock">🔒</div>
@@ -784,6 +920,10 @@ body.light-mode #shopToast { color:white !important; }
 
   <div class="gap-12" style="margin-top:8px">
     <button class="btn btn-primary" onclick="goTo('screen-mode')"><span class="svg-icon" style="width:20px;height:20px;margin-right:8px"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="6"/><line x1="8" y1="12" x2="12" y2="12"/><line x1="10" y1="10" x2="10" y2="14"/><circle cx="16" cy="11" r="1.2" fill="currentColor" stroke="none"/><circle cx="18.5" cy="13" r="1.2" fill="currentColor" stroke="none"/></svg></span>Jouer</button>
+    <button class="btn btn-primary" onclick="openChat()" style="background:linear-gradient(135deg,#5865f2,#7289da);position:relative">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Chat
+      <span id="chatHomeBadge" style="display:none;position:absolute;top:8px;right:10px;background:#e74c3c;color:white;border-radius:50%;width:18px;height:18px;font-size:10px;align-items:center;justify-content:center;font-weight:bold">0</span>
+    </button>
     <button class="btn btn-secondary" onclick="goTo('screen-profile')"><span class="svg-icon" style="width:20px;height:20px;margin-right:8px"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>Mon Profil</button>
     <button class="btn btn-ghost" onclick="goTo('screen-boutique')" style="font-size:14px"><span class="svg-icon" style="width:18px;height:18px;margin-right:6px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></span>Boutique</button>
     <button class="btn btn-ghost" onclick="goTo('screen-stats')" style="font-size:14px"><span class="svg-icon" style="width:18px;height:18px;margin-right:6px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>Mes Stats</button>
@@ -791,6 +931,175 @@ body.light-mode #shopToast { color:white !important; }
     <button class="btn btn-ghost" onclick="goTo('screen-tutorial')" style="font-size:14px">🎓 Comment jouer</button>
     <button class="btn btn-ghost" onclick="showRules()" style="font-size:14px"><span class="svg-icon" style="width:18px;height:18px;margin-right:6px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg></span>Règles du jeu</button>
     <button class="btn btn-ghost" onclick="goTo('screen-settings')" style="font-size:14px"><span class="svg-icon" style="width:18px;height:18px;margin-right:6px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span>Paramètres</button>
+  </div>
+</div>
+
+<!-- ========== CHAT DAVIESLAY ========== -->
+<div class="screen" id="screen-chat">
+  <div class="chat-app">
+
+    <!-- SIDEBAR GAUCHE : canaux -->
+    <div class="chat-sidebar" id="chatSidebar">
+      <!-- Retour accueil -->
+      <div class="chat-sidebar-top">
+        <button class="sidebar-btn" onclick="goTo('screen-home')" title="Accueil" style="background:linear-gradient(135deg,#c0392b,#e74c3c)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+    </button>
+        <div class="sidebar-divider"></div>
+
+        <!-- Canaux publics -->
+        <div id="sidebarChannels" style="display:flex;flex-direction:column;gap:6px;width:100%;align-items:center"></div>
+
+        <div class="sidebar-divider"></div>
+
+        <!-- Bouton créer groupe -->
+        <button class="sidebar-btn" id="btnCreateGroup" onclick="showCreateGroup()" title="Créer un canal" style="color:#2ecc71;border:2px dashed #2ecc71;background:transparent">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2ecc71" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+
+        <div class="sidebar-divider" style="margin-top:auto"></div>
+
+        <!-- Profil utilisateur -->
+        <button class="sidebar-btn" id="sidebarProfileBtn" onclick="goTo('screen-profile')" title="Mon profil" style="margin-top:auto">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </button>
+      </div>
+    </div>
+
+    <!-- ZONE PRINCIPALE -->
+    <div class="chat-main" id="chatMain">
+
+      <!-- Header du canal actif -->
+      <div class="chat-header" id="chatHeader">
+        <span class="chat-header-icon" id="chatHeaderIcon" style="display:flex;align-items:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+        <div class="chat-header-info">
+          <div class="chat-header-name" id="chatHeaderName">Sélectionne un canal</div>
+          <div class="chat-header-desc" id="chatHeaderDesc">Choisis un canal dans la barre de gauche</div>
+        </div>
+        <div class="chat-header-actions">
+          <button class="chat-header-btn" onclick="toggleMembersPanel()" title="Membres">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </button>
+          <button class="chat-header-btn" onclick="searchMessages()" title="Rechercher">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+          <button class="chat-header-btn" id="btnPinned" onclick="showPinned()" title="Messages épinglés">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24z"/></svg>
+    </button>
+        </div>
+      </div>
+
+      <!-- Zone messages -->
+      <div class="chat-messages-area" id="chatMessagesArea">
+        <!-- Message de bienvenue -->
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:40px 20px;text-align:center;gap:12px">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(240,236,228,0.3)" stroke-width="1"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <div class="bebas" style="font-size:22px;letter-spacing:4px">CHAT DAVIESLAY</div>
+          <div style="font-size:14px;color:rgba(240,236,228,0.5);max-width:280px">Rejoins un canal ou crée ton groupe pour commencer à discuter !</div>
+        </div>
+      </div>
+
+      <!-- Indicateur frappe -->
+      <div class="typing-indicator" id="typingIndicator"></div>
+
+      <!-- Barre réponse citée -->
+      <div id="replyBar" style="display:none;padding:0 16px">
+        <div class="chat-reply-bar">
+          <span style="color:#00bcd4;font-size:13px;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00bcd4" stroke-width="2"><polyline points="9,17 4,12 9,7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg> Répondre à <strong id="replyToName"></strong></span>
+          <span id="replyToText" style="flex:1;margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px"></span>
+          <button class="chat-reply-bar-close" onclick="cancelReply()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+      </div>
+
+      <!-- Saisie message -->
+      <div class="chat-input-area" id="chatInputArea">
+        <div class="chat-input-box" id="chatInputBox">
+          <button class="chat-input-btn" onclick="showEmojiPicker(event)" title="Emoji">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9" stroke-linecap="round" stroke-width="3"/><line x1="15" y1="9" x2="15.01" y2="9" stroke-linecap="round" stroke-width="3"/></svg>
+    </button>
+          <textarea class="chat-input-main" id="chatMsgInput" placeholder="Écris un message..." rows="1"
+            onkeydown="handleChatKey(event)"
+            oninput="autoResizeInput(this);sendTypingIndicator()"></textarea>
+          <button class="chat-input-btn" onclick="attachImage()" title="Image">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+    </button>
+          <button class="chat-send-btn" onclick="sendChatMessage()" title="Envoyer">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg>
+    </button>
+        </div>
+        <input type="file" id="chatImageInput" accept="image/*" style="display:none" onchange="handleImageUpload(event)">
+      </div>
+    </div>
+
+    <!-- PANEL MEMBRES -->
+    <div class="members-panel" id="membersPanel">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;padding:4px 6px;margin-bottom:8px">MEMBRES</div>
+      <div id="membersList"></div>
+    </div>
+  </div>
+
+  <!-- MODAL CRÉER GROUPE -->
+  <div class="create-group-modal" id="createGroupModal" style="display:none" onclick="if(event.target===this)hideCreateGroup()">
+    <div class="create-group-sheet">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div class="bebas" style="font-size:20px;letter-spacing:4px">NOUVEAU CANAL</div>
+        <button onclick="hideCreateGroup()" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(240,236,228,0.5)" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+
+      <!-- Type canal -->
+      <div>
+        <div style="font-size:12px;letter-spacing:2px;color:rgba(240,236,228,0.45);font-family:'Bebas Neue',sans-serif;margin-bottom:8px">TYPE DE CANAL</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="shop-tab active" id="typePublic" onclick="selectChannelType('public')" style="padding:12px 8px">
+            <div style="font-size:20px;margin-bottom:4px">#</div>
+            <div>PUBLIC</div>
+            <div style="font-size:10px;opacity:0.6;margin-top:2px;font-family:sans-serif;letter-spacing:0;text-transform:none">Visible par tous</div>
+          </div>
+          <div class="shop-tab" id="typePrivate" onclick="selectChannelType('private')" style="padding:12px 8px">
+            <div style="margin-bottom:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+            <div>PRIVÉ</div>
+            <div style="font-size:10px;opacity:0.6;margin-top:2px;font-family:sans-serif;letter-spacing:0;text-transform:none">Sur invitation</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Emoji + Nom -->
+      <div style="display:flex;gap:10px;align-items:flex-end">
+        <div>
+          <div style="font-size:12px;letter-spacing:2px;color:rgba(240,236,228,0.45);font-family:'Bebas Neue',sans-serif;margin-bottom:6px">EMOJI</div>
+          <button id="groupEmojiBtn" onclick="pickGroupEmoji()" style="width:52px;height:52px;border-radius:12px;background:#15171f;border:1.5px solid #2e3248;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00bcd4" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:12px;letter-spacing:2px;color:rgba(240,236,228,0.45);font-family:'Bebas Neue',sans-serif;margin-bottom:6px">NOM DU CANAL</div>
+          <input type="text" id="groupNameInput" placeholder="ex: général, hors-jeu, stratégie..." maxlength="30" style="width:100%">
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div>
+        <div style="font-size:12px;letter-spacing:2px;color:rgba(240,236,228,0.45);font-family:'Bebas Neue',sans-serif;margin-bottom:6px">DESCRIPTION (optionnel)</div>
+        <input type="text" id="groupDescInput" placeholder="À quoi sert ce canal ?" maxlength="60" style="width:100%">
+      </div>
+
+      <!-- Membres privés -->
+      <div id="privateMembersSection" style="display:none">
+        <div style="font-size:12px;letter-spacing:2px;color:rgba(240,236,228,0.45);font-family:'Bebas Neue',sans-serif;margin-bottom:6px">INVITER DES MEMBRES</div>
+        <input type="text" id="inviteMemberInput" placeholder="Nom d'utilisateur..." style="width:100%;margin-bottom:8px">
+        <div id="invitedMembersList" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+      </div>
+
+      <button onclick="createChannel()" class="btn btn-primary" style="width:100%;background:linear-gradient(135deg,#5865f2,#7289da)">
+        CRÉER LE CANAL
+      </button>
+    </div>
+  </div>
+
+  <!-- EMOJI PICKER OVERLAY -->
+  <div id="emojiPickerOverlay" style="display:none" class="emoji-picker-overlay" onclick="closeEmojiPicker()">
+    <div class="emoji-picker-popup" id="emojiPickerPopup" onclick="event.stopPropagation()">
+      <input type="text" placeholder="Rechercher un emoji..." oninput="filterEmojis(this.value)" id="emojiSearch">
+      <div class="emoji-grid" id="emojiGrid"></div>
+    </div>
   </div>
 </div>
 
@@ -818,12 +1127,18 @@ body.light-mode #shopToast { color:white !important; }
     <div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px;background:#15171f;border-radius:12px;border:1px solid #252836">
       <!-- Avatar avec photo galerie ou emoji -->
       <div style="position:relative;display:inline-block">
-        <div class="avatar-big" id="profileAvatar" onclick="openAvatarModal()" style="overflow:hidden">
+        <div class="avatar-big" id="profileAvatar" onclick="document.getElementById('photoInput').click()" style="overflow:hidden;cursor:pointer" title="Changer la photo">
           <img id="profileAvatarImg" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%">
-          <span id="profileAvatarEmoji">😎</span>
+          <span id="profileAvatarEmoji" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%">
+      <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:rgba(240,236,228,0.4)">
+        <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+      </svg>
+    </span>
         </div>
         <!-- Bouton appareil photo -->
-        <label for="photoInput" style="position:absolute;bottom:0;right:0;width:30px;height:30px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid var(--noir);font-size:14px" title="Photo de galerie">📷</label>
+        <label for="photoInput" style="position:absolute;bottom:0;right:0;width:32px;height:32px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid var(--noir)" title="Changer la photo">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+    </label>
         <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="loadProfilePhoto(event)">
       </div>
       <input type="text" id="profileName" placeholder="Ton pseudo..." style="text-align:center;max-width:220px;font-size:18px" maxlength="20">
@@ -857,13 +1172,7 @@ body.light-mode #shopToast { color:white !important; }
 </div>
 
 <!-- ========== MODAL AVATAR ========== -->
-<div class="modal-bg" id="avatarModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal('avatarModal')">✕</button>
-    <h3 class="bebas" style="font-size:22px;letter-spacing:3px;margin-bottom:16px">CHOISIS TON AVATAR</h3>
-    <div class="avatar-grid" id="avatarGrid"></div>
-  </div>
-</div>
+<!-- avatarModal supprimé — photo galerie directe -->
 
 <!-- ========== CHOIX DU MODE ========== -->
 <div class="screen" id="screen-mode">
@@ -1581,7 +1890,7 @@ body.light-mode #shopToast { color:white !important; }
     <!-- Partage rapide WhatsApp / SMS -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%">
       <button class="invite-btn-wa" onclick="inviteViaWhatsApp()">
-        <span style="font-size:18px">💬</span>WhatsApp
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white" style="margin-right:4px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.556 4.122 1.526 5.854L0 24l6.335-1.505A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>WhatsApp
       </button>
       <button class="invite-btn-sms" onclick="inviteViaSMS()">
         <span style="font-size:18px">📱</span>SMS
@@ -1630,7 +1939,7 @@ body.light-mode #shopToast { color:white !important; }
 
     <!-- Chat du salon -->
     <div class="panel" style="width:100%;position:relative">
-      <div class="panel-title" style="margin-bottom:10px">💬 CHAT DU SALON</div>
+      <div class="panel-title" style="margin-bottom:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>CHAT DU SALON</div>
       <div class="chat-wrap">
         <div class="chat-messages" id="salonChatMessages">
           <div class="chat-msg system"><div class="chat-bubble">Bienvenue dans le salon ! 👋</div></div>
@@ -1657,7 +1966,7 @@ body.light-mode #shopToast { color:white !important; }
       <input type="text" placeholder="Ton prénom" id="joinPlayerName" style="text-align:center;margin-bottom:10px;width:100%">
       <input class="code-input" id="joinCode" placeholder="X X X X" maxlength="4" style="width:100%;text-align:center;font-size:28px;letter-spacing:10px;margin-bottom:10px">
       <button class="btn btn-primary" onclick="joinSalon()" style="width:100%;background:#00bcd4">
-        <span style="margin-right:8px">🚀</span>REJOINDRE
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px"><path d="M9 18l6-6-6-6"/></svg>REJOINDRE
       </button>
       <button class="btn btn-ghost" onclick="goTo('screen-salon-options')" style="width:100%;margin-top:8px;font-size:13px">← RETOUR</button>
     </div>
@@ -1704,10 +2013,10 @@ body.light-mode #shopToast { color:white !important; }
 
     <!-- Chat pour joueurs en attente -->
     <div class="panel" style="width:100%;text-align:left">
-      <div class="panel-title" style="margin-bottom:10px">💬 CHAT</div>
+      <div class="panel-title" style="margin-bottom:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>CHAT</div>
       <div class="chat-wrap">
         <div class="chat-messages" id="waitingChatMessages">
-          <div class="chat-msg system"><div class="chat-bubble">En attente de l'hôte... Discutez en attendant 🎮</div></div>
+          <div class="chat-msg system"><div class="chat-bubble">En attente de l'hôte... Discutez en attendant !</div></div>
         </div>
         <div class="chat-input-row">
           <input type="text" id="waitingChatInput" placeholder="Message..." maxlength="80" onkeydown="if(event.key==='Enter') sendChatMsg()">
@@ -1901,7 +2210,7 @@ function showRules() {
 }
 
 // ========== PROFIL ==========
-const AVATARS = ['😎','🦸','🕵️','👑','🤠','😈','🧙','🦊','🐺','🐱','🐸','🦁','🎭','🤖','👻','💀','🎪','🌟','🔥','⚡'];
+// AVATARS emoji supprimés — photo galerie directe
 
 function initProfile() {
   if (profile.avatarPhoto) {
@@ -1914,7 +2223,7 @@ function initProfile() {
     }
   } else {
     const emojiEl = document.getElementById("profileAvatarEmoji");
-    if (emojiEl) emojiEl.textContent = profile.avatar || "😎";
+    if (emojiEl) { /* pas d'emoji, SVG par défaut déjà en place */ }
   }
   document.getElementById('profileName').value = profile.name || '';
   document.getElementById('statParties').textContent = profile.parties || 0;
@@ -1940,21 +2249,7 @@ function initProfile() {
   }
 }
 
-function openAvatarModal() {
-  const grid = document.getElementById('avatarGrid');
-  grid.innerHTML = AVATARS.map(a => `<div class="avatar-opt ${a===profile.avatar?'sel':''}" onclick="selectAvatar('${a}')">${a}</div>`).join('');
-  openModal('avatarModal');
-}
-
-function selectAvatar(a) {
-  profile.avatar = a;
-  profile.avatarPhoto = null;
-  const imgEl = document.getElementById("profileAvatarImg");
-  const emojiEl = document.getElementById("profileAvatarEmoji");
-  if (imgEl) { imgEl.style.display = "none"; imgEl.src = ""; }
-  if (emojiEl) { emojiEl.textContent = a; emojiEl.style.display = "block"; }
-  closeModal("avatarModal");
-}
+function openAvatarModal() { document.getElementById('photoInput').click(); }
 
 function saveProfile() {
   profile.name = document.getElementById('profileName').value.trim() || 'Joueur';
@@ -3679,6 +3974,26 @@ function toggleMusic(isOn) {
   playClick();
 }
 
+
+function toggleGlobalSound() {
+  musicEnabled = !musicEnabled;
+  soundEnabled = musicEnabled;
+  const btn = document.getElementById('globalSoundBtn');
+  const icon = document.getElementById('soundBtnIcon');
+  const lbl = document.getElementById('soundBtnLabel');
+  if (soundEnabled) {
+    if (lbl) lbl.textContent = 'SON ACTIVÉ';
+    if (btn) { btn.style.borderColor = 'var(--or)'; btn.style.background = 'rgba(212,160,23,0.08)'; }
+    if (icon) icon.innerHTML = '<polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>';
+    startBgMusic();
+  } else {
+    if (lbl) lbl.textContent = 'SON DÉSACTIVÉ';
+    if (btn) { btn.style.borderColor = '#e74c3c'; btn.style.background = 'rgba(231,76,60,0.08)'; }
+    if (icon) icon.innerHTML = '<polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><line x1="23" y1="9" x2="17" y2="15" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke-linecap="round"/>';
+    stopBgMusic();
+  }
+}
+
 function toggleSFX(isOn) {
   settings.sfx = isOn;
   updateToggleUI('toggle-sfx', 'slider-sfx', 'knob-sfx', isOn);
@@ -4708,12 +5023,643 @@ function playSuspense(){if(!soundEnabled)return;try{const c=getAudioCtx();[200,1
 function playVictory(){if(!soundEnabled)return;try{const c=getAudioCtx();[[523,0],[659,.15],[784,.3],[1047,.45],[784,.65],[1047,.8],[1319,1.0]].forEach(([f,t])=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='triangle';o.frequency.setValueAtTime(f,c.currentTime+t);g.gain.setValueAtTime(0.2,c.currentTime+t);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+t+0.3);o.start(c.currentTime+t);o.stop(c.currentTime+t+0.3);});}catch(e){}}
 function playTransition(){if(!soundEnabled)return;try{const c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(400,c.currentTime);o.frequency.linearRampToValueAtTime(600,c.currentTime+0.15);g.gain.setValueAtTime(0.1,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.15);o.start();o.stop(c.currentTime+0.15);}catch(e){}}
 function playLock(){if(!soundEnabled)return;try{const c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='square';o.frequency.setValueAtTime(200,c.currentTime);o.frequency.exponentialRampToValueAtTime(100,c.currentTime+0.2);g.gain.setValueAtTime(0.1,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.2);o.start();o.stop(c.currentTime+0.2);}catch(e){}}
-function startBgMusic(){if(!musicEnabled)return;stopBgMusic();try{const c=getAudioCtx(),mg=c.createGain();mg.gain.setValueAtTime(0.04,c.currentTime);mg.connect(c.destination);function bass(){const notes=[110,110,98,110,123,110,98,87];let t=c.currentTime;notes.forEach(f=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(mg);o.type='triangle';o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(0.6,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.4);o.start(t);o.stop(t+0.4);t+=0.5;});}function mel(){[[330,0],[370,.5],[330,1],[294,1.5],[330,2.5],[370,3],[415,3.5],[370,4]].forEach(([f,t])=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(mg);o.type='sine';o.frequency.setValueAtTime(f,c.currentTime+t);g.gain.setValueAtTime(0.3,c.currentTime+t);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+t+0.45);o.start(c.currentTime+t);o.stop(c.currentTime+t+0.45);});}bass();mel();bgMusicNodes={gain:mg,interval:setInterval(()=>{if(!musicEnabled)return;bass();mel();},4000)};}catch(e){}}
+function startBgMusic() { const player = document.getElementById("audiomack-player"); if (player) player.style.display="none"; }
 function stopBgMusic(){if(bgMusicNodes){clearInterval(bgMusicNodes.interval);try{bgMusicNodes.gain.gain.setValueAtTime(0,audioCtx.currentTime);}catch(e){}bgMusicNodes=null;}}
 
-function createMuteButton(){const btn=document.createElement('div');btn.id='muteBtn';btn.innerHTML='🔊';btn.style.cssText='position:fixed;bottom:20px;right:20px;z-index:999;width:44px;height:44px;border-radius:50%;background:#1a1c28;border:1px solid #252836;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;';btn.onclick=()=>{musicEnabled=!musicEnabled;soundEnabled=!soundEnabled;if(musicEnabled){btn.innerHTML='🔊';btn.style.opacity='1';startBgMusic();}else{btn.innerHTML='🔇';btn.style.opacity='0.4';stopBgMusic();}};document.body.appendChild(btn);}
 
-// ========== BOUTIQUE & STATISTIQUES ==========
+// =====================================================
+// SYSTÈME CHAT DAVIESLAY — Style Discord
+// =====================================================
+
+// Emojis organisés par catégorie pour le picker
+const CHAT_EMOJIS_GROUPS = {
+  'Visages': ['😀','😂','😅','🥰','😎','🤔','😱','😤','😏','😭','🥺','🤣','😈','💀','🤯','🫡','🫠','😇','🤩','🥳'],
+  'Mains & Corps': ['👍','👎','🙏','💪','👀','✌️','🤝','🙌','👇','☝️','🤌','🫶','🫵','👁️'],
+  'Jeu': ['🎮','🎭','🎲','🃏','🏆','🥇','🏅','🎯','🎉','🎊','👮','🦹'],
+  'Symboles': ['🔥','⚡','💯','❤️','✅','❌','🪙','👑','🌟','💥','🚀','💡','🌍','🛡️','⚔️','🔍'],
+};
+
+let chatState = {
+  currentChannel: null,
+  channels: [],
+  messages: {},
+  listeners: {},
+  replyTo: null,
+  typingTimeout: null,
+  membersOpen: false,
+  unreadCounts: {},
+  groupEmoji: '💬',
+  channelType: 'public',
+  invitedMembers: [],
+};
+
+// ── INITIALISATION ──────────────────────────────────
+function openChat() {
+  initFirebase().then(() => {
+    loadChannels();
+    goTo('screen-chat');
+    // Mettre à jour le badge accueil
+    const badge = document.getElementById('chatHomeBadge');
+    if (badge) badge.style.display = 'none';
+    renderEmojiGrid();
+    // Mettre à jour l'avatar sidebar
+    const avatarItem = SHOP_CATALOG?.avatars?.find(a => a.id === (shopData?.equipped?.avatar || 'av_detective'));
+    const sidebarBtn = document.getElementById('sidebarProfileBtn');
+    if (sidebarBtn && avatarItem) sidebarBtn.textContent = avatarItem.icon;
+  }).catch(() => {
+    goTo('screen-chat');
+    // Pas de discussions simulées — afficher message hors-ligne
+    document.getElementById('chatMessagesArea').innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:40px 20px;text-align:center;gap:16px">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(240,236,228,0.3)" stroke-width="1.5"><path d="M1 6s0 0 0 0c0-1.1.9-2 2-2h18a2 2 0 0 1 2 2v0M1 6v12a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V6M1 6l11 7 11-7"/></svg>
+        <div class="bebas" style="font-size:18px;letter-spacing:3px;color:rgba(240,236,228,0.4)">HORS CONNEXION</div>
+        <div style="font-size:14px;color:rgba(240,236,228,0.3);max-width:260px">Le chat nécessite une connexion internet. Connecte-toi pour accéder aux canaux.</div>
+        <button onclick="openChat()" class="btn btn-ghost" style="margin-top:8px">🔄 Réessayer</button>
+      </div>`;
+    renderEmojiGrid();
+  });
+}
+
+// ── CANAUX ──────────────────────────────────────────
+function loadChannels() {
+  const chRef = db.ref('chat_channels');
+  // Écouter les canaux en temps réel
+  chRef.on('value', snap => {
+    const data = snap.val() || {};
+    chatState.channels = Object.entries(data).map(([id, ch]) => ({ id, ...ch }))
+      .sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+    renderSidebarChannels();
+    // Créer les canaux par défaut si aucun n'existe
+    if (chatState.channels.length === 0) createDefaultChannels();
+  });
+}
+
+function createDefaultChannels() {
+  const defaults = [
+    { name: 'général', emoji: '💬', desc: 'Discussion générale', type: 'public', pinned: true },
+    { name: 'hors-jeu', emoji: '🎮', desc: 'Tout ce qui n\'est pas le jeu', type: 'public' },
+    { name: 'stratégie', emoji: '🧠', desc: 'Tactiques et conseils', type: 'public' },
+    { name: 'annonces', emoji: '📢', desc: 'Annonces officielles DAVIESLAY', type: 'public', readonly: true },
+  ];
+  defaults.forEach(ch => {
+    const key = db.ref('chat_channels').push().key;
+    db.ref('chat_channels/' + key).set({ ...ch, createdAt: Date.now(), createdBy: 'DAVIESLAY', memberCount: 0 });
+  });
+}
+
+// loadDemoChannels supprimé — pas de données simulées
+
+function renderSidebarChannels() {
+  const container = document.getElementById('sidebarChannels');
+  if (!container) return;
+  container.innerHTML = chatState.channels.map(ch => {
+    const unread = chatState.unreadCounts[ch.id] || 0;
+    const isActive = chatState.currentChannel?.id === ch.id;
+    return `<button class="sidebar-btn ${isActive ? 'active' : ''}" onclick="selectChannel(${JSON.stringify(ch).replace(/"/g,'&quot;')})" title="${ch.name}" style="position:relative">
+      <span style="font-size:18px">${ch.emoji || '#'}</span>
+      ${unread > 0 ? `<span class="unread-badge">${unread > 9 ? '9+' : unread}</span>` : ''}
+    </button>`;
+  }).join('');
+}
+
+function selectChannel(channel) {
+  if (typeof channel === 'string') channel = JSON.parse(channel);
+  chatState.currentChannel = channel;
+  chatState.unreadCounts[channel.id] = 0;
+
+  // Mettre à jour header
+  document.getElementById('chatHeaderIcon').textContent = channel.type === 'private' ? '🔒' : channel.emoji || '#';
+  document.getElementById('chatHeaderName').textContent = channel.name;
+  document.getElementById('chatHeaderDesc').textContent = channel.desc || `Canal ${channel.type === 'private' ? 'privé' : 'public'}`;
+
+  // Activer/désactiver input selon readonly
+  const inputBox = document.getElementById('chatInputBox');
+  const input = document.getElementById('chatMsgInput');
+  if (channel.readonly) {
+    if (input) input.placeholder = '📢 Canal en lecture seule';
+    if (inputBox) inputBox.style.opacity = '0.5';
+    if (input) input.disabled = true;
+  } else {
+    if (input) { input.placeholder = `Message dans #${channel.name}`; input.disabled = false; }
+    if (inputBox) inputBox.style.opacity = '1';
+  }
+
+  // Sidebar highlight
+  renderSidebarChannels();
+
+  // Arrêter ancien listener
+  if (chatState.listeners[chatState.currentChannel?.id]) {
+    // Off handled
+  }
+
+  // Charger messages
+  loadChannelMessages(channel);
+  loadChannelMembers(channel);
+
+  // Focus input
+  setTimeout(() => { const inp = document.getElementById('chatMsgInput'); if (inp) inp.focus(); }, 100);
+}
+
+// ── MESSAGES ────────────────────────────────────────
+function loadChannelMessages(channel) {
+  const area = document.getElementById('chatMessagesArea');
+  if (!area) return;
+  area.innerHTML = `<div style="display:flex;justify-content:center;padding:20px"><div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+
+  if (!db) { renderMessages(channel, []); return; }
+
+  const msgRef = db.ref('chat_messages/' + channel.id).limitToLast(60);
+
+  // Détacher l'ancien listener si existe
+  if (chatState.listeners[channel.id]) {
+    db.ref('chat_messages/' + chatState.listeners[channel.id]?.path).off();
+  }
+
+  msgRef.on('value', snap => {
+    const data = snap.val() || {};
+    const msgs = Object.entries(data).map(([id, m]) => ({ id, ...m }))
+      .sort((a, b) => a.ts - b.ts);
+    chatState.messages[channel.id] = msgs;
+    renderMessages(channel, msgs);
+  });
+  chatState.listeners[channel.id] = { ref: msgRef };
+}
+
+function renderMessages(channel, msgs) {
+  const area = document.getElementById('chatMessagesArea');
+  if (!area) return;
+
+  if (msgs.length === 0) {
+    area.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;padding:40px 20px;text-align:center;gap:10px">
+        <div style="font-size:48px">${channel.emoji || '💬'}</div>
+        <div class="bebas" style="font-size:18px;letter-spacing:3px">Bienvenue dans #${channel.name} !</div>
+        <div style="font-size:14px;color:rgba(240,236,228,0.4)">${channel.desc || 'Sois le premier à écrire !'}</div>
+      </div>`;
+    return;
+  }
+
+  let html = '';
+  let lastAuthor = '';
+  let lastDate = '';
+
+  msgs.forEach((msg, i) => {
+    const date = new Date(msg.ts);
+    const dateStr = date.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long' });
+    const timeStr = date.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+    const isFirst = msg.author !== lastAuthor || dateStr !== lastDate;
+
+    // Séparateur de jour
+    if (dateStr !== lastDate) {
+      html += `<div class="chat-day-divider"><span>${dateStr}</span></div>`;
+    }
+    lastDate = dateStr;
+    lastAuthor = msg.author;
+
+    const isMe = msg.author === (profile.name || 'Joueur');
+    const avatarColor = stringToColor(msg.author);
+    const avatarLetter = (msg.author || '?')[0].toUpperCase();
+    const avatarContent = msg.authorPhoto
+      ? `<img src="${msg.authorPhoto}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
+      : (msg.authorEmoji || avatarLetter);
+
+    // Réactions
+    const reactions = msg.reactions || {};
+    const reactHtml = Object.entries(reactions).length > 0 ?
+      `<div class="msg-reactions">${Object.entries(reactions).map(([emoji, users]) => {
+        const isMine = users && users[safeKey(profile.name)];
+        return `<span class="reaction-pill ${isMine?'mine':''}" onclick="toggleReaction('${msg.id}','${emoji}')">
+          ${emoji} <span class="reaction-count">${Object.keys(users||{}).length}</span>
+        </span>`;
+      }).join('')}</div>` : '';
+
+    // Message cité (réponse)
+    const replyHtml = msg.replyTo ? `
+      <div class="chat-reply-quote">
+        <div class="chat-reply-quote-author">${msg.replyTo.author}</div>
+        <div class="chat-reply-quote-text">${escapeHtml(msg.replyTo.text || '')}</div>
+      </div>` : '';
+
+    // Contenu du message
+    let contentHtml = '';
+    if (msg.deleted) {
+      contentHtml = `<div class="chat-msg-text deleted">🗑️ Ce message a été supprimé</div>`;
+    } else if (msg.type === 'image') {
+      contentHtml = `<img src="${msg.imageUrl}" class="chat-msg-image" onclick="viewImage('${msg.imageUrl}')" loading="lazy">`;
+    } else {
+      contentHtml = `<div class="chat-msg-text">${formatMessageText(msg.text || '')}</div>`;
+    }
+
+    html += `
+      <div class="chat-message ${isFirst ? 'first-of-group' : ''}" id="msg-${msg.id}" data-id="${msg.id}">
+        <div class="chat-avatar ${!isFirst ? 'hidden' : ''}" style="background:${avatarColor}">
+          ${avatarContent}
+        </div>
+        <div class="chat-msg-content">
+          ${isFirst ? `<div class="chat-msg-header">
+            <span class="chat-msg-author" style="color:${avatarColor}">${escapeHtml(msg.author)}</span>
+            <span class="chat-msg-time">${timeStr}</span>
+          </div>` : ''}
+          ${replyHtml}
+          ${contentHtml}
+          ${reactHtml}
+        </div>
+        <div class="msg-actions">
+          <button class="msg-action-btn" onclick="showReactionPicker('${msg.id}',event)" title="Réagir"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9" stroke-linecap="round" stroke-width="3"/><line x1="15" y1="9" x2="15.01" y2="9" stroke-linecap="round" stroke-width="3"/></svg></button>
+          <button class="msg-action-btn" onclick="replyToMessage('${msg.id}')" title="Répondre"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,17 4,12 9,7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg></button>
+          ${isMe || channel.createdBy === profile.name ? `<button class="msg-action-btn" onclick="deleteMessage('${msg.id}')" title="Supprimer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg></button>` : ''}
+          <button class="msg-action-btn" onclick="pinMessage('${msg.id}')" title="Épingler"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24z"/></svg></button>
+        </div>
+      </div>`;
+  });
+
+  area.innerHTML = html;
+  // Scroll vers le bas
+  requestAnimationFrame(() => { area.scrollTop = area.scrollHeight; });
+}
+
+// ── ENVOI MESSAGES ───────────────────────────────────
+function sendChatMessage() {
+  const input = document.getElementById('chatMsgInput');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text || !chatState.currentChannel) return;
+  if (chatState.currentChannel.readonly) return;
+
+  const avatarPhoto = profile.avatarPhoto || null;
+  const avatarItem = SHOP_CATALOG?.avatars?.find(a => a.id === (shopData?.equipped?.avatar || 'av_detective'));
+
+  const msg = {
+    author: profile.name || 'Joueur',
+    authorEmoji: avatarItem?.icon || '👤',
+    authorPhoto: avatarPhoto || null,
+    text,
+    ts: Date.now(),
+    type: 'text',
+    replyTo: chatState.replyTo || null,
+  };
+
+  input.value = '';
+  input.style.height = 'auto';
+  cancelReply();
+  playClick();
+
+  if (db) {
+    db.ref('chat_messages/' + chatState.currentChannel.id).push(msg);
+    // Mettre à jour compteur membres et dernier message
+    db.ref('chat_channels/' + chatState.currentChannel.id).update({
+      lastMsg: text.slice(0, 40),
+      lastMsgAt: Date.now(),
+      lastMsgAuthor: msg.author
+    });
+    // Arrêter indicateur frappe
+    db.ref('chat_typing/' + chatState.currentChannel.id + '/' + safeKey(msg.author)).remove();
+  } else {
+    // Mode hors-ligne : affichage local
+    const msgs = chatState.messages[chatState.currentChannel.id] || [];
+    msgs.push({ id: 'local_' + Date.now(), ...msg });
+    chatState.messages[chatState.currentChannel.id] = msgs;
+    renderMessages(chatState.currentChannel, msgs);
+  }
+}
+
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendChatMessage();
+  }
+}
+
+function autoResizeInput(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+// ── INDICATEUR FRAPPE ────────────────────────────────
+function sendTypingIndicator() {
+  if (!db || !chatState.currentChannel) return;
+  const key = safeKey(profile.name || 'Joueur');
+  db.ref('chat_typing/' + chatState.currentChannel.id + '/' + key).set({
+    name: profile.name || 'Joueur', ts: Date.now()
+  });
+  clearTimeout(chatState.typingTimeout);
+  chatState.typingTimeout = setTimeout(() => {
+    db.ref('chat_typing/' + chatState.currentChannel.id + '/' + key).remove();
+  }, 3000);
+  listenTyping();
+}
+
+let typingListenerActive = false;
+function listenTyping() {
+  if (typingListenerActive || !db || !chatState.currentChannel) return;
+  typingListenerActive = true;
+  db.ref('chat_typing/' + chatState.currentChannel.id).on('value', snap => {
+    const data = snap.val() || {};
+    const others = Object.values(data).filter(t =>
+      t.name !== (profile.name || 'Joueur') && Date.now() - t.ts < 4000
+    );
+    const indicator = document.getElementById('typingIndicator');
+    if (!indicator) return;
+    if (others.length === 0) { indicator.innerHTML = ''; return; }
+    const names = others.map(t => `<strong>${t.name}</strong>`).join(', ');
+    indicator.innerHTML = `<div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div> ${names} ${others.length > 1 ? 'écrivent' : 'écrit'}...`;
+  });
+}
+
+// ── RÉACTIONS ────────────────────────────────────────
+function toggleReaction(msgId, emoji) {
+  if (!db || !chatState.currentChannel) return;
+  const key = safeKey(profile.name || 'Joueur');
+  const ref = db.ref(`chat_messages/${chatState.currentChannel.id}/${msgId}/reactions/${emoji}/${key}`);
+  ref.once('value').then(snap => {
+    if (snap.exists()) ref.remove(); else ref.set(true);
+  });
+}
+
+function showReactionPicker(msgId, event) {
+  event.stopPropagation();
+  const quickEmojis = ['👍','❤️','😂','😱','🔥','💯','👮','🦹','🏆','🎉'];
+  const existing = document.getElementById('quickReactionPicker');
+  if (existing) existing.remove();
+
+  const picker = document.createElement('div');
+  picker.id = 'quickReactionPicker';
+  picker.style.cssText = 'position:fixed;background:#1e2130;border:1px solid #2e3248;border-radius:10px;padding:8px;display:flex;gap:4px;z-index:9000;box-shadow:0 4px 20px rgba(0,0,0,0.5)';
+  picker.innerHTML = quickEmojis.map(e =>
+    `<span style="font-size:22px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='#252836'" onmouseout="this.style.background=''" onclick="toggleReaction('${msgId}','${e}');this.parentNode.remove()">${e}</span>`
+  ).join('');
+
+  const rect = event.target.getBoundingClientRect();
+  picker.style.top = (rect.top - 60) + 'px';
+  picker.style.left = Math.min(rect.left, window.innerWidth - 300) + 'px';
+  document.body.appendChild(picker);
+  setTimeout(() => document.addEventListener('click', () => picker.remove(), { once: true }), 100);
+}
+
+// ── RÉPONDRE ─────────────────────────────────────────
+function replyToMessage(msgId) {
+  const msgs = chatState.messages[chatState.currentChannel?.id] || [];
+  const msg = msgs.find(m => m.id === msgId);
+  if (!msg) return;
+  chatState.replyTo = { author: msg.author, text: msg.text, msgId };
+  document.getElementById('replyToName').textContent = msg.author;
+  document.getElementById('replyToText').textContent = msg.text || '';
+  document.getElementById('replyBar').style.display = 'block';
+  document.getElementById('chatInputBox').classList.add('replying');
+  document.getElementById('chatMsgInput').focus();
+}
+
+function cancelReply() {
+  chatState.replyTo = null;
+  const bar = document.getElementById('replyBar');
+  const box = document.getElementById('chatInputBox');
+  if (bar) bar.style.display = 'none';
+  if (box) box.classList.remove('replying');
+}
+
+// ── SUPPRIMER MESSAGE ────────────────────────────────
+function deleteMessage(msgId) {
+  if (!db || !chatState.currentChannel) return;
+  db.ref(`chat_messages/${chatState.currentChannel.id}/${msgId}`).update({ deleted: true, text: '' });
+}
+
+// ── ÉPINGLER MESSAGE ─────────────────────────────────
+function pinMessage(msgId) {
+  if (!db || !chatState.currentChannel) return;
+  const msgs = chatState.messages[chatState.currentChannel.id] || [];
+  const msg = msgs.find(m => m.id === msgId);
+  if (!msg) return;
+  db.ref(`chat_channels/${chatState.currentChannel.id}/pinned/${msgId}`).set({
+    text: msg.text, author: msg.author, ts: msg.ts
+  });
+  showShopToast('📌 Message épinglé !');
+}
+
+function showPinned() {
+  if (!db || !chatState.currentChannel) return;
+  db.ref(`chat_channels/${chatState.currentChannel.id}/pinned`).once('value').then(snap => {
+    const pins = snap.val() || {};
+    const list = Object.values(pins);
+    if (!list.length) { showShopToast('Aucun message épinglé'); return; }
+    showFirebaseError('📌 Messages épinglés :\n\n' + list.map(p => `${p.author} : "${p.text}"`).join('\n'));
+  });
+}
+
+// ── IMAGE ─────────────────────────────────────────────
+function attachImage() {
+  document.getElementById('chatImageInput').click();
+}
+
+function handleImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file || !chatState.currentChannel) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const imageUrl = e.target.result;
+    const avatarItem = SHOP_CATALOG?.avatars?.find(a => a.id === (shopData?.equipped?.avatar||'av_detective'));
+    if (db) {
+      db.ref('chat_messages/' + chatState.currentChannel.id).push({
+        author: profile.name || 'Joueur',
+        authorEmoji: avatarItem?.icon || '👤',
+        text: '📷 Image',
+        imageUrl,
+        ts: Date.now(),
+        type: 'image'
+      });
+    }
+  };
+  reader.readAsDataURL(file);
+  event.target.value = '';
+}
+
+function viewImage(url) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:10000;display:flex;align-items:center;justify-content:center';
+  overlay.innerHTML = `<img src="${url}" style="max-width:95vw;max-height:90vh;border-radius:8px" onclick="event.stopPropagation()"><button onclick="this.parentNode.remove()" style="position:absolute;top:20px;right:20px;background:none;border:none;color:white;font-size:28px;cursor:pointer">✕</button>`;
+  overlay.onclick = () => overlay.remove();
+  document.body.appendChild(overlay);
+}
+
+// ── EMOJI PICKER ──────────────────────────────────────
+function renderEmojiGrid(filter = '') {
+  const grid = document.getElementById('emojiGrid');
+  if (!grid) return;
+  const allEmojis = Object.values(CHAT_EMOJIS_GROUPS).flat();
+  if (filter) {
+    const filtered = allEmojis.filter(e => e.includes(filter));
+    grid.innerHTML = filtered.map(e =>
+      `<span class="emoji-cell" onclick="insertEmoji('${e}')">${e}</span>`).join('');
+    return;
+  }
+  grid.innerHTML = Object.entries(CHAT_EMOJIS_GROUPS).map(([cat, emojis]) =>
+    `<div style="grid-column:1/-1;font-size:10px;letter-spacing:2px;color:rgba(240,236,228,0.35);font-family:'Bebas Neue',sans-serif;padding:6px 2px 2px">${cat}</div>` +
+    emojis.map(e => `<span class="emoji-cell" onclick="insertEmoji('${e}')">${e}</span>`).join('')
+  ).join('');
+}
+
+function showEmojiPicker(event) {
+  event.stopPropagation();
+  const overlay = document.getElementById('emojiPickerOverlay');
+  const popup = document.getElementById('emojiPickerPopup');
+  if (!overlay || !popup) return;
+  overlay.style.display = 'block';
+  const rect = event.target.getBoundingClientRect();
+  popup.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
+  popup.style.left = Math.max(8, rect.left - 100) + 'px';
+  renderEmojiGrid();
+  document.getElementById('emojiSearch').value = '';
+}
+
+function closeEmojiPicker() {
+  const o = document.getElementById('emojiPickerOverlay');
+  if (o) o.style.display = 'none';
+}
+
+function filterEmojis(val) { renderEmojiGrid(val); }
+
+function insertEmoji(emoji) {
+  const input = document.getElementById('chatMsgInput');
+  if (!input) return;
+  const pos = input.selectionStart || input.value.length;
+  input.value = input.value.slice(0, pos) + emoji + input.value.slice(pos);
+  input.focus();
+  closeEmojiPicker();
+}
+
+// ── MEMBRES ───────────────────────────────────────────
+function toggleMembersPanel() {
+  chatState.membersOpen = !chatState.membersOpen;
+  const panel = document.getElementById('membersPanel');
+  if (panel) panel.classList.toggle('open', chatState.membersOpen);
+}
+
+function loadChannelMembers(channel) {
+  const list = document.getElementById('membersList');
+  if (!list) return;
+  if (!db) { list.innerHTML = `<div class="member-row"><div class="member-avatar">👤</div><div><div class="member-name">${profile.name||'Toi'}</div><div class="member-role-badge">Joueur</div></div></div>`; return; }
+
+  db.ref('leaderboard').once('value').then(snap => {
+    const data = snap.val() || {};
+    const members = Object.values(data).slice(0, 20);
+    if (members.length === 0) {
+      list.innerHTML = `<div class="member-row"><div class="member-avatar">👤</div><div><div class="member-name">${profile.name||'Toi'}</div></div></div>`;
+      return;
+    }
+    list.innerHTML = `<div class="members-section-title">EN LIGNE — ${members.length}</div>` +
+      members.map(m => `
+        <div class="member-row">
+          <div class="member-avatar" style="background:${stringToColor(m.name)};font-size:16px">
+            ${m.name?.[0]?.toUpperCase()||'?'}
+            <div class="member-status status-${Math.random() > 0.4 ? 'online' : 'away'}"></div>
+          </div>
+          <div style="min-width:0">
+            <div class="member-name">${escapeHtml(m.name)}</div>
+            <div class="member-role-badge">⭐ ${m.victoires||0} victoires</div>
+          </div>
+        </div>`).join('');
+  }).catch(() => {});
+}
+
+// ── CRÉER CANAL ───────────────────────────────────────
+function showCreateGroup() {
+  document.getElementById('createGroupModal').style.display = 'flex';
+  document.getElementById('groupNameInput').focus();
+}
+
+function hideCreateGroup() {
+  document.getElementById('createGroupModal').style.display = 'none';
+}
+
+function selectChannelType(type) {
+  chatState.channelType = type;
+  document.getElementById('typePublic').classList.toggle('active', type === 'public');
+  document.getElementById('typePrivate').classList.toggle('active', type === 'private');
+  document.getElementById('privateMembersSection').style.display = type === 'private' ? 'block' : 'none';
+}
+
+function pickGroupEmoji() {
+  const emojis = ['💬','🎮','🧠','🔥','⚡','🏆','🎭','🃏','👮','🦹','🌍','🎯','💡','🚀','🎉','🏅','🎲','⚔️','🛡️','💥'];
+  const current = document.getElementById('groupEmojiBtn');
+  const idx = emojis.indexOf(chatState.groupEmoji);
+  chatState.groupEmoji = emojis[(idx + 1) % emojis.length];
+  if (current) current.textContent = chatState.groupEmoji;
+}
+
+function createChannel() {
+  const name = document.getElementById('groupNameInput').value.trim().toLowerCase().replace(/\s+/g, '-');
+  const desc = document.getElementById('groupDescInput').value.trim();
+  if (!name) { showShopToast('⚠️ Donne un nom au canal !'); return; }
+
+  const channel = {
+    name,
+    emoji: chatState.groupEmoji,
+    desc: desc || `Canal #${name}`,
+    type: chatState.channelType,
+    createdAt: Date.now(),
+    createdBy: profile.name || 'Joueur',
+    memberCount: 1
+  };
+
+  if (chatState.channelType === 'private') {
+    channel.members = {};
+    channel.members[safeKey(profile.name || 'Joueur')] = true;
+    chatState.invitedMembers.forEach(m => { channel.members[safeKey(m)] = true; });
+  }
+
+  if (db) {
+    const key = db.ref('chat_channels').push().key;
+    db.ref('chat_channels/' + key).set(channel).then(() => {
+      hideCreateGroup();
+      showShopToast(`✅ Canal #${name} créé !`);
+      playVictory();
+      // Reset form
+      document.getElementById('groupNameInput').value = '';
+      document.getElementById('groupDescInput').value = '';
+      chatState.groupEmoji = '💬';
+      chatState.invitedMembers = [];
+      document.getElementById('groupEmojiBtn').textContent = '💬';
+    });
+  } else {
+    showShopToast('❌ Connexion requise pour créer un canal');
+  }
+}
+
+// ── RECHERCHE ─────────────────────────────────────────
+function searchMessages() {
+  const q = prompt('Rechercher dans #' + (chatState.currentChannel?.name || '') + ' :');
+  if (!q) return;
+  const msgs = chatState.messages[chatState.currentChannel?.id] || [];
+  const found = msgs.filter(m => m.text?.toLowerCase().includes(q.toLowerCase()) && !m.deleted);
+  if (!found.length) { showShopToast('Aucun résultat pour "' + q + '"'); return; }
+  const area = document.getElementById('chatMessagesArea');
+  // Highlight premier résultat
+  const el = document.getElementById('msg-' + found[0].id);
+  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.style.background = 'rgba(0,188,212,0.1)'; setTimeout(() => el.style.background = '', 2000); }
+  showShopToast(`${found.length} résultat(s) pour "${q}"`);
+}
+
+// ── UTILITAIRES ───────────────────────────────────────
+function safeKey(str) {
+  return (str || 'anon').replace(/[.#$[\]/]/g, '_');
+}
+
+function stringToColor(str) {
+  const colors = ['#e74c3c','#3498db','#2ecc71','#9b59b6','#f39c12','#00bcd4','#e67e22','#1abc9c','#e91e63','#673ab7'];
+  let hash = 0;
+  for (let i = 0; i < (str||'').length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  return colors[Math.abs(hash) % colors.length];
+}
+
+function formatMessageText(text) {
+  return escapeHtml(text)
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/`(.*?)`/g, '<code style="background:#15171f;padding:1px 5px;border-radius:4px;font-family:monospace;font-size:13px">$1</code>')
+    .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color:#00bcd4;text-decoration:underline">$1</a>')
+    .replace(/\n/g, '<br>');
+}
+
+// =====================================================
 
 // Catalogue des articles
 const SHOP_CATALOG = {
@@ -5513,7 +6459,6 @@ window.onload = () => {
     localStorage.setItem('tutoSeen','1');
     setTimeout(() => goTo('screen-tutorial'), 1800);
   }
-  createMuteButton();
 
   // Hook goTo pour init boutique/stats à l'ouverture
   const _goToOrig = window.goTo;
@@ -5549,7 +6494,7 @@ window.onload = () => {
       <table class="scores-table" id="specScoresTable"></table>
     </div>
     <div class="panel">
-      <div class="panel-title" style="margin-bottom:10px">💬 CHAT</div>
+      <div class="panel-title" style="margin-bottom:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>CHAT</div>
       <div class="chat-wrap" style="height:160px">
         <div class="chat-messages" id="specChatMessages"></div>
       </div>
@@ -5865,6 +6810,13 @@ window.onload = () => {
           <span id="slider-sfx" style="position:absolute;inset:0;background:#252836;border-radius:26px;transition:0.3s"></span>
           <span id="knob-sfx" style="position:absolute;top:3px;left:3px;width:20px;height:20px;background:white;border-radius:50%;transition:0.3s"></span>
         </label>
+      </div>
+      <!-- Bouton son global bien visible -->
+      <div style="padding:10px 0 4px">
+        <button id="globalSoundBtn" onclick="toggleGlobalSound()" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--or);background:rgba(212,160,23,0.08);color:var(--or-clair);font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="soundBtnIcon"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+          <span id="soundBtnLabel">SON ACTIVÉ</span>
+        </button>
       </div>
     </div>
 
