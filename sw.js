@@ -1,103 +1,145 @@
 // ===================================================
 // SERVICE WORKER — Policier ou Voleur (DAVIESLAY)
-// Cache complet + stratégie offline-first
+// Version: 2.3 — Network-First + Auto-update
 // ===================================================
 
-const CACHE_NAME = 'pov-v2-2';
-const OFFLINE_ASSETS = [
-  './',
-  './index.html',
+const CACHE_NAME = 'pov-v2-3'; // ← Incrémenté = force mise à jour immédiate
+const CACHE_STATIC = 'pov-static-v2-3';
+
+// Assets statiques mis en cache (rarement modifiés)
+const STATIC_ASSETS = [
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
-  // Fonts Google
   'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap',
-  // Firebase (en cache pour accès rapide)
   'https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js',
   'https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js',
+  'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js',
 ];
 
-// ── INSTALL : mettre en cache tous les assets ──
+// ── INSTALL ──────────────────────────────────────────
 self.addEventListener('install', event => {
+  // skipWaiting : le nouveau SW prend le contrôle immédiatement
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return Promise.allSettled(
-        OFFLINE_ASSETS.map(url =>
+    caches.open(CACHE_STATIC).then(cache =>
+      Promise.allSettled(
+        STATIC_ASSETS.map(url =>
           cache.add(url).catch(e => console.warn('[SW] Cache miss:', url, e.message))
         )
-      );
-    })
+      )
+    )
   );
 });
 
-// ── ACTIVATE : supprimer les anciens caches ──
+// ── ACTIVATE : supprimer TOUS les anciens caches ─────
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
         keys
-          .filter(k => k !== CACHE_NAME)
-          .map(k => { console.log('[SW] Suppression ancien cache:', k); return caches.delete(k); })
+          .filter(k => k !== CACHE_NAME && k !== CACHE_STATIC)
+          .map(k => {
+            console.log('[SW] Suppression ancien cache:', k);
+            return caches.delete(k);
+          })
       )
-    ).then(() => self.clients.claim())
-  );
-});
-
-// ── FETCH : stratégie Cache-First puis Network-Fallback ──
-self.addEventListener('fetch', event => {
-  const url = new URL(event.request.url);
-
-  // Ne pas intercepter Firebase Realtime Database (temps réel obligatoire)
-  if (
-    url.hostname.includes('firebasedatabase.app') ||
-    url.hostname.includes('firebaseio.com') ||
-    url.hostname.includes('googleapis.com/identitytoolkit') ||
-    url.hostname.includes('securetoken.google.com')
-  ) {
-    return; // Laisser passer sans interception
-  }
-
-  // Pour les requêtes GET uniquement
-  if (event.request.method !== 'GET') return;
-
-  event.respondWith(
-    caches.match(event.request).then(cached => {
-      if (cached) return cached;
-
-      // Pas en cache → réseau avec mise en cache dynamique
-      return fetch(event.request).then(response => {
-        // Ne cacher que les réponses valides
-        if (!response || response.status !== 200 || response.type === 'error') {
-          return response;
-        }
-        // Mettre en cache dynamiquement (fonts, images, scripts externes)
-        const toCache = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, toCache));
-        return response;
-      }).catch(() => {
-        // Hors ligne : retourner index.html pour la navigation
-        if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
-        }
-        // Placeholder image si hors ligne
-        if (event.request.destination === 'image') {
-          return new Response(
-            '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="#15171f"/><text x="50" y="55" text-anchor="middle" fill="#666" font-size="12">📵</text></svg>',
-            { headers: { 'Content-Type': 'image/svg+xml' } }
-          );
-        }
-      });
+    ).then(() => {
+      console.log('[SW] Activé — contrôle de tous les clients');
+      return self.clients.claim(); // Prendre le contrôle immédiatement
     })
   );
 });
 
-// ── MESSAGE : forcer mise à jour depuis l'app ──
+// ── FETCH : stratégie selon le type de ressource ─────
+self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+
+  // 1. Ne jamais intercepter Firebase (temps réel)
+  if (
+    url.hostname.includes('firebasedatabase.app') ||
+    url.hostname.includes('firebaseio.com') ||
+    url.hostname.includes('googleapis.com/identitytoolkit') ||
+    url.hostname.includes('securetoken.google.com') ||
+    url.hostname.includes('audiomack.com') // Audiomack toujours depuis le réseau
+  ) {
+    return;
+  }
+
+  // 2. GET uniquement
+  if (event.request.method !== 'GET') return;
+
+  // 3. index.html → NETWORK-FIRST (toujours la version fraîche)
+  if (
+    event.request.mode === 'navigate' ||
+    url.pathname.endsWith('index.html') ||
+    url.pathname === '/' ||
+    url.pathname.endsWith('/POLICIER-OU-VOLEUR-/')
+  ) {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          // Mettre à jour le cache avec la nouvelle version
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => {
+          // Hors ligne → servir depuis le cache
+          return caches.match(event.request)
+            .then(cached => cached || caches.match('./index.html'));
+        })
+    );
+    return;
+  }
+
+  // 4. Assets statiques → CACHE-FIRST
+  if (STATIC_ASSETS.some(a => event.request.url.includes(a.replace('./', '')))) {
+    event.respondWith(
+      caches.match(event.request).then(cached => {
+        if (cached) return cached;
+        return fetch(event.request).then(response => {
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE_STATIC).then(cache => cache.put(event.request, clone));
+          }
+          return response;
+        });
+      })
+    );
+    return;
+  }
+
+  // 5. Tout le reste → NETWORK-FIRST avec fallback cache
+  event.respondWith(
+    fetch(event.request)
+      .then(response => {
+        if (response && response.status === 200) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+        }
+        return response;
+      })
+      .catch(() => caches.match(event.request))
+  );
+});
+
+// ── MESSAGE : communication depuis l'app ─────────────
 self.addEventListener('message', event => {
-  if (event.data === 'SKIP_WAITING') self.skipWaiting();
+  if (event.data === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
   if (event.data === 'CLEAR_CACHE') {
-    caches.delete(CACHE_NAME).then(() => {
-      event.ports[0].postMessage({ cleared: true });
+    Promise.all([
+      caches.delete(CACHE_NAME),
+      caches.delete(CACHE_STATIC)
+    ]).then(() => {
+      if (event.ports[0]) event.ports[0].postMessage({ cleared: true });
     });
+  }
+  if (event.data === 'GET_VERSION') {
+    if (event.ports[0]) event.ports[0].postMessage({ version: CACHE_NAME });
   }
 });

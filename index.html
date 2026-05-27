@@ -6474,7 +6474,43 @@ window.onload = () => {
   };
 
   document.addEventListener('click', ()=>{ startBgMusic(); }, {once:true});
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+  // ── SERVICE WORKER avec auto-update ──
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').then(reg => {
+
+      // Vérifier les mises à jour immédiatement
+      reg.update();
+
+      // Quand un nouveau SW est en attente → proposer la mise à jour
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            // Nouvelle version disponible → recharger automatiquement
+            newWorker.postMessage('SKIP_WAITING');
+            window.location.reload();
+          }
+        });
+      });
+
+      // Si le SW vient de prendre le contrôle → recharger pour avoir la bonne version
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          refreshing = true;
+          window.location.reload();
+        }
+      });
+
+    }).catch(() => {});
+
+    // Vérifier les mises à jour toutes les 5 minutes
+    setInterval(() => {
+      navigator.serviceWorker.getRegistration().then(reg => {
+        if (reg) reg.update();
+      });
+    }, 5 * 60 * 1000);
+  }
 };
 </script>
 
