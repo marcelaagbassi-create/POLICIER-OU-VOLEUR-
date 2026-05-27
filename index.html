@@ -5089,29 +5089,43 @@ let chatState = {
 
 // ── INITIALISATION ──────────────────────────────────
 function openChat() {
-  initFirebase().then(() => {
-    loadChannels();
-    goTo('screen-chat');
-    // Mettre à jour le badge accueil
-    const badge = document.getElementById('chatHomeBadge');
-    if (badge) badge.style.display = 'none';
-    renderEmojiGrid();
-    // Mettre à jour l'avatar sidebar
-    const avatarItem = SHOP_CATALOG?.avatars?.find(a => a.id === (shopData?.equipped?.avatar || 'av_detective'));
-    const sidebarBtn = document.getElementById('sidebarProfileBtn');
-    if (sidebarBtn && avatarItem) sidebarBtn.textContent = avatarItem.icon;
-  }).catch(() => {
-    goTo('screen-chat');
-    // Pas de discussions simulées — afficher message hors-ligne
-    document.getElementById('chatMessagesArea').innerHTML = `
-      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:40px 20px;text-align:center;gap:16px">
-        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(240,236,228,0.3)" stroke-width="1.5"><path d="M1 6s0 0 0 0c0-1.1.9-2 2-2h18a2 2 0 0 1 2 2v0M1 6v12a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V6M1 6l11 7 11-7"/></svg>
-        <div class="bebas" style="font-size:18px;letter-spacing:3px;color:rgba(240,236,228,0.4)">HORS CONNEXION</div>
-        <div style="font-size:14px;color:rgba(240,236,228,0.3);max-width:260px">Le chat nécessite une connexion internet. Connecte-toi pour accéder aux canaux.</div>
-        <button onclick="openChat()" class="btn btn-ghost" style="margin-top:8px">🔄 Réessayer</button>
-      </div>`;
-    renderEmojiGrid();
-  });
+  goTo('screen-chat');
+  const badge = document.getElementById('chatHomeBadge');
+  if (badge) badge.style.display = 'none';
+  renderEmojiGrid();
+  // Mettre à jour avatar sidebar
+  const avatarItem = SHOP_CATALOG?.avatars?.find(a => a.id === (shopData?.equipped?.avatar || 'av_detective'));
+  const sidebarBtn = document.getElementById('sidebarProfileBtn');
+  if (sidebarBtn && profile.avatarPhoto) {
+    sidebarBtn.innerHTML = `<img src="${profile.avatarPhoto}" style="width:32px;height:32px;border-radius:50%;object-fit:cover">`;
+  }
+
+  // Initialiser Firebase avec retry
+  const tryConnect = (attempt = 1) => {
+    initFirebase()
+      .then(() => {
+        loadChannels();
+      })
+      .catch(() => {
+        if (attempt < 3) {
+          // Réessayer après 2s
+          setTimeout(() => tryConnect(attempt + 1), 2000);
+        } else {
+          // Après 3 tentatives → mode hors-ligne
+          document.getElementById('chatMessagesArea').innerHTML = `
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:40px 20px;text-align:center;gap:16px">
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(240,236,228,0.3)" stroke-width="1.5"><path d="M1 6s0 0 0 0c0-1.1.9-2 2-2h18a2 2 0 0 1 2 2v0M1 6v12a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V6M1 6l11 7 11-7"/></svg>
+              <div class="bebas" style="font-size:18px;letter-spacing:3px;color:rgba(240,236,228,0.4)">HORS CONNEXION</div>
+              <div style="font-size:14px;color:rgba(240,236,228,0.3);max-width:260px">Le chat nécessite une connexion internet.</div>
+              <button onclick="openChat()" class="btn btn-ghost" style="margin-top:8px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px"><polyline points="1,4 1,10 7,10"/><path d="M3.51 15a9 9 0 1 0 .49-3.36"/></svg>
+                Réessayer
+              </button>
+            </div>`;
+        }
+      });
+  };
+  tryConnect();
 }
 
 // ── CANAUX ──────────────────────────────────────────
@@ -5341,22 +5355,27 @@ function sendChatMessage() {
   cancelReply();
   playClick();
 
-  if (db) {
+  const doSend = () => {
     db.ref('chat_messages/' + chatState.currentChannel.id).push(msg);
-    // Mettre à jour compteur membres et dernier message
     db.ref('chat_channels/' + chatState.currentChannel.id).update({
       lastMsg: text.slice(0, 40),
       lastMsgAt: Date.now(),
       lastMsgAuthor: msg.author
     });
-    // Arrêter indicateur frappe
     db.ref('chat_typing/' + chatState.currentChannel.id + '/' + safeKey(msg.author)).remove();
+  };
+
+  if (db) {
+    doSend();
   } else {
-    // Mode hors-ligne : affichage local
+    // Affichage local immédiat + tentative de sync
     const msgs = chatState.messages[chatState.currentChannel.id] || [];
-    msgs.push({ id: 'local_' + Date.now(), ...msg });
+    const localMsg = { id: 'local_' + Date.now(), ...msg };
+    msgs.push(localMsg);
     chatState.messages[chatState.currentChannel.id] = msgs;
     renderMessages(chatState.currentChannel, msgs);
+    // Tenter sync Firebase
+    initFirebase().then(doSend).catch(() => {});
   }
 }
 
@@ -5659,16 +5678,22 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function createChannel() {
-  const name = document.getElementById('groupNameInput').value.trim().toLowerCase().replace(/\s+/g, '-');
+  const nameRaw = document.getElementById('groupNameInput').value.trim();
+  const name = nameRaw.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-àâéèêëîïôùûüç]/g, '');
   const desc = document.getElementById('groupDescInput').value.trim();
-  if (!name) { showShopToast('⚠️ Donne un nom au canal !'); return; }
+
+  if (!nameRaw) { showShopToast('⚠️ Donne un nom au canal !'); return; }
+
+  const btn = document.querySelector('#createGroupModal .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Création...'; }
 
   const channel = {
-    name,
-    emoji: chatState.groupEmoji,
+    name: name || nameRaw.toLowerCase().replace(/\s+/g, '-'),
+    displayName: nameRaw,
+    emoji: chatState.groupEmoji || '💬',
     photo: chatState.groupPhoto || null,
-    desc: desc || `Canal #${name}`,
-    type: chatState.channelType,
+    desc: desc || `Canal #${nameRaw}`,
+    type: chatState.channelType || 'public',
     createdAt: Date.now(),
     createdBy: profile.name || 'Joueur',
     memberCount: 1
@@ -5677,28 +5702,47 @@ function createChannel() {
   if (chatState.channelType === 'private') {
     channel.members = {};
     channel.members[safeKey(profile.name || 'Joueur')] = true;
-    chatState.invitedMembers.forEach(m => { channel.members[safeKey(m)] = true; });
+    (chatState.invitedMembers || []).forEach(m => { channel.members[safeKey(m)] = true; });
   }
 
-  if (db) {
+  const doCreate = () => {
     const key = db.ref('chat_channels').push().key;
-    db.ref('chat_channels/' + key).set(channel).then(() => {
-      hideCreateGroup();
-      showShopToast(`✅ Canal #${name} créé !`);
-      playVictory();
-      // Reset form
-      document.getElementById('groupNameInput').value = '';
-      document.getElementById('groupDescInput').value = '';
-      chatState.groupEmoji = '💬';
-      chatState.groupPhoto = null;
-      chatState.invitedMembers = [];
-      document.getElementById('groupEmojiBtn') && (document.getElementById('groupEmojiBtn').textContent = '');
-      // Reset preview photo
-      const preview = document.getElementById('groupPhotoPreview');
-      if (preview) preview.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(240,236,228,0.4)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>`;
-    });
+    db.ref('chat_channels/' + key).set(channel)
+      .then(() => {
+        hideCreateGroup();
+        showShopToast(`✅ Canal "${nameRaw}" créé !`);
+        playVictory();
+        // Reset form
+        document.getElementById('groupNameInput').value = '';
+        document.getElementById('groupDescInput').value = '';
+        chatState.groupEmoji = '💬';
+        chatState.groupPhoto = null;
+        chatState.invitedMembers = [];
+        const preview = document.getElementById('groupPhotoPreview');
+        if (preview) preview.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(240,236,228,0.4)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>`;
+        if (btn) { btn.disabled = false; btn.textContent = 'CRÉER LE CANAL'; }
+        // Auto-sélectionner le canal créé
+        setTimeout(() => {
+          const created = chatState.channels.find(c => c.id === key || c.name === channel.name);
+          if (created) selectChannel(created);
+        }, 1000);
+      })
+      .catch(e => {
+        showShopToast('❌ Erreur : ' + e.message);
+        if (btn) { btn.disabled = false; btn.textContent = 'CRÉER LE CANAL'; }
+      });
+  };
+
+  if (db) {
+    doCreate();
   } else {
-    showShopToast('❌ Connexion requise pour créer un canal');
+    // Firebase pas encore initialisé — le faire maintenant
+    initFirebase()
+      .then(doCreate)
+      .catch(e => {
+        showShopToast('❌ Connexion requise pour créer un canal');
+        if (btn) { btn.disabled = false; btn.textContent = 'CRÉER LE CANAL'; }
+      });
   }
 }
 
