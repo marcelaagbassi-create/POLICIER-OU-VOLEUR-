@@ -870,15 +870,10 @@ body.light-mode #shopToast { color:white !important; }
 </div>
 
 
-<!-- ===== AUDIOMACK BACKGROUND MUSIC ===== -->
-<div id="audiomack-player" style="position:fixed;bottom:-200px;left:0;width:1px;height:1px;opacity:0;pointer-events:none;z-index:-1">
-  <iframe 
-    src="https://audiomack.com/embed/twxny/song/heavenly-jumpstyle-2?background=1&autoplay=1"
-    width="1" height="1" frameborder="0"
-    allow="autoplay; encrypted-media"
-    title="Policier ou Voleur — BGM">
-  </iframe>
-</div>
+<!-- ===== BACKGROUND MUSIC — HEAVENLY JUMPSTYLE ===== -->
+<audio id="bgMusic" loop preload="auto" style="display:none">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
 <!-- COVER OVERLAY -->
 <div class="cover-overlay" id="coverOverlay" style="display:none">
   <div class="big-lock">🔒</div>
@@ -4001,6 +3996,8 @@ function toggleGlobalSound() {
     if (lbl) lbl.textContent = 'SON ACTIVÉ';
     if (btn) { btn.style.borderColor = 'var(--or)'; btn.style.background = 'rgba(212,160,23,0.08)'; }
     if (icon) icon.innerHTML = '<polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>';
+    const audio = document.getElementById('bgMusic');
+    if (audio) { audio.volume = 0.35; audio.play().catch(() => {}); }
     startBgMusic();
   } else {
     if (lbl) lbl.textContent = 'SON DÉSACTIVÉ';
@@ -5056,8 +5053,25 @@ function playSuspense(){if(!soundEnabled)return;try{const c=getAudioCtx();[200,1
 function playVictory(){if(!soundEnabled)return;try{const c=getAudioCtx();[[523,0],[659,.15],[784,.3],[1047,.45],[784,.65],[1047,.8],[1319,1.0]].forEach(([f,t])=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='triangle';o.frequency.setValueAtTime(f,c.currentTime+t);g.gain.setValueAtTime(0.2,c.currentTime+t);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+t+0.3);o.start(c.currentTime+t);o.stop(c.currentTime+t+0.3);});}catch(e){}}
 function playTransition(){if(!soundEnabled)return;try{const c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(400,c.currentTime);o.frequency.linearRampToValueAtTime(600,c.currentTime+0.15);g.gain.setValueAtTime(0.1,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.15);o.start();o.stop(c.currentTime+0.15);}catch(e){}}
 function playLock(){if(!soundEnabled)return;try{const c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='square';o.frequency.setValueAtTime(200,c.currentTime);o.frequency.exponentialRampToValueAtTime(100,c.currentTime+0.2);g.gain.setValueAtTime(0.1,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.2);o.start();o.stop(c.currentTime+0.2);}catch(e){}}
-function startBgMusic() { const player = document.getElementById("audiomack-player"); if (player) player.style.display="none"; }
-function stopBgMusic(){if(bgMusicNodes){clearInterval(bgMusicNodes.interval);try{bgMusicNodes.gain.gain.setValueAtTime(0,audioCtx.currentTime);}catch(e){}bgMusicNodes=null;}}
+function startBgMusic() {
+  if (!musicEnabled) return;
+  const audio = document.getElementById('bgMusic');
+  if (!audio) return;
+  audio.volume = 0.35;
+  audio.play().catch(() => {
+    // Autoplay bloqué — on attend un geste utilisateur
+    document.addEventListener('click', function tryPlay() {
+      if (musicEnabled) audio.play().catch(() => {});
+      document.removeEventListener('click', tryPlay);
+    });
+  });
+}
+function stopBgMusic() {
+  const audio = document.getElementById('bgMusic');
+  if (audio) { audio.pause(); audio.currentTime = 0; }
+  // Nettoyer aussi les anciens oscillateurs si présents
+  if (bgMusicNodes) { try { clearInterval(bgMusicNodes.interval); bgMusicNodes.gain.gain.setValueAtTime(0, audioCtx.currentTime); } catch(e) {} bgMusicNodes = null; }
+}
 
 
 // =====================================================
