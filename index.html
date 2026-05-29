@@ -5141,6 +5141,7 @@ let chatState = {
   typingTimeout: null,
   membersOpen: false,
   unreadCounts: {},
+  channelMap: {},
   groupEmoji: '💬',
   channelType: 'public',
   invitedMembers: [],
@@ -5206,14 +5207,19 @@ function openChat() {
 // ── CANAUX ──────────────────────────────────────────
 function loadChannels() {
   const chRef = db.ref('chat_channels');
-  // Écouter les canaux en temps réel
   chRef.on('value', snap => {
     const data = snap.val() || {};
     chatState.channels = Object.entries(data).map(([id, ch]) => ({ id, ...ch }))
       .sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+    // Mettre à jour le channelMap
+    chatState.channels.forEach(ch => { chatState.channelMap[ch.id] = ch; });
     renderSidebarChannels();
-    // Créer les canaux par défaut si aucun n'existe
-    if (chatState.channels.length === 0) createDefaultChannels();
+    if (chatState.channels.length === 0) {
+      createDefaultChannels();
+    } else if (!chatState.currentChannel) {
+      // Auto-sélectionner le 1er canal
+      setTimeout(() => selectChannel(chatState.channels[0]), 300);
+    }
   });
 }
 
@@ -5235,17 +5241,25 @@ function createDefaultChannels() {
 function renderSidebarChannels() {
   const container = document.getElementById('sidebarChannels');
   if (!container) return;
+  // Stocker dans le Map global pour éviter JSON dans onclick
+  chatState.channels.forEach(ch => { chatState.channelMap[ch.id] = ch; });
   container.innerHTML = chatState.channels.map(ch => {
     const unread = chatState.unreadCounts[ch.id] || 0;
     const isActive = chatState.currentChannel?.id === ch.id;
-    const iconContent = ch.photo
-      ? `<img src="${ch.photo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover">`
-      : `<span style="font-size:18px">${ch.emoji || '#'}</span>`;
-    return `<button class="sidebar-btn ${isActive ? 'active' : ''}" onclick="selectChannel(${JSON.stringify(ch).replace(/"/g,'&quot;')})" title="${ch.name}" style="position:relative">
+    const photo = ch.photo || (ch.photoKey ? localStorage.getItem(ch.photoKey) : null);
+    const iconContent = photo
+      ? `<img src="${photo}" style="width:36px;height:36px;border-radius:50%;object-fit:cover">`
+      : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`;
+    return `<button class="sidebar-btn ${isActive ? 'active' : ''}" onclick="selectChannelById('${ch.id}')" title="${ch.displayName || ch.name}" style="position:relative">
       ${iconContent}
       ${unread > 0 ? `<span class="unread-badge">${unread > 9 ? '9+' : unread}</span>` : ''}
     </button>`;
   }).join('');
+}
+
+function selectChannelById(id) {
+  const ch = chatState.channelMap[id] || chatState.channels.find(c => c.id === id);
+  if (ch) selectChannel(ch);
 }
 
 function selectChannel(channel) {
@@ -5412,8 +5426,16 @@ function sendChatMessage() {
   const input = document.getElementById('chatMsgInput');
   if (!input) return;
   const text = input.value.trim();
-  if (!text || !chatState.currentChannel) return;
-  if (chatState.currentChannel.readonly) return;
+  if (!text) { input.focus(); return; }
+
+  if (!chatState.currentChannel) {
+    showShopToast("⚠️ Sélectionne un canal d'abord !");
+    return;
+  }
+  if (chatState.currentChannel.readonly) {
+    showShopToast('📢 Ce canal est en lecture seule');
+    return;
+  }
 
   const avatarPhoto = profile.avatarPhoto || null;
   const avatarItem = SHOP_CATALOG?.avatars?.find(a => a.id === (shopData?.equipped?.avatar || 'av_detective'));
@@ -5428,32 +5450,42 @@ function sendChatMessage() {
     replyTo: chatState.replyTo || null,
   };
 
+  // Vider l'input immédiatement (UX fluide)
   input.value = '';
   input.style.height = 'auto';
   cancelReply();
   playClick();
 
+  const channelId = chatState.currentChannel.id;
+
   const doSend = () => {
-    db.ref('chat_messages/' + chatState.currentChannel.id).push(msg);
-    db.ref('chat_channels/' + chatState.currentChannel.id).update({
+    db.ref('chat_messages/' + channelId).push(msg).catch(e => {
+      console.error('Erreur envoi:', e);
+      showShopToast('❌ Erreur envoi : ' + e.message);
+    });
+    db.ref('chat_channels/' + channelId).update({
       lastMsg: text.slice(0, 40),
       lastMsgAt: Date.now(),
       lastMsgAuthor: msg.author
-    });
-    db.ref('chat_typing/' + chatState.currentChannel.id + '/' + safeKey(msg.author)).remove();
+    }).catch(() => {});
+    if (chatState.typingTimeout) {
+      db.ref('chat_typing/' + channelId + '/' + safeKey(msg.author)).remove().catch(() => {});
+    }
   };
 
   if (db) {
     doSend();
   } else {
-    // Affichage local immédiat + tentative de sync
-    const msgs = chatState.messages[chatState.currentChannel.id] || [];
-    const localMsg = { id: 'local_' + Date.now(), ...msg };
-    msgs.push(localMsg);
-    chatState.messages[chatState.currentChannel.id] = msgs;
-    renderMessages(chatState.currentChannel, msgs);
-    // Tenter sync Firebase
-    initFirebase().then(doSend).catch(() => {});
+    // Affichage optimiste local
+    const ch = chatState.currentChannel;
+    const msgs = chatState.messages[channelId] || [];
+    msgs.push({ id: 'local_' + Date.now(), ...msg });
+    chatState.messages[channelId] = msgs;
+    renderMessages(ch, msgs);
+    // Sync Firebase
+    initFirebase().then(doSend).catch(e => {
+      showShopToast('❌ Connexion requise pour envoyer');
+    });
   }
 }
 
@@ -5775,11 +5807,18 @@ function createChannel() {
   const btn = document.querySelector('#createGroupModal .btn-primary');
   if (btn) { btn.disabled = true; btn.textContent = '⏳ Création...'; }
 
+  // Stocker la photo en localStorage (trop lourde pour Firebase)
+  let photoKey = null;
+  if (chatState.groupPhoto) {
+    photoKey = 'chanPhoto_' + Date.now();
+    try { localStorage.setItem(photoKey, chatState.groupPhoto); } catch(e) { photoKey = null; }
+  }
+
   const channel = {
     name: name || nameRaw.toLowerCase().replace(/\s+/g, '-'),
     displayName: nameRaw,
     emoji: chatState.groupEmoji || '💬',
-    photo: chatState.groupPhoto || null,
+    photoKey: photoKey,   // référence locale, pas la base64
     desc: desc || `Canal #${nameRaw}`,
     type: chatState.channelType || 'public',
     createdAt: Date.now(),
