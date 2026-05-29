@@ -870,9 +870,15 @@ body.light-mode #shopToast { color:white !important; }
 </div>
 
 
-<!-- ===== BACKGROUND MUSIC — HEAVENLY JUMPSTYLE ===== -->
-<audio id="bgMusic" loop preload="auto" style="display:none">
+<!-- ===== PLAYLIST DAVIESLAY ===== -->
+<audio id="bgMusic" preload="auto" style="display:none">
   <source src="music.mp3" type="audio/mpeg">
+</audio>
+<audio id="bgMusic2" preload="none" style="display:none">
+  <source src="music2.mp3" type="audio/mpeg">
+</audio>
+<audio id="bgMusic3" preload="none" style="display:none">
+  <source src="music3.mp3" type="audio/mpeg">
 </audio>
 <!-- COVER OVERLAY -->
 <div class="cover-overlay" id="coverOverlay" style="display:none">
@@ -5053,23 +5059,63 @@ function playSuspense(){if(!soundEnabled)return;try{const c=getAudioCtx();[200,1
 function playVictory(){if(!soundEnabled)return;try{const c=getAudioCtx();[[523,0],[659,.15],[784,.3],[1047,.45],[784,.65],[1047,.8],[1319,1.0]].forEach(([f,t])=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='triangle';o.frequency.setValueAtTime(f,c.currentTime+t);g.gain.setValueAtTime(0.2,c.currentTime+t);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+t+0.3);o.start(c.currentTime+t);o.stop(c.currentTime+t+0.3);});}catch(e){}}
 function playTransition(){if(!soundEnabled)return;try{const c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(400,c.currentTime);o.frequency.linearRampToValueAtTime(600,c.currentTime+0.15);g.gain.setValueAtTime(0.1,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.15);o.start();o.stop(c.currentTime+0.15);}catch(e){}}
 function playLock(){if(!soundEnabled)return;try{const c=getAudioCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='square';o.frequency.setValueAtTime(200,c.currentTime);o.frequency.exponentialRampToValueAtTime(100,c.currentTime+0.2);g.gain.setValueAtTime(0.1,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.2);o.start();o.stop(c.currentTime+0.2);}catch(e){}}
+// ── PLAYLIST DAVIESLAY ──
+const PLAYLIST = ['bgMusic', 'bgMusic2', 'bgMusic3'];
+let playlistIndex = 0;
+let playlistInitialized = false;
+
 function startBgMusic() {
   if (!musicEnabled) return;
-  const audio = document.getElementById('bgMusic');
+  if (playlistInitialized) return; // déjà en cours
+  playTrack(playlistIndex);
+}
+
+function playTrack(idx) {
+  if (!musicEnabled) return;
+  // Arrêter tous les autres
+  PLAYLIST.forEach(id => {
+    const a = document.getElementById(id);
+    if (a) { a.pause(); a.currentTime = 0; }
+  });
+  const audio = document.getElementById(PLAYLIST[idx]);
   if (!audio) return;
   audio.volume = 0.35;
-  audio.play().catch(() => {
-    // Autoplay bloqué — on attend un geste utilisateur
-    document.addEventListener('click', function tryPlay() {
-      if (musicEnabled) audio.play().catch(() => {});
-      document.removeEventListener('click', tryPlay);
+
+  // Quand la piste se termine → passer à la suivante
+  audio.onended = () => {
+    playlistIndex = (idx + 1) % PLAYLIST.length;
+    playTrack(playlistIndex);
+  };
+
+  const tryPlay = () => {
+    audio.play().then(() => {
+      playlistInitialized = true;
+    }).catch(() => {
+      // Autoplay bloqué → attendre clic
+      document.addEventListener('click', function onFirstClick() {
+        if (musicEnabled) playTrack(idx);
+        document.removeEventListener('click', onFirstClick);
+      }, { once: true });
     });
-  });
+  };
+  tryPlay();
+}
+
+function nextTrack() {
+  playlistIndex = (playlistIndex + 1) % PLAYLIST.length;
+  playTrack(playlistIndex);
+}
+
+function prevTrack() {
+  playlistIndex = (playlistIndex - 1 + PLAYLIST.length) % PLAYLIST.length;
+  playTrack(playlistIndex);
 }
 function stopBgMusic() {
-  const audio = document.getElementById('bgMusic');
-  if (audio) { audio.pause(); audio.currentTime = 0; }
-  // Nettoyer aussi les anciens oscillateurs si présents
+  playlistInitialized = false;
+  PLAYLIST.forEach(id => {
+    const a = document.getElementById(id);
+    if (a) { a.pause(); a.currentTime = 0; a.onended = null; }
+  });
   if (bgMusicNodes) { try { clearInterval(bgMusicNodes.interval); bgMusicNodes.gain.gain.setValueAtTime(0, audioCtx.currentTime); } catch(e) {} bgMusicNodes = null; }
 }
 
@@ -5100,6 +5146,21 @@ let chatState = {
   invitedMembers: [],
   groupPhoto: null,
 };
+
+
+// Garantit que Firebase est prêt avant toute action
+function withFirebase(fn) {
+  if (db) { fn(); return; }
+  const btn = event?.target;
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; }
+  initFirebase().then(() => {
+    if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+    fn();
+  }).catch(e => {
+    if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+    showShopToast('❌ Connexion requise : ' + e.message);
+  });
+}
 
 // ── INITIALISATION ──────────────────────────────────
 function openChat() {
@@ -5231,7 +5292,10 @@ function loadChannelMessages(channel) {
   if (!area) return;
   area.innerHTML = `<div style="display:flex;justify-content:center;padding:20px"><div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
 
-  if (!db) { renderMessages(channel, []); return; }
+  if (!db) {
+    initFirebase().then(() => loadChannelMessages(channel)).catch(() => renderMessages(channel, []));
+    return;
+  }
 
   const msgRef = db.ref('chat_messages/' + channel.id).limitToLast(60);
 
@@ -5407,7 +5471,8 @@ function autoResizeInput(el) {
 
 // ── INDICATEUR FRAPPE ────────────────────────────────
 function sendTypingIndicator() {
-  if (!db || !chatState.currentChannel) return;
+  if (!chatState.currentChannel) return;
+  if (!db) return; // silencieux pour la frappe
   const key = safeKey(profile.name || 'Joueur');
   db.ref('chat_typing/' + chatState.currentChannel.id + '/' + key).set({
     name: profile.name || 'Joueur', ts: Date.now()
@@ -5438,7 +5503,8 @@ function listenTyping() {
 
 // ── RÉACTIONS ────────────────────────────────────────
 function toggleReaction(msgId, emoji) {
-  if (!db || !chatState.currentChannel) return;
+  if (!chatState.currentChannel) return;
+  if (!db) { withFirebase(() => toggleReaction(msgId, emoji)); return; }
   const key = safeKey(profile.name || 'Joueur');
   const ref = db.ref(`chat_messages/${chatState.currentChannel.id}/${msgId}/reactions/${emoji}/${key}`);
   ref.once('value').then(snap => {
@@ -5489,13 +5555,15 @@ function cancelReply() {
 
 // ── SUPPRIMER MESSAGE ────────────────────────────────
 function deleteMessage(msgId) {
-  if (!db || !chatState.currentChannel) return;
+  if (!chatState.currentChannel) return;
+  if (!db) { withFirebase(() => deleteMessage(msgId)); return; }
   db.ref(`chat_messages/${chatState.currentChannel.id}/${msgId}`).update({ deleted: true, text: '' });
 }
 
 // ── ÉPINGLER MESSAGE ─────────────────────────────────
 function pinMessage(msgId) {
-  if (!db || !chatState.currentChannel) return;
+  if (!chatState.currentChannel) return;
+  if (!db) { withFirebase(() => pinMessage(msgId)); return; }
   const msgs = chatState.messages[chatState.currentChannel.id] || [];
   const msg = msgs.find(m => m.id === msgId);
   if (!msg) return;
@@ -5506,7 +5574,8 @@ function pinMessage(msgId) {
 }
 
 function showPinned() {
-  if (!db || !chatState.currentChannel) return;
+  if (!chatState.currentChannel) return;
+  if (!db) { withFirebase(() => showPinned()); return; }
   db.ref(`chat_channels/${chatState.currentChannel.id}/pinned`).once('value').then(snap => {
     const pins = snap.val() || {};
     const list = Object.values(pins);
@@ -5606,7 +5675,12 @@ function toggleMembersPanel() {
 function loadChannelMembers(channel) {
   const list = document.getElementById('membersList');
   if (!list) return;
-  if (!db) { list.innerHTML = `<div class="member-row"><div class="member-avatar">👤</div><div><div class="member-name">${profile.name||'Toi'}</div><div class="member-role-badge">Joueur</div></div></div>`; return; }
+  if (!db) {
+    initFirebase().then(() => loadChannelMembers(channel)).catch(() => {
+      list.innerHTML = `<div class="member-row"><div class="member-avatar" style="background:#1e2130"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(240,236,228,0.4)" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div><div class="member-name">${profile.name||'Toi'}</div></div></div>`;
+    });
+    return;
+  }
 
   db.ref('leaderboard').once('value').then(snap => {
     const data = snap.val() || {};
@@ -6419,7 +6493,7 @@ function joinAsSpectator() {
   if (code.length !== 4) { document.getElementById('joinStatus').textContent = '⚠️ Code requis'; return; }
 
   isSpectator = true;
-  initFirebase().then(() => {
+  withFirebase(() => {
     salonRef = db.ref('salons/' + code);
     return salonRef.once('value');
   }).then(snap => {
