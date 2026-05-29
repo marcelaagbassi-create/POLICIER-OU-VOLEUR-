@@ -14,6 +14,7 @@
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <!-- jsQR : fallback scan QR pour iOS Safari -->
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
@@ -4049,6 +4050,9 @@ const _origConfetti = typeof launchConfetti !== 'undefined' ? launchConfetti : n
 const firebaseConfig = {
   apiKey: "AIzaSyCcKy__qvRpxXW4mdY9RS0xInyjl0jAHOU",
   authDomain: "policier-ou-voleur.firebaseapp.com",
+  // RÈGLES FIREBASE REQUISES dans la console Firebase :
+  // { "rules": { ".read": true, ".write": true } }
+  // OU avec auth : { "rules": { ".read": "auth != null", ".write": "auth != null" } }
   authDomain: "policier-ou-voleur.firebaseapp.com",
   databaseURL: "https://policier-ou-voleur-default-rtdb.firebaseio.com",
   projectId: "policier-ou-voleur",
@@ -4067,62 +4071,92 @@ let salonListeners = [];
 
 // ===== FIREBASE — INIT ROBUSTE =====
 let firebaseReady = false;
-let firebaseConnected = false; // état connexion temps réel
+let firebaseConnected = false;
+let firebaseAuthDone = false;
 
 function initFirebase() {
-  if (db) return Promise.resolve(db);
+  if (db && firebaseAuthDone) return Promise.resolve(db);
+
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
       reject(new Error('Connexion Firebase trop lente. Vérifie ta connexion internet.'));
-    }, 8000);
+    }, 10000);
 
     try {
-      if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
       db = firebase.database();
       firebaseReady = true;
-      clearTimeout(timeout);
 
-      // Surveiller l'état de la connexion Firebase en temps réel
-      // Attendre 5 secondes avant d'afficher "inaccessible" (évite les faux positifs au démarrage)
-      let firebaseConnectTimer = null;
-      db.ref('.info/connected').on('value', snap => {
-        firebaseConnected = snap.val() === true;
-        const banner = document.getElementById('offline-banner');
-        const icon = document.getElementById('offline-icon');
-        const text = document.getElementById('offline-text');
-        if (banner && icon && text) {
-          if (!firebaseConnected && navigator.onLine) {
-            // Attendre 5s avant d'afficher — Firebase peut être lent à initialiser
-            clearTimeout(firebaseConnectTimer);
-            firebaseConnectTimer = setTimeout(() => {
-              if (!firebaseConnected && navigator.onLine) {
-                banner.classList.add('show');
-                banner.classList.remove('online-mode');
-                icon.textContent = '⚡';
-                text.textContent = 'SERVEUR INACCESSIBLE — Mode solo disponible';
-              }
-            }, 5000);
-          } else if (firebaseConnected) {
-            clearTimeout(firebaseConnectTimer);
-            if (banner.classList.contains('show')) {
-              banner.classList.add('online-mode');
-              icon.textContent = '✅';
-              text.textContent = 'CONNEXION RÉTABLIE !';
-              setTimeout(() => { banner.className = ''; }, 2500);
-            }
-          }
+      // Auth anonyme — obligatoire pour lire/écrire dans Firebase
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          // Déjà connecté
+          firebaseAuthDone = true;
+          clearTimeout(timeout);
+          initFirebaseListeners();
+          resolve(db);
+        } else {
+          // Connexion anonyme
+          firebase.auth().signInAnonymously()
+            .then(() => {
+              firebaseAuthDone = true;
+              clearTimeout(timeout);
+              initFirebaseListeners();
+              resolve(db);
+            })
+            .catch(e => {
+              // Auth échoue → essayer quand même (règles permissives possibles)
+              clearTimeout(timeout);
+              firebaseAuthDone = true;
+              resolve(db);
+            });
         }
       });
 
-      resolve(db);
     } catch(e) {
       clearTimeout(timeout);
       try {
         db = firebase.database();
         firebaseReady = true;
-        resolve(db);
+        firebase.auth().signInAnonymously()
+          .then(() => { firebaseAuthDone = true; resolve(db); })
+          .catch(() => { firebaseAuthDone = true; resolve(db); });
       } catch(e2) {
-        reject(new Error('Impossible de se connecter au serveur: ' + e2.message));
+        reject(new Error('Impossible de se connecter: ' + e2.message));
+      }
+    }
+  });
+}
+
+function initFirebaseListeners() {
+  // Surveiller la connexion avec délai anti faux-positif
+  let firebaseConnectTimer = null;
+  db.ref('.info/connected').on('value', snap => {
+    firebaseConnected = snap.val() === true;
+    const banner = document.getElementById('offline-banner');
+    const icon = document.getElementById('offline-icon');
+    const text = document.getElementById('offline-text');
+    if (banner && icon && text) {
+      if (!firebaseConnected && navigator.onLine) {
+        clearTimeout(firebaseConnectTimer);
+        firebaseConnectTimer = setTimeout(() => {
+          if (!firebaseConnected && navigator.onLine) {
+            banner.classList.add('show');
+            banner.classList.remove('online-mode');
+            icon.textContent = '⚡';
+            text.textContent = 'SERVEUR INACCESSIBLE — Mode solo disponible';
+          }
+        }, 5000);
+      } else if (firebaseConnected) {
+        clearTimeout(firebaseConnectTimer);
+        if (banner.classList.contains('show')) {
+          banner.classList.add('online-mode');
+          icon.textContent = '✅';
+          text.textContent = 'CONNEXION RÉTABLIE !';
+          setTimeout(() => { banner.className = ''; }, 2500);
+        }
       }
     }
   });
@@ -5833,13 +5867,16 @@ function createChannel() {
   }
 
   const doCreate = () => {
-    const key = db.ref('chat_channels').push().key;
-    db.ref('chat_channels/' + key).set(channel)
-      .then(() => {
+    db.ref('chat_channels').push(channel)
+      .then(ref => {
+        const key = ref.key;
+        channel.id = key;
+        chatState.channelMap[key] = channel;
+        if (!chatState.channels.find(c => c.id === key)) chatState.channels.push(channel);
+        renderSidebarChannels();
         hideCreateGroup();
         showShopToast(`✅ Canal "${nameRaw}" créé !`);
         playVictory();
-        // Reset form
         document.getElementById('groupNameInput').value = '';
         document.getElementById('groupDescInput').value = '';
         chatState.groupEmoji = '💬';
@@ -5848,30 +5885,35 @@ function createChannel() {
         const preview = document.getElementById('groupPhotoPreview');
         if (preview) preview.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(240,236,228,0.4)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>`;
         if (btn) { btn.disabled = false; btn.textContent = 'CRÉER LE CANAL'; }
-        // Auto-sélectionner le canal créé
-        setTimeout(() => {
-          const created = chatState.channels.find(c => c.id === key || c.name === channel.name);
-          if (created) selectChannel(created);
-        }, 1000);
+        setTimeout(() => selectChannel(channel), 400);
       })
       .catch(e => {
-        showShopToast('❌ Erreur : ' + e.message);
+        console.error('Firebase error:', e);
+        let msg = '❌ Erreur création';
+        if (e.code === 'PERMISSION_DENIED' || (e.message && e.message.includes('PERMISSION_DENIED'))) {
+          msg = '❌ Permission refusée';
+          showFirebaseError('Les règles Firebase bloquent les écritures.\n\nVa dans Firebase Console → Realtime Database → Règles et mets :\n{\n  "rules": {\n    ".read": true,\n    ".write": true\n  }\n}');
+        } else {
+          showFirebaseError('Erreur : ' + (e.message || e.code || 'inconnue'));
+        }
+        showShopToast(msg);
         if (btn) { btn.disabled = false; btn.textContent = 'CRÉER LE CANAL'; }
       });
   };
 
-  if (db) {
+  if (db && firebaseAuthDone) {
     doCreate();
   } else {
-    // Firebase pas encore initialisé — le faire maintenant
     initFirebase()
       .then(doCreate)
       .catch(e => {
         showShopToast('❌ Connexion requise pour créer un canal');
+        showFirebaseError('Impossible de se connecter à Firebase : ' + e.message);
         if (btn) { btn.disabled = false; btn.textContent = 'CRÉER LE CANAL'; }
       });
   }
 }
+
 
 // ── RECHERCHE ─────────────────────────────────────────
 function searchMessages() {
