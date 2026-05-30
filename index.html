@@ -437,6 +437,47 @@ body.premium .avatar-big { border-color:var(--accent); box-shadow:0 0 20px rgba(
 .btn-copy { position:relative; overflow:hidden; }
 .btn-copy.copied { background:linear-gradient(135deg,#27ae60,#2ecc71) !important; }
 
+/* ===== AUTH SCREEN ===== */
+.auth-card { background:#15171f; border:1.5px solid #252836; border-radius:20px; padding:28px 22px; width:100%; max-width:380px; display:flex; flex-direction:column; gap:18px; }
+.auth-title { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:4px; text-align:center; }
+.auth-subtitle { font-size:14px; color:rgba(240,236,228,0.5); text-align:center; margin-top:-10px; }
+.auth-divider { display:flex; align-items:center; gap:10px; color:rgba(240,236,228,0.3); font-size:12px; }
+.auth-divider::before, .auth-divider::after { content:''; flex:1; height:1px; background:#252836; }
+.btn-google { display:flex; align-items:center; justify-content:center; gap:10px; padding:13px; border-radius:12px; border:1.5px solid #252836; background:#1e2130; cursor:pointer; font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:2px; color:#e8eaed; transition:background 0.2s; width:100%; }
+.btn-google:hover { background:#252836; }
+.btn-email-auth { background:linear-gradient(135deg,#c0392b,#e74c3c); border:none; border-radius:12px; padding:13px; color:white; font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:3px; cursor:pointer; width:100%; }
+.auth-input { background:#1e2130; border:1.5px solid #2e3248; border-radius:10px; padding:12px 14px; color:#e8eaed; font-size:14px; width:100%; outline:none; font-family:'Crimson Pro',serif; }
+.auth-input:focus { border-color:#00bcd4; }
+.auth-error { color:#e74c3c; font-size:13px; text-align:center; min-height:18px; }
+.auth-switch { font-size:13px; color:rgba(240,236,228,0.5); text-align:center; cursor:pointer; }
+.auth-switch span { color:#00bcd4; text-decoration:underline; }
+
+/* ===== DM (Messages Privés) ===== */
+.dm-list { display:flex; flex-direction:column; gap:4px; padding:8px; }
+.dm-row { display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; cursor:pointer; transition:background 0.15s; }
+.dm-row:hover, .dm-row.active { background:#1e2130; }
+.dm-avatar { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; position:relative; }
+.dm-name { font-size:14px; font-weight:500; color:#e8eaed; }
+.dm-preview { font-size:12px; color:rgba(240,236,228,0.4); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:130px; }
+.dm-unread { background:#e74c3c; color:white; border-radius:50%; width:18px; height:18px; font-size:10px; display:flex; align-items:center; justify-content:center; margin-left:auto; font-weight:bold; }
+.sidebar-section-title { font-family:'Bebas Neue',sans-serif; font-size:10px; letter-spacing:3px; color:rgba(240,236,228,0.3); padding:8px 12px 4px; }
+.new-dm-btn { display:flex; align-items:center; gap:8px; padding:8px 12px; border-radius:8px; cursor:pointer; color:#00bcd4; font-size:13px; }
+.new-dm-btn:hover { background:#1e2130; }
+
+/* ===== VOCAL ===== */
+.voice-record-btn { background:none; border:none; cursor:pointer; padding:4px; border-radius:6px; color:rgba(240,236,228,0.5); transition:all 0.2s; }
+.voice-record-btn:hover { color:#e74c3c; }
+.voice-record-btn.recording { color:#e74c3c; animation:recordPulse 1s ease-in-out infinite; }
+@keyframes recordPulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.voice-msg-bubble { display:flex; align-items:center; gap:8px; padding:8px 12px; background:#1e2130; border-radius:12px; min-width:160px; }
+.voice-play-btn { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#00838f,#00bcd4); border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; }
+.voice-waveform { flex:1; height:24px; display:flex; align-items:center; gap:2px; }
+.voice-bar { width:3px; border-radius:2px; background:#00bcd4; opacity:0.7; }
+.voice-duration { font-size:12px; color:rgba(240,236,228,0.5); font-family:monospace; }
+.record-indicator { display:none; align-items:center; gap:8px; padding:6px 14px; background:rgba(231,76,60,0.15); border-radius:8px; font-size:13px; color:#e74c3c; font-family:'Bebas Neue',sans-serif; letter-spacing:2px; }
+.record-indicator.show { display:flex; }
+.record-dot { width:8px; height:8px; border-radius:50%; background:#e74c3c; animation:recordPulse 1s infinite; }
+
 /* ===== SYSTÈME CHAT DAVIESLAY ===== */
 #screen-chat { padding:0 !important; }
 .chat-app { display:flex; height:100vh; width:100%; max-width:100%; overflow:hidden; background:#0d0f18; }
@@ -936,6 +977,56 @@ body.light-mode #shopToast { color:white !important; }
   </div>
 </div>
 
+<!-- ========== AUTH CHAT ========== -->
+<div class="screen" id="screen-chat-auth">
+  <div style="width:100%;max-width:420px;padding:30px 20px;display:flex;flex-direction:column;gap:20px;align-items:center;min-height:100vh;justify-content:center">
+
+    <div style="text-align:center;margin-bottom:8px">
+      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#00bcd4" stroke-width="1.5" style="margin-bottom:10px"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <div class="bebas" style="font-size:24px;letter-spacing:4px">CHAT DAVIESLAY</div>
+      <div style="font-size:13px;color:rgba(240,236,228,0.45);margin-top:4px">Connecte-toi pour rejoindre la communauté</div>
+    </div>
+
+    <div class="auth-card" id="authCard">
+      <div class="auth-title" id="authTitle">CONNEXION</div>
+
+      <!-- Connexion Google -->
+      <button class="btn-google" onclick="signInWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        CONTINUER AVEC GOOGLE
+      </button>
+
+      <div class="auth-divider">OU</div>
+
+      <!-- Formulaire Email -->
+      <input class="auth-input" type="email" id="authEmail" placeholder="Adresse email" autocomplete="email">
+      <input class="auth-input" type="password" id="authPassword" placeholder="Mot de passe" autocomplete="current-password"
+        onkeydown="if(event.key==='Enter') submitAuth()">
+
+      <!-- Champ nom (inscription seulement) -->
+      <input class="auth-input" type="text" id="authDisplayName" placeholder="Ton prénom / pseudo"
+        style="display:none" maxlength="20">
+
+      <div class="auth-error" id="authError"></div>
+
+      <button class="btn-email-auth" id="authSubmitBtn" onclick="submitAuth()">SE CONNECTER</button>
+
+      <div class="auth-divider">OU SANS COMPTE</div>
+
+      <button class="btn btn-ghost" onclick="signInAnon()" style="width:100%;font-size:13px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        Continuer en anonyme
+      </button>
+
+      <div class="auth-switch" id="authSwitch" onclick="toggleAuthMode()">
+        Pas encore de compte ? <span id="authSwitchLabel">S'inscrire</span>
+      </div>
+    </div>
+
+    <button onclick="goTo('screen-home')" class="btn-remove" style="font-size:13px;color:rgba(240,236,228,0.4)">← Retour à l'accueil</button>
+  </div>
+</div>
+
 <!-- ========== CHAT DAVIESLAY ========== -->
 <div class="screen" id="screen-chat">
   <div class="chat-app">
@@ -951,6 +1042,14 @@ body.light-mode #shopToast { color:white !important; }
 
         <!-- Canaux publics -->
         <div id="sidebarChannels" style="display:flex;flex-direction:column;gap:6px;width:100%;align-items:center"></div>
+
+        <div class="sidebar-divider"></div>
+
+        <!-- DM — icône messages privés -->
+        <button class="sidebar-btn" id="btnOpenDMs" onclick="toggleDMPanel()" title="Messages privés" style="position:relative">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+          <span id="dmTotalBadge" style="display:none" class="unread-badge">0</span>
+        </button>
 
         <div class="sidebar-divider"></div>
 
@@ -1013,6 +1112,16 @@ body.light-mode #shopToast { color:white !important; }
         </div>
       </div>
 
+      <!-- Indicateur enregistrement vocal -->
+      <div class="record-indicator" id="recordIndicator" style="margin:0 16px 6px">
+        <div class="record-dot"></div>
+        <span id="recordTimer">0:00</span>
+        <span style="margin-left:4px">EN COURS</span>
+        <button onclick="cancelVoiceRecording()" style="margin-left:auto;background:none;border:none;color:#e74c3c;cursor:pointer;font-size:18px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
       <!-- Saisie message -->
       <div class="chat-input-area" id="chatInputArea">
         <div class="chat-input-box" id="chatInputBox">
@@ -1025,9 +1134,12 @@ body.light-mode #shopToast { color:white !important; }
           <button class="chat-input-btn" onclick="attachImage()" title="Image">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
     </button>
+          <button class="voice-record-btn" id="voiceBtn" onclick="toggleVoiceRecording()" title="Message vocal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          </button>
           <button class="chat-send-btn" onclick="sendChatMessage()" title="Envoyer">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg>
-    </button>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg>
+          </button>
         </div>
         <input type="file" id="chatImageInput" accept="image/*" style="display:none" onchange="handleImageUpload(event)">
       </div>
@@ -4915,6 +5027,52 @@ function startQRScan() {
   });
 }
 
+
+// Lire un message vocal
+let currentVoiceAudio = null;
+function playVoiceMsg(btn, msgId) {
+  // Arrêter l'audio en cours
+  if (currentVoiceAudio) {
+    currentVoiceAudio.pause();
+    currentVoiceAudio = null;
+    // Reset tous les boutons play
+    document.querySelectorAll('.voice-play-btn').forEach(b => {
+      b.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>';
+    });
+  }
+
+  // Trouver le message dans l'état courant
+  const channelId = chatState.currentChannel?.id || (dmState.currentDM?.id ? 'dm_' + dmState.currentDM.id : null);
+  const msgs = channelId ? chatState.messages[channelId] : [];
+  const msg = msgs?.find(m => m.id === msgId);
+
+  if (!msg?.audioData) {
+    // Charger depuis Firebase si pas en cache
+    const ref = dmState.currentDM
+      ? db?.ref('dm_messages/' + dmState.currentDM.id + '/' + msgId)
+      : db?.ref('chat_messages/' + chatState.currentChannel?.id + '/' + msgId);
+    ref?.once('value').then(snap => {
+      const data = snap.val();
+      if (data?.audioData) {
+        playAudioData(btn, data.audioData);
+      }
+    });
+    return;
+  }
+  playAudioData(btn, msg.audioData);
+}
+
+function playAudioData(btn, audioData) {
+  const audio = new Audio(audioData);
+  currentVoiceAudio = audio;
+  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+  audio.play().catch(() => { btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>'; });
+  audio.onended = () => {
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>';
+    currentVoiceAudio = null;
+  };
+}
+
 function stopQRScan() {
   if (qrStream) { qrStream.getTracks().forEach(t => t.stop()); qrStream = null; }
   if (qrScanInterval) { clearInterval(qrScanInterval); qrScanInterval = null; }
@@ -5155,7 +5313,400 @@ function stopBgMusic() {
 
 
 // =====================================================
-// SYSTÈME CHAT DAVIESLAY — Style Discord
+// AUTH FIREBASE (Google + Email + Anonyme)
+// =====================================================
+let currentUser = null;
+let authMode = 'login'; // 'login' | 'register'
+
+function openChat() {
+  // Vérifier si déjà connecté
+  initFirebase().then(() => {
+    const user = firebase.auth().currentUser;
+    if (user && !user.isAnonymous) {
+      // Connecté avec compte → aller directement au chat
+      currentUser = user;
+      syncChatProfile();
+      goTo('screen-chat');
+      loadChatApp();
+    } else {
+      // Pas connecté ou anonyme → proposer auth
+      goTo('screen-chat-auth');
+    }
+  }).catch(() => {
+    goTo('screen-chat-auth');
+  });
+}
+
+function toggleAuthMode() {
+  authMode = authMode === 'login' ? 'register' : 'login';
+  const title = document.getElementById('authTitle');
+  const btn = document.getElementById('authSubmitBtn');
+  const sw = document.getElementById('authSwitchLabel');
+  const nameField = document.getElementById('authDisplayName');
+  if (authMode === 'register') {
+    title.textContent = 'CRÉER UN COMPTE';
+    btn.textContent = "S'INSCRIRE";
+    sw.textContent = 'Se connecter';
+    nameField.style.display = 'block';
+  } else {
+    title.textContent = 'CONNEXION';
+    btn.textContent = 'SE CONNECTER';
+    sw.textContent = "S'inscrire";
+    nameField.style.display = 'none';
+  }
+  document.getElementById('authError').textContent = '';
+}
+
+function submitAuth() {
+  const email = document.getElementById('authEmail').value.trim();
+  const password = document.getElementById('authPassword').value;
+  const displayName = document.getElementById('authDisplayName').value.trim();
+  const errorEl = document.getElementById('authError');
+  const btn = document.getElementById('authSubmitBtn');
+
+  if (!email || !password) { errorEl.textContent = 'Email et mot de passe requis'; return; }
+  if (authMode === 'register' && !displayName) { errorEl.textContent = 'Entre ton pseudo'; return; }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ ...';
+  errorEl.textContent = '';
+
+  initFirebase().then(() => {
+    const auth = firebase.auth();
+    const promise = authMode === 'login'
+      ? auth.signInWithEmailAndPassword(email, password)
+      : auth.createUserWithEmailAndPassword(email, password);
+
+    return promise.then(result => {
+      currentUser = result.user;
+      if (authMode === 'register' && displayName) {
+        return result.user.updateProfile({ displayName });
+      }
+    });
+  }).then(() => {
+    syncChatProfile();
+    goTo('screen-chat');
+    loadChatApp();
+  }).catch(e => {
+    btn.disabled = false;
+    btn.textContent = authMode === 'login' ? 'SE CONNECTER' : "S'INSCRIRE";
+    const msgs = {
+      'auth/user-not-found': 'Aucun compte avec cet email',
+      'auth/wrong-password': 'Mot de passe incorrect',
+      'auth/email-already-in-use': 'Email déjà utilisé',
+      'auth/weak-password': 'Mot de passe trop court (6 caractères min)',
+      'auth/invalid-email': 'Email invalide',
+      'auth/too-many-requests': 'Trop de tentatives, réessaie plus tard',
+    };
+    errorEl.textContent = msgs[e.code] || e.message;
+  });
+}
+
+function signInWithGoogle() {
+  const errorEl = document.getElementById('authError');
+  errorEl.textContent = '';
+  initFirebase().then(() => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    return firebase.auth().signInWithPopup(provider);
+  }).then(result => {
+    currentUser = result.user;
+    syncChatProfile();
+    goTo('screen-chat');
+    loadChatApp();
+  }).catch(e => {
+    if (e.code !== 'auth/popup-closed-by-user') {
+      errorEl.textContent = 'Erreur Google : ' + e.message;
+    }
+  });
+}
+
+function signInAnon() {
+  initFirebase().then(() => {
+    return firebase.auth().signInAnonymously();
+  }).then(result => {
+    currentUser = result.user;
+    goTo('screen-chat');
+    loadChatApp();
+  }).catch(e => {
+    document.getElementById('authError').textContent = e.message;
+  });
+}
+
+function syncChatProfile() {
+  if (!currentUser || !db) return;
+  const user = currentUser;
+  const name = user.displayName || profile.name || 'Joueur';
+  const photo = user.photoURL || profile.avatarPhoto || null;
+  // Stocker dans Firebase pour que les autres voient
+  db.ref('users/' + user.uid).set({
+    name, photo, uid: user.uid,
+    lastSeen: Date.now()
+  }).catch(() => {});
+  // Mettre à jour le profil local
+  if (user.displayName && !profile.name) {
+    profile.name = user.displayName;
+    localStorage.setItem('profile', JSON.stringify(profile));
+  }
+  // Mettre à jour sidebar
+  const sidebarBtn = document.getElementById('sidebarProfileBtn');
+  if (sidebarBtn) {
+    if (photo) sidebarBtn.innerHTML = `<img src="${photo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover">`;
+  }
+}
+
+function loadChatApp() {
+  renderEmojiGrid();
+  const badge = document.getElementById('chatHomeBadge');
+  if (badge) badge.style.display = 'none';
+
+  const tryConnect = (attempt = 1) => {
+    if (!db) {
+      initFirebase().then(() => { loadChannels(); loadDMs(); }).catch(() => {
+        if (attempt < 3) setTimeout(() => tryConnect(attempt + 1), 2000);
+      });
+    } else {
+      loadChannels();
+      loadDMs();
+    }
+  };
+  tryConnect();
+}
+
+// =====================================================
+// MESSAGES PRIVÉS (DM) — Style WhatsApp
+// =====================================================
+let dmState = {
+  open: false,
+  conversations: {},
+  currentDM: null,
+  listeners: {},
+};
+
+function toggleDMPanel() {
+  dmState.open = !dmState.open;
+  const btn = document.getElementById('btnOpenDMs');
+  if (btn) btn.classList.toggle('active', dmState.open);
+
+  if (dmState.open) {
+    // Ouvrir panel DM dans la zone principale
+    showDMList();
+  } else {
+    // Revenir aux canaux
+    if (chatState.currentChannel) {
+      selectChannel(chatState.currentChannel);
+    }
+  }
+}
+
+function showDMList() {
+  if (!db) { initFirebase().then(showDMList).catch(() => {}); return; }
+  const myId = currentUser?.uid || safeKey(profile.name || 'anon');
+
+  document.getElementById('chatHeaderIcon').innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>`;
+  document.getElementById('chatHeaderName').textContent = 'Messages privés';
+  document.getElementById('chatHeaderDesc').textContent = 'Tes conversations directes';
+
+  // Charger les DMs
+  db.ref('dms').orderByChild('participants/' + myId).equalTo(true).once('value').then(snap => {
+    const data = snap.val() || {};
+    const area = document.getElementById('chatMessagesArea');
+    if (!area) return;
+
+    if (Object.keys(data).length === 0) {
+      area.innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:40px 20px;text-align:center;gap:14px">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(240,236,228,0.3)" stroke-width="1.5"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
+          <div class="bebas" style="font-size:16px;letter-spacing:3px;color:rgba(240,236,228,0.4)">AUCUN MESSAGE PRIVÉ</div>
+          <div style="font-size:13px;color:rgba(240,236,228,0.3)">Commence une conversation !</div>
+          <button onclick="showNewDMDialog()" class="btn btn-ghost" style="font-size:13px">+ Nouveau message privé</button>
+        </div>`;
+    } else {
+      area.innerHTML = Object.entries(data).map(([dmId, dm]) => {
+        const otherName = Object.keys(dm.participants || {}).find(k => k !== myId) || '?';
+        const lastMsg = dm.lastMsg || '...';
+        const lastTime = dm.lastMsgAt ? new Date(dm.lastMsgAt).toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'}) : '';
+        return `<div class="dm-row" onclick="openDMConversation('${dmId}','${otherName}')">
+          <div class="dm-avatar" style="background:${stringToColor(otherName)}">${otherName[0]?.toUpperCase()||'?'}</div>
+          <div style="flex:1;min-width:0">
+            <div class="dm-name">${otherName}</div>
+            <div class="dm-preview">${lastMsg}</div>
+          </div>
+          <div style="font-size:11px;color:rgba(240,236,228,0.3)">${lastTime}</div>
+        </div>`;
+      }).join('');
+      // Ajouter bouton nouveau DM
+      area.innerHTML += `<div style="padding:12px"><button onclick="showNewDMDialog()" class="btn btn-ghost" style="width:100%;font-size:13px">+ Nouveau message privé</button></div>`;
+    }
+
+    // Masquer input
+    document.getElementById('chatInputArea').style.display = 'none';
+    document.getElementById('typingIndicator').style.display = 'none';
+  });
+}
+
+function showNewDMDialog() {
+  const name = prompt('Entrer le prénom/pseudo de la personne à contacter :');
+  if (!name || !name.trim()) return;
+  startDMWith(name.trim());
+}
+
+function startDMWith(targetName) {
+  if (!db) { initFirebase().then(() => startDMWith(targetName)); return; }
+  const myId = currentUser?.uid || safeKey(profile.name || 'anon');
+  const myName = currentUser?.displayName || profile.name || 'Joueur';
+  const targetId = safeKey(targetName);
+
+  // Créer ou trouver la conversation DM
+  const dmId = [myId, targetId].sort().join('_');
+  db.ref('dms/' + dmId).set({
+    participants: { [myId]: true, [myName]: true, [targetId]: true, [targetName]: true },
+    names: { [myId]: myName, [targetId]: targetName },
+    createdAt: Date.now(),
+    lastMsg: '',
+    lastMsgAt: Date.now()
+  }).then(() => {
+    openDMConversation(dmId, targetName);
+  });
+}
+
+function openDMConversation(dmId, partnerName) {
+  dmState.currentDM = { id: dmId, partner: partnerName };
+  chatState.currentChannel = null;
+
+  document.getElementById('chatHeaderIcon').innerHTML = `<div style="width:28px;height:28px;border-radius:50%;background:${stringToColor(partnerName)};display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;color:white">${partnerName[0]?.toUpperCase()||'?'}</div>`;
+  document.getElementById('chatHeaderName').textContent = partnerName;
+  document.getElementById('chatHeaderDesc').textContent = 'Message privé';
+
+  const inputEl = document.getElementById('chatMsgInput');
+  if (inputEl) inputEl.placeholder = `Message à ${partnerName}...`;
+  document.getElementById('chatInputArea').style.display = 'block';
+
+  // Charger messages DM
+  const msgRef = db.ref('dm_messages/' + dmId).limitToLast(50);
+  msgRef.on('value', snap => {
+    const data = snap.val() || {};
+    const msgs = Object.entries(data).map(([id, m]) => ({id, ...m})).sort((a,b) => a.ts - b.ts);
+    renderMessages({ id: dmId, name: partnerName, isDM: true }, msgs);
+  });
+}
+
+// Surcharger sendChatMessage pour DM
+const _origSendChatMsg = window.sendChatMessage;
+
+// =====================================================
+// ENREGISTREMENT VOCAL
+// =====================================================
+let mediaRecorder = null;
+let audioChunks = [];
+let recordingTimer = null;
+let recordSeconds = 0;
+
+function toggleVoiceRecording() {
+  if (mediaRecorder && mediaRecorder.state === 'recording') {
+    stopAndSendVoice();
+  } else {
+    startVoiceRecording();
+  }
+}
+
+function startVoiceRecording() {
+  if (!chatState.currentChannel && !dmState.currentDM) {
+    showShopToast("⚠️ Sélectionne un canal d'abord !");
+    return;
+  }
+  if (!navigator.mediaDevices?.getUserMedia) {
+    showShopToast('❌ Micro non disponible');
+    return;
+  }
+  navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+    audioChunks = [];
+    mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
+    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+    mediaRecorder.onstop = () => {
+      stream.getTracks().forEach(t => t.stop());
+      const blob = new Blob(audioChunks, { type: 'audio/webm' });
+      sendVoiceMessage(blob);
+    };
+    mediaRecorder.start(100);
+
+    // UI
+    const btn = document.getElementById('voiceBtn');
+    const indicator = document.getElementById('recordIndicator');
+    if (btn) btn.classList.add('recording');
+    if (indicator) indicator.classList.add('show');
+
+    recordSeconds = 0;
+    recordingTimer = setInterval(() => {
+      recordSeconds++;
+      const min = Math.floor(recordSeconds / 60);
+      const sec = recordSeconds % 60;
+      const el = document.getElementById('recordTimer');
+      if (el) el.textContent = `${min}:${sec.toString().padStart(2,'0')}`;
+      // Arrêt auto après 2 minutes
+      if (recordSeconds >= 120) stopAndSendVoice();
+    }, 1000);
+  }).catch(e => {
+    showShopToast('❌ Micro refusé : ' + e.message);
+  });
+}
+
+function stopAndSendVoice() {
+  if (mediaRecorder && mediaRecorder.state === 'recording') {
+    mediaRecorder.stop();
+    clearInterval(recordingTimer);
+    const btn = document.getElementById('voiceBtn');
+    const indicator = document.getElementById('recordIndicator');
+    if (btn) btn.classList.remove('recording');
+    if (indicator) indicator.classList.remove('show');
+  }
+}
+
+function cancelVoiceRecording() {
+  if (mediaRecorder && mediaRecorder.state === 'recording') {
+    mediaRecorder.ondataavailable = null;
+    mediaRecorder.onstop = null;
+    mediaRecorder.stop();
+    mediaRecorder.stream?.getTracks().forEach(t => t.stop());
+  }
+  clearInterval(recordingTimer);
+  audioChunks = [];
+  const btn = document.getElementById('voiceBtn');
+  const indicator = document.getElementById('recordIndicator');
+  if (btn) btn.classList.remove('recording');
+  if (indicator) indicator.classList.remove('show');
+  showShopToast('Enregistrement annulé');
+}
+
+function sendVoiceMessage(blob) {
+  const duration = recordSeconds;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const audioData = e.target.result;
+    const channelId = chatState.currentChannel?.id || (dmState.currentDM ? 'dm_messages/' + dmState.currentDM.id : null);
+    if (!channelId) return;
+
+    const msg = {
+      author: currentUser?.displayName || profile.name || 'Joueur',
+      authorPhoto: currentUser?.photoURL || profile.avatarPhoto || null,
+      type: 'voice',
+      audioData,
+      duration,
+      ts: Date.now(),
+    };
+
+    const doSend = () => {
+      const ref = dmState.currentDM
+        ? db.ref('dm_messages/' + dmState.currentDM.id)
+        : db.ref('chat_messages/' + chatState.currentChannel.id);
+      ref.push(msg).catch(e => showShopToast('❌ Erreur envoi vocal'));
+    };
+
+    if (db) doSend();
+    else initFirebase().then(doSend).catch(() => {});
+  };
+  reader.readAsDataURL(blob);
+}
+
 // =====================================================
 
 // Emojis organisés par catégorie pour le picker
@@ -5198,7 +5749,7 @@ function withFirebase(fn) {
 }
 
 // ── INITIALISATION ──────────────────────────────────
-function openChat() {
+function _openChatDirect() {
   goTo('screen-chat');
   const badge = document.getElementById('chatHomeBadge');
   if (badge) badge.style.display = 'none';
@@ -5396,9 +5947,11 @@ function renderMessages(channel, msgs) {
     const isMe = msg.author === (profile.name || 'Joueur');
     const avatarColor = stringToColor(msg.author);
     const avatarLetter = (msg.author || '?')[0].toUpperCase();
-    const avatarContent = msg.authorPhoto
-      ? `<img src="${msg.authorPhoto}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
-      : (msg.authorEmoji || avatarLetter);
+    // Prioriser photo Firebase > photo locale > emoji > initiale
+    const photoSrc = msg.authorPhoto || null;
+    const avatarContent = photoSrc
+      ? `<img src="${photoSrc}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.style.display='none'">`
+      : (msg.authorEmoji && msg.authorEmoji !== '👤' ? msg.authorEmoji : avatarLetter);
 
     // Réactions
     const reactions = msg.reactions || {};
@@ -5423,6 +5976,23 @@ function renderMessages(channel, msgs) {
       contentHtml = `<div class="chat-msg-text deleted">🗑️ Ce message a été supprimé</div>`;
     } else if (msg.type === 'image') {
       contentHtml = `<img src="${msg.imageUrl}" class="chat-msg-image" onclick="viewImage('${msg.imageUrl}')" loading="lazy">`;
+    } else if (msg.type === 'voice') {
+      const min = Math.floor((msg.duration||0) / 60);
+      const sec = (msg.duration||0) % 60;
+      const durStr = `${min}:${sec.toString().padStart(2,'0')}`;
+      // Générer une fausse waveform visuelle
+      const bars = Array.from({length:20}, () =>
+        `<div class="voice-bar" style="height:${4 + Math.random()*16}px"></div>`).join('');
+      contentHtml = `
+        <div class="voice-msg-bubble">
+          <button class="voice-play-btn" onclick="playVoiceMsg(this,'${msg.id}')"
+            data-audio="${msg.audioData ? msg.audioData.substring(0,30) : ''}"
+            data-full-id="${msg.id}">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+          </button>
+          <div class="voice-waveform">${bars}</div>
+          <span class="voice-duration">${durStr}</span>
+        </div>`;
     } else {
       contentHtml = `<div class="chat-msg-text">${formatMessageText(msg.text || '')}</div>`;
     }
@@ -5475,9 +6045,10 @@ function sendChatMessage() {
   const avatarItem = SHOP_CATALOG?.avatars?.find(a => a.id === (shopData?.equipped?.avatar || 'av_detective'));
 
   const msg = {
-    author: profile.name || 'Joueur',
+    author: currentUser?.displayName || profile.name || 'Joueur',
     authorEmoji: avatarItem?.icon || '👤',
-    authorPhoto: avatarPhoto || null,
+    authorPhoto: currentUser?.photoURL || avatarPhoto || null,
+    uid: currentUser?.uid || null,
     text,
     ts: Date.now(),
     type: 'text',
@@ -5490,20 +6061,38 @@ function sendChatMessage() {
   cancelReply();
   playClick();
 
-  const channelId = chatState.currentChannel.id;
+  // Enrichir le message avec les infos de l'utilisateur connecté
+  if (currentUser) {
+    msg.author = currentUser.displayName || currentUser.email?.split('@')[0] || msg.author;
+    msg.authorPhoto = currentUser.photoURL || msg.authorPhoto;
+    msg.uid = currentUser.uid;
+  }
+
+  const channelId = chatState.currentChannel?.id;
+  const dmId = dmState.currentDM?.id;
 
   const doSend = () => {
-    db.ref('chat_messages/' + channelId).push(msg).catch(e => {
-      console.error('Erreur envoi:', e);
-      showShopToast('❌ Erreur envoi : ' + e.message);
-    });
-    db.ref('chat_channels/' + channelId).update({
-      lastMsg: text.slice(0, 40),
-      lastMsgAt: Date.now(),
-      lastMsgAuthor: msg.author
-    }).catch(() => {});
-    if (chatState.typingTimeout) {
-      db.ref('chat_typing/' + channelId + '/' + safeKey(msg.author)).remove().catch(() => {});
+    if (dmId) {
+      // Envoyer en DM
+      db.ref('dm_messages/' + dmId).push(msg).catch(e => showShopToast('❌ ' + e.message));
+      db.ref('dms/' + dmId).update({
+        lastMsg: text.slice(0, 40),
+        lastMsgAt: Date.now(),
+        lastMsgAuthor: msg.author
+      }).catch(() => {});
+    } else if (channelId) {
+      db.ref('chat_messages/' + channelId).push(msg).catch(e => {
+        console.error('Erreur envoi:', e);
+        showShopToast('❌ Erreur envoi : ' + e.message);
+      });
+      db.ref('chat_channels/' + channelId).update({
+        lastMsg: text.slice(0, 40),
+        lastMsgAt: Date.now(),
+        lastMsgAuthor: msg.author
+      }).catch(() => {});
+      if (chatState.typingTimeout) {
+        db.ref('chat_typing/' + channelId + '/' + safeKey(msg.author)).remove().catch(() => {});
+      }
     }
   };
 
@@ -6732,6 +7321,15 @@ function runLoader() {
 
 // ========== INIT ==========
 window.onload = () => {
+  // Observer l'état d'auth Firebase au démarrage
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof firebase !== 'undefined' && firebase.apps.length) {
+      firebase.auth().onAuthStateChanged(user => {
+        currentUser = user;
+        if (user) syncChatProfile();
+      });
+    }
+  });
   runLoader();
   loadCustomRoles();
   initSetup();
