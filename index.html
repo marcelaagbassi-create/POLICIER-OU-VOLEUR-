@@ -605,8 +605,9 @@ body.light-mode .members-panel { background:#e3e5e8; }
 body.light-mode .member-row:hover { background:#d1d3d8; }
 
 /* ===== TRANSITIONS ÉCRANS ===== */
-.screen { opacity:0; transform:translateY(12px); transition:opacity 0.28s ease, transform 0.28s ease; pointer-events:none; }
-.screen.active { opacity:1; transform:translateY(0); pointer-events:all; }
+.screen { display:none; opacity:0; transform:translateY(12px); transition:opacity 0.28s ease, transform 0.28s ease; pointer-events:none; }
+.screen.active { display:flex; }
+.screen.active { display:flex; opacity:1; transform:translateY(0); pointer-events:all; }
 .screen.exit { opacity:0; transform:translateY(-10px); }
 
 /* ===== SPECTATEUR ===== */
@@ -930,7 +931,7 @@ body.light-mode #shopToast { color:white !important; }
 </div>
 
 <!-- ========== ACCUEIL ========== -->
-<div class="screen active" id="screen-home">
+<div class="screen active" id="screen-home" style="display:flex">
   <!-- Séparateur vertical lumineux -->
   <div class="home-separator"></div>
 
@@ -2288,13 +2289,17 @@ function goTo(screenId) {
   if (current) {
     current.classList.add('exit');
     setTimeout(() => {
-      current.classList.remove('active','exit');
-    }, 200);
+      current.classList.remove('active', 'exit');
+      current.style.display = 'none'; // ← cache complètement pour stopper les artifacts
+    }, 220);
   }
+
+  // Afficher le prochain
+  next.style.display = '';  // reset display
   setTimeout(() => {
     next.classList.add('active');
-    window.scrollTo({top:0, behavior:'instant'});
-  }, current ? 120 : 0);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, current ? 100 : 0);
 }
 
 function showCover(cb) {
